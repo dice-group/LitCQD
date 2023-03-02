@@ -14,22 +14,22 @@ from simple_parsing import ArgumentParser
 class TrainConfig:
     """General configurations for training"""
     # Path to queries
-    data_path: str
+    data_path: str ='data/FB15k-237-q2b'
     # Output path for checkpoint and logs
-    save_path: Optional[str]
+    save_path: Optional[str] = 'Experiments'
     # path for loading checkpoints
-    checkpoint_path: Optional[str]
+    checkpoint_path: Optional[str] = None
     # the model to be trained
     geo: Enum('geo', ['cqd-transea', 'cqd-transeadistmult', 'cqd-transeacomplex', 'cqd-transra', 'cqd-mtkgnn', 'cqd-distmulta', 'cqd-complex', 'cqd-complexa', 'cqd-complexa-weighted', 'cqd-complexad', 'cqd-complexd', 'cqd-complexd-jointly', 'cqd-complex-simple',
-                      'cqd-transcomplexa', 'cqd-transcomplexdice', 'q2b', 'gqe', 'random_guesser'])
+                      'cqd-transcomplexa', 'cqd-transcomplexdice', 'q2b', 'gqe', 'random_guesser']) ='cqd-complexa'
     # loss function of the relational part
-    loss: Enum('loss', ['margin', 'ce', "q2b"]) = 'ce'
+    loss: Enum('loss', ["margin", "ce", "q2b"]) = 'ce'
     # How many epochs the model is trained for
-    train_times: int = 100
+    train_times: int = 2
     # Evaluate validation queries every xx epochs
-    valid_epochs: int = 10
+    valid_epochs: int = 1
     # How many workers pytorch uses to load data
-    cpu_num: int = 10
+    cpu_num: int = 0
     # random seed applied globally
     seed: int = 0
     # use GPU
@@ -43,14 +43,14 @@ class TrainConfig:
     test_batch_size: int = 100
     # tune hyperparameters using ray tune
     do_tune: bool = False
-    do_train: bool = False
-    do_test: bool = False
+    do_train: bool = True
+    do_test: bool = True
     # evaluate on train queries aswell
     eval_on_train: bool = False
     # evaluate on simple (1-hop) queries only
     simple_eval: bool = False
     # embedding dimension of the word embeddings
-    word_emb_dim: int = 300
+    word_emb_dim: int = 3#00
 
 
 @dataclass
@@ -68,9 +68,9 @@ class CQDParams:
 class HyperParams:
     """Hyperparameter"""
     # hidden dim; embedding dimension
-    rank: int
+    rank: int = 1
     # batch size during training
-    batch_size: int = 1024
+    batch_size: int = 32 #1024
     # loss function of the attribute part
     attr_loss: Enum('attr_loss', ['mae', 'mse']) = 'mae'
     # learning rate
@@ -118,10 +118,8 @@ def parse_args(args=None):
         description='Training and Testing Knowledge Graph Embedding Models',
         usage='train.py [<args>] [-h | --help]',
     )
-
     parser.add_argument('--print_on_screen', action='store_true')
     parser.add_argument('--dataloader_type', default='cpp', choices=['cpp', 'python'])
-
     parser.add_arguments(TrainConfig, dest='train_config')
     parser.add_arguments(HyperParams, dest='hyperparams')
     parser.add_arguments(CQDParams, dest='cqd_params')

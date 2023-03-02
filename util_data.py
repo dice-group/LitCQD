@@ -1,3 +1,4 @@
+import collections
 import csv
 import logging
 import statistics
@@ -9,33 +10,40 @@ import os
 import pickle
 
 
-def load_data(data_path, tasks, type):
+def load_data(data_path, tasks, _type):
     '''
     Load queries and remove queries not in tasks
     '''
-    if type == 'train':
-        queries = pickle.load(open(os.path.join(data_path, "train-queries.pkl"), 'rb'))
-        answers_easy = pickle.load(open(os.path.join(data_path, "train-answers.pkl"), 'rb'))
+    if _type == 'train':
+        # (1) Load queries
+        # (1.1) queries[('e', ('r',)] : {(3006, (194,)), ...., (2378, (56,))}
+        queries: collections.defaultdict = pickle.load(open(data_path + "/train-queries.pkl", 'rb'))
+        # Query patterns as keys ,
+        """
+        ('e', ('r',)), ('e', ('r', 'r')), ('e', ('r', 'r', 'r')) ...
+        (('e', ('r', 'r', 'n')), ('e', ('r',)))
+        """
+        answers_easy = pickle.load(open(data_path + "/train-answers.pkl", 'rb'))
         answers_hard = defaultdict(set)
-    elif type == 'valid':
+    elif _type == 'valid':
         queries = pickle.load(open(os.path.join(data_path, "valid-queries.pkl"), 'rb'))
         answers_hard = pickle.load(open(os.path.join(data_path, "valid-hard-answers.pkl"), 'rb'))
         answers_easy = pickle.load(open(os.path.join(data_path, "valid-easy-answers.pkl"), 'rb'))
-    elif type == 'test':
+    elif _type == 'test':
         queries = pickle.load(open(os.path.join(data_path, "test-queries.pkl"), 'rb'))
         answers_hard = pickle.load(open(os.path.join(data_path, "test-hard-answers.pkl"), 'rb'))
         answers_easy = pickle.load(open(os.path.join(data_path, "test-easy-answers.pkl"), 'rb'))
-
+    else:
+        raise KeyError(_type)
     # remove query structures not in tasks
     for task in list(queries.keys()):
         if task not in query_name_dict or query_name_dict[task] not in tasks:
             del queries[task]
-
     for qs in tasks:
         try:
-            logging.info(type+': '+qs+": "+str(len(queries[name_query_dict[qs]])))
+            logging.info(_type + ': ' + qs + ": " + str(len(queries[name_query_dict[qs]])))
         except:
-            logging.warn(type+': '+qs+": not in pkl file")
+            logging.warn(_type + ': ' + qs + ": not in pkl file")
 
     return queries, answers_easy, answers_hard
 
@@ -46,8 +54,8 @@ def load_attr_exists_data_dummy(data_path, mode='valid'):
     (e, r_a, 14505) ~ 14505 dummy entity AND
     (14505, r_a_inv, e)
     '''
-    queries = pickle.load(open(os.path.join(data_path, mode+"-attr-exists-queries.pkl"), 'rb'))
-    answers_easy = pickle.load(open(os.path.join(data_path, mode+"-attr-exists-answers.pkl"), 'rb'))
+    queries = pickle.load(open(os.path.join(data_path, mode + "-attr-exists-queries.pkl"), 'rb'))
+    answers_easy = pickle.load(open(os.path.join(data_path, mode + "-attr-exists-answers.pkl"), 'rb'))
     return queries, defaultdict(set), answers_easy
 
 
@@ -157,7 +165,7 @@ def get_mads(attr_values):
     mads = dict()
     for attr, values in dict(sorted(attr_values.items())).items():
         try:
-            mads[attr] = sum([abs(statistics.mean(values)-v) for v in values])/len(values)
+            mads[attr] = sum([abs(statistics.mean(values) - v) for v in values]) / len(values)
         except:
             mads[attr] = 1.0e-10
 
@@ -172,7 +180,7 @@ def denormalize(attribute, value, data_path):
         next(reader)
         for row in reader:
             if int(row[1]) == attribute:
-                return value*(float(row[3])-float(row[2]))+float(row[2])
+                return value * (float(row[3]) - float(row[2])) + float(row[2])
 
 
 def normalize(attribute, value, data_path):
@@ -181,4 +189,4 @@ def normalize(attribute, value, data_path):
         next(reader)
         for row in reader:
             if int(row[1]) == attribute:
-                return (value-float(row[2]))/(float(row[3])-float(row[2]))
+                return (value - float(row[2])) / (float(row[3]) - float(row[2]))

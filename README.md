@@ -1,32 +1,24 @@
-# Bachelor's Thesis: Neural Reasoning on Knowledge Graphs with Literal Knowledge
+# Multi-Hop Reasoning in Knowledge Graphs with Literals
 
-This repository contains the implementation of my bachelor's thesis *Neural Reasoning on Knowledge Graphs with Literal Knowledge*.
-
-The implementation is based on the publicly available implementation of Query2Box ([Link](https://github.com/snap-stanford/KGReasoning)) .
-
-## Requirements
-
-The implementation uses Python 3.8. 
-To install the required python packages, run `source install_requirements.sh`. pip3 is required.
-
-**NOTE:** This installs PyTorch version 1.9.0 without GPU support, which should be sufficient to reproduce the reported results using the provided pre-trained models based on CQD.
-
-For evaluations of Query2Box and training any of the models, a PyTorch installation with GPU support is recommended.
-
-The implementation is tested with PyTorch 1.9.0 for the ROCm 4.2 and CPU platforms.
-It should also work using the CUDA platform.
-
-The ROCm 4.2 version can be installed by running the following command:
-```bash
-pip3 install torch==1.9.0 --find-links https://download.pytorch.org/whl/rocm4.2/torch_stable.html
+## Installation
+```
+git clone https://github.com/dice-group/LitCQD
+conda create -n litcqd python=3.8 && conda activate litcqd
+pip3 install torch==1.9.0 --find-links https://download.pytorch.org/whl/torch_stable.html
+pip3 install bidict==0.21.3  gensim==4.1.2
+pip3 install ray[tune]==1.9.1 simple-parsing==0.0.17 tqdm==4.62.0
+pip3 install tensorboardX==2.4.1 tensorboard==2.7.0 protobuf==3.20.3
 ```
 
-Simple evaluations are run on the CPU per default, wherease more complex evaluations are run on the GPU per default.
-This can be modified by adding/removing the `--cuda` flag to/from the corresponding command.
+## Datasets and Pre-trained Models
 
-To also execute the Jupyter Notebook described later on, additionally run `source install_requirements_visualization.sh`.
-
-## Datasets
+```
+wget https://hobbitdata.informatik.uni-leipzig.de/LitCQD/checkpoints_FB15K-237.zip
+unzip checkpoints_FB15K-237.zip
+wget https://hobbitdata.informatik.uni-leipzig.de/LitCQD/data.zip
+unzip data.zip
+unzip checkpoints_FB15K-237.zip
+```
 
 - `data/FB15k-237-q2b` contains the FB15K-237 dataset including generated queries provided by the authors of the Query2Box paper.
 They can be downloaded [here](http://snap.stanford.edu/betae/KG_data.zip).
@@ -122,3 +114,5 @@ The files in `data/scripts` like `normalize.py` and `normalize_error.py` provide
 ### Visualization & Grid Search Results
 To create the graphics in the thesis based on the results of the grid search, the Jupyer Notebook `Visualization/plot.ipynb` is used.
 The csv files are a copy-paste from the console output of ray tune after finishing the grid search.
+
+The implementation is based on the publicly available implementation of Query2Box ([Link](https://github.com/snap-stanford/KGReasoning)) .
