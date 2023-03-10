@@ -14,22 +14,25 @@ from simple_parsing import ArgumentParser
 class TrainConfig:
     """General configurations for training"""
     # Path to queries
-    data_path: str ='data/FB15k-237-q2b'
+    # data_path: str ='data/FB15k-237-q2b'
+    data_path: str ='data/scripts/generated/LitWD1K'
     # Output path for checkpoint and logs
     save_path: Optional[str] = 'Experiments'
     # path for loading checkpoints
     checkpoint_path: Optional[str] = None
     # the model to be trained
+    # geo: Enum('geo', ['cqd-transea', 'cqd-transeadistmult', 'cqd-transeacomplex', 'cqd-transra', 'cqd-mtkgnn', 'cqd-distmulta', 'cqd-complex', 'cqd-complexa', 'cqd-complexa-weighted', 'cqd-complexad', 'cqd-complexd', 'cqd-complexd-jointly', 'cqd-complex-simple',
+    #                   'cqd-transcomplexa', 'cqd-transcomplexdice', 'q2b', 'gqe', 'random_guesser']) ='cqd-complexa'
     geo: Enum('geo', ['cqd-transea', 'cqd-transeadistmult', 'cqd-transeacomplex', 'cqd-transra', 'cqd-mtkgnn', 'cqd-distmulta', 'cqd-complex', 'cqd-complexa', 'cqd-complexa-weighted', 'cqd-complexad', 'cqd-complexd', 'cqd-complexd-jointly', 'cqd-complex-simple',
-                      'cqd-transcomplexa', 'cqd-transcomplexdice', 'q2b', 'gqe', 'random_guesser']) ='cqd-complexa'
+                      'cqd-transcomplexa', 'cqd-transcomplexdice', 'q2b', 'gqe', 'random_guesser']) ='cqd-complex'
     # loss function of the relational part
     loss: Enum('loss', ["margin", "ce", "q2b"]) = 'ce'
     # How many epochs the model is trained for
-    train_times: int = 2
+    train_times: int = 20
     # Evaluate validation queries every xx epochs
-    valid_epochs: int = 1
+    valid_epochs: int = 3
     # How many workers pytorch uses to load data
-    cpu_num: int = 0
+    cpu_num: int = 1
     # random seed applied globally
     seed: int = 0
     # use GPU
@@ -43,6 +46,7 @@ class TrainConfig:
     test_batch_size: int = 100
     # tune hyperparameters using ray tune
     do_tune: bool = False
+    # do_tune: bool = True
     do_train: bool = True
     do_test: bool = True
     # evaluate on train queries aswell
@@ -70,7 +74,7 @@ class HyperParams:
     # hidden dim; embedding dimension
     rank: int = 1
     # batch size during training
-    batch_size: int = 32 #1024
+    batch_size: int = 16 #1024
     # loss function of the attribute part
     attr_loss: Enum('attr_loss', ['mae', 'mse']) = 'mae'
     # learning rate

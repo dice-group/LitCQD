@@ -298,7 +298,7 @@ def run_tune(train_config: TrainConfig, cqd_params: CQDParams, params: HyperPara
                 nattribute=nattribute,
                 **data,
             ),
-            config=dataclasses.asdict(params),
+            config=dataclasses.asdict(params), # convert parameters to dict (argument config in the train!!!) 
             metric='mrr',
             mode='max',
             # num_samples=20,
@@ -424,7 +424,115 @@ def run_tune(train_config: TrainConfig, cqd_params: CQDParams, params: HyperPara
 
 def new_train(train_config: TrainConfig, cqd_params: CQDParams, params: HyperParams, nentity, nrelation, nattribute,
               **data):
-    raise NotImplementedError('Moving the code from train to new_train')
+    # TODO: train without ray tuning
+    # ignore tensorboard 
+    # ignore ray tune
+    # dataloader uses 10 works???
+    '''
+    1. preparation phase for trainer 
+     - get loss function, optimizer, dataloader, train_dataset, lr
+     - get model
+    2. initialize trainer
+    3. things to do with validation set, logging and so on
+
+    4. train the models without ray tune (using train() in Trainer.py)
+    '''
+    config = dataclasses.asdict(params)
+
+    # get the model
+    set_global_seed(train_config.seed)
+    params = HyperParams(**config) 
+    dataloader_type = 'python'
+
+    if not train_config.use_attributes:
+        params.alpha = 0
+
+    # loss function
+    loss = train_config.loss.name
+    if loss == "margin":
+        rel_loss = MRLoss(params.margin, params.negative_sample_size)
+    elif loss == 'ce':
+        rel_loss = CELoss(params.negative_sample_size)
+    elif loss == "q2b":
+        rel_loss = Q2BLoss(params.margin, params.negative_sample_size)
+
+    # optimizer
+    optimizer = params.optimizer.name
+    name_to_optimizer = {
+        'adam': torch.optim.Adam,
+        'adagrad': torch.optim.Adagrad,
+        'sgd': torch.optim.SGD,
+    }
+    assert optimizer in name_to_optimizer
+    OptimizerClass = name_to_optimizer[optimizer]
+
+    # dataset
+    train_data_rel = data['train_data_rel']
+    train_data_attr = data['train_data_attr']
+    train_data_desc = data['train_data_desc']
+
+    train_dataset = get_dataset_train(*train_data_rel, train_config, nentity, nrelation, params)
+    train_dataset_attr = get_dataset_train_attr(*train_data_attr, nentity, params)
+    train_dataset_desc = get_dataset_train_desc(*train_data_desc, train_config.geo.name == 'cqd-complexd-jointly')
+
+    train_dataloader, train_dataloader_attr, train_dataloader_desc = get_train_dataloader(
+        train_dataset, train_dataset_attr, train_dataset_desc, params.batch_size, train_config.use_attributes,
+        train_config.use_descriptions, train_config.seed)
+
+    attr_loss = None
+    attr_loss_param = params.attr_loss
+    if type(attr_loss_param) != str:
+        attr_loss_param = attr_loss_param.name
+    if train_config.use_attributes and dataloader_type == 'python':
+        if attr_loss_param == 'mae':
+            attr_loss = MAELoss(params.negative_attr_sample_size)
+        elif attr_loss_param == 'mse':
+            attr_loss = MSELoss(params.negative_attr_sample_size)
+
+    # initialize model
+    model = get_model(train_config, params, cqd_params, nentity, nrelation, nattribute)
+
+    learning_rate = params.learning_rate
+    learning_rate_attr = params.learning_rate_attr
+
+    # initialize trainer 
+    trainer = Trainer(model, train_dataloader, dataloader_type, train_config.cuda, learning_rate,
+                        learning_rate_attr, "./tmp",
+                        train_config.train_times, OptimizerClass, rel_loss, attr_loss, params.alpha,
+                        train_dataloader_attr, train_dataloader_desc, params.negative_attr_sample_size,
+                        params.reg_weight_ent, params.reg_weight_rel, params.reg_weight_attr,
+                        params.scheduler_patience, params.scheduler_factor, params.scheduler_threshold)
+
+    # used to compute loss on validation set
+    valid_loss_data_rel = data['valid_loss_data_rel']
+    valid_loss_data_attr = data['valid_loss_data_attr']
+    valid_queries = data['valid_queries']
+
+    valid_dataset = get_dataset_train(*valid_loss_data_rel, train_config, nentity, nrelation, params)
+    valid_dataset_attr = get_dataset_train_attr(*valid_loss_data_attr, nentity, params)
+    valid_dataloader, valid_attr_dataloader, _ = get_train_dataloader(valid_dataset, valid_dataset_attr, None,
+                                                                        params.batch_size,
+                                                                        train_config.use_attributes, False)
+
+    # used to compute other metrics on validation set
+    valid_dataset_eval = get_dataset_eval(valid_queries)
+    valid_dataloader_eval = get_eval_dataloader(valid_dataset_eval, train_config.test_batch_size,
+                                                train_config.cpu_num)
+    validator = Tester(model, valid_dataloader_eval, train_config.cuda)
+
+    valid_answers_easy = data['valid_answers_easy']
+    valid_answers_hard = data['valid_answers_hard']
+    # currently just test one of eval_fn
+    # def eval_fn(epoch):
+    #     return evaluate(validator, valid_answers_easy, valid_answers_hard, train_config, query_name_dict,'Valid', epoch)
+
+    
+   
+    # trainer.train(tensorboard_write_loss, train_config.valid_epochs, eval_fn=None)
+    trainer.train(None, eval_fn=None, eval_epochs=train_config.valid_epochs)
+
+
+    # raise NotImplementedError('Moving the code from train to new_train')
 
 
 def main(args):
@@ -531,19 +639,21 @@ def main(args):
                       eval_train_answers=eval_train_answers)
             logging.info("Training finished!!")
 
-        if train_config.do_test:
-            model = get_model(train_config, params, cqd_params, nentity, nrelation, nattribute)
-            load_model(model, train_config.checkpoint_path, train_config.cuda)
 
-            tasks = ('1p', '1ap', '2ap', '3ap', 'ai-lt', '1dp', 'di',)
-            if not train_config.use_attributes and not train_config.use_descriptions:
-                tasks = ('1p', '2p', '3p', '2i', '3i', 'ip', 'pi', '2u', 'up',)
+        # TODO: model to be saved and loaded can now still not work 
+        # if train_config.do_test:
+        #     model = get_model(train_config, params, cqd_params, nentity, nrelation, nattribute)
+        #     load_model(model, train_config.checkpoint_path, train_config.cuda)
 
-            if train_config.simple_eval:
-                tasks = ('1p',)
-                if train_config.use_attributes:
-                    tasks += ('1ap',)
-            test_model(model, train_config, 'Test', tasks=tasks)
+        #     tasks = ('1p', '1ap', '2ap', '3ap', 'ai-lt', '1dp', 'di',)
+        #     if not train_config.use_attributes and not train_config.use_descriptions:
+        #         tasks = ('1p', '2p', '3p', '2i', '3i', 'ip', 'pi', '2u', 'up',)
+
+        #     if train_config.simple_eval:
+        #         tasks = ('1p',)
+        #         if train_config.use_attributes:
+        #             tasks += ('1ap',)
+        #     test_model(model, train_config, 'Test', tasks=tasks)
 
     writer.close()
 

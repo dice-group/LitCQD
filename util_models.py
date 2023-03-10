@@ -177,6 +177,7 @@ def get_model(train_config: TrainConfig, params: HyperParams, cqd_params: CQDPar
 
 def load_model(model, save_path, cuda, remove_attribute_exists=False):
     checkpoint = os.path.join(save_path, 'checkpoint')
+    
     data = torch.load(checkpoint, map_location=torch.device('cuda:0') if cuda else torch.device('cpu'))
 
     # checkpoint may include optimizer state

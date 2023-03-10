@@ -49,7 +49,8 @@ def load_queries_train(train_config: TrainConfig, name='train'):
     return (train_queries, train_answers), (train_queries_attr, train_answers_attr), (train_queries_desc, train_answers_desc)
 
 
-def get_train_dataloader(train_dataset, train_attr_dataset, train_desc_dataset, batch_size, use_attributes, use_descriptions, cpu_num=10, seed=0):
+def get_train_dataloader(train_dataset, train_attr_dataset, train_desc_dataset, batch_size, use_attributes, use_descriptions, cpu_num=0, seed=0):
+    # cpu_num is set to 0
     def _init_fn(worker_id):
         np.random.seed(seed)
 
