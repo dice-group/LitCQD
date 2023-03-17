@@ -285,8 +285,8 @@ class Trainer(object):
                 # Loss function part of the model (e.g. ComplEx-N3)
 
                 def attr_loss_fn(scores): return self.attr_loss.compute(scores).nan_to_num() if self.attr_loss is not None else 0
-                # loss = self.model.loss(data, attr_loss_fn, self.alpha)
-                loss = self.model.loss(data, attr_loss_fn)
+                loss = self.model.loss(data, attr_loss_fn, self.alpha)
+                # loss = self.model.loss(data, attr_loss_fn)
                 if not do_eval:
                     loss.backward()
                     self.optimizer.step()

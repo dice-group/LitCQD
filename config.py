@@ -19,16 +19,17 @@ class TrainConfig:
     # Output path for checkpoint and logs
     save_path: Optional[str] = 'Experiments'
     # path for loading checkpoints
-    checkpoint_path: Optional[str] = None
+    checkpoint_path: Optional[str] = 'Experiments'
+    # checkpoint_path: Optional[str] = 'checkpoints_FB15K-237/checkpoint_orig_no_attr'
     # the model to be trained
     # geo: Enum('geo', ['cqd-transea', 'cqd-transeadistmult', 'cqd-transeacomplex', 'cqd-transra', 'cqd-mtkgnn', 'cqd-distmulta', 'cqd-complex', 'cqd-complexa', 'cqd-complexa-weighted', 'cqd-complexad', 'cqd-complexd', 'cqd-complexd-jointly', 'cqd-complex-simple',
     #                   'cqd-transcomplexa', 'cqd-transcomplexdice', 'q2b', 'gqe', 'random_guesser']) ='cqd-complexa'
     geo: Enum('geo', ['cqd-transea', 'cqd-transeadistmult', 'cqd-transeacomplex', 'cqd-transra', 'cqd-mtkgnn', 'cqd-distmulta', 'cqd-complex', 'cqd-complexa', 'cqd-complexa-weighted', 'cqd-complexad', 'cqd-complexd', 'cqd-complexd-jointly', 'cqd-complex-simple',
-                      'cqd-transcomplexa', 'cqd-transcomplexdice', 'q2b', 'gqe', 'random_guesser']) ='cqd-complex'
+                      'cqd-transcomplexa', 'cqd-transcomplexdice', 'q2b', 'gqe', 'random_guesser']) ='cqd-complexa'
     # loss function of the relational part
     loss: Enum('loss', ["margin", "ce", "q2b"]) = 'ce'
     # How many epochs the model is trained for
-    train_times: int = 20
+    train_times: int = 3
     # Evaluate validation queries every xx epochs
     valid_epochs: int = 3
     # How many workers pytorch uses to load data
@@ -47,7 +48,7 @@ class TrainConfig:
     # tune hyperparameters using ray tune
     do_tune: bool = False
     # do_tune: bool = True
-    do_train: bool = True
+    do_train: bool = False
     do_test: bool = True
     # evaluate on train queries aswell
     eval_on_train: bool = False

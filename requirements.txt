@@ -1,0 +1,9 @@
+torch==1.9.0 --find-links https://download.pytorch.org/whl/torch_stable.html
+bidict==0.21.3
+gensim==4.1.2
+ray[tune]==1.9.1
+simple-parsing==0.0.17
+tqdm==4.62.0
+tensorboardX==2.4.1
+tensorboard==2.7.0
+protobuf==3.20.3
