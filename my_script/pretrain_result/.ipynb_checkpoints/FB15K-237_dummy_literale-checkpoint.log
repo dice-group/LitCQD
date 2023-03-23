@@ -1,0 +1,90 @@
+2023-03-19 20:18:32 INFO     test: 1p: 22812
+2023-03-19 20:18:40 INFO     Test 1p MRR at epoch 100: 0.458145
+2023-03-19 20:18:40 INFO     Test 1p HITS1 at epoch 100: 0.356925
+2023-03-19 20:18:40 INFO     Test 1p HITS3 at epoch 100: 0.504749
+2023-03-19 20:18:40 INFO     Test 1p HITS10 at epoch 100: 0.660556
+2023-03-19 20:18:40 INFO     Test 1p num_queries at epoch 100: 22812.000000
+2023-03-19 20:18:40 INFO     Test average MRR at epoch 100: 0.458145
+2023-03-19 20:18:40 INFO     Test average HITS1 at epoch 100: 0.356925
+2023-03-19 20:18:40 INFO     Test average HITS3 at epoch 100: 0.504749
+2023-03-19 20:18:40 INFO     Test average HITS10 at epoch 100: 0.660556
+2023-03-19 20:18:41 INFO     test: 2p: 5000
+2023-03-19 20:18:49 INFO     Test 2p MRR at epoch 100: 0.280689
+2023-03-19 20:18:49 INFO     Test 2p HITS1 at epoch 100: 0.203625
+2023-03-19 20:18:49 INFO     Test 2p HITS3 at epoch 100: 0.300928
+2023-03-19 20:18:49 INFO     Test 2p HITS10 at epoch 100: 0.433237
+2023-03-19 20:18:49 INFO     Test 2p num_queries at epoch 100: 5000.000000
+2023-03-19 20:18:49 INFO     Test average MRR at epoch 100: 0.280689
+2023-03-19 20:18:49 INFO     Test average HITS1 at epoch 100: 0.203625
+2023-03-19 20:18:49 INFO     Test average HITS3 at epoch 100: 0.300928
+2023-03-19 20:18:49 INFO     Test average HITS10 at epoch 100: 0.433237
+2023-03-19 20:18:50 INFO     test: 3p: 5000
+2023-03-19 20:18:58 INFO     Test 3p MRR at epoch 100: 0.200120
+2023-03-19 20:18:58 INFO     Test 3p HITS1 at epoch 100: 0.140452
+2023-03-19 20:18:58 INFO     Test 3p HITS3 at epoch 100: 0.209795
+2023-03-19 20:18:58 INFO     Test 3p HITS10 at epoch 100: 0.318654
+2023-03-19 20:18:58 INFO     Test 3p num_queries at epoch 100: 5000.000000
+2023-03-19 20:18:58 INFO     Test average MRR at epoch 100: 0.200120
+2023-03-19 20:18:58 INFO     Test average HITS1 at epoch 100: 0.140452
+2023-03-19 20:18:58 INFO     Test average HITS3 at epoch 100: 0.209795
+2023-03-19 20:18:58 INFO     Test average HITS10 at epoch 100: 0.318654
+2023-03-19 20:18:59 INFO     test: 2i: 5000
+2023-03-19 20:19:05 INFO     Test 2i MRR at epoch 100: 0.345153
+2023-03-19 20:19:05 INFO     Test 2i HITS1 at epoch 100: 0.238607
+2023-03-19 20:19:05 INFO     Test 2i HITS3 at epoch 100: 0.392256
+2023-03-19 20:19:05 INFO     Test 2i HITS10 at epoch 100: 0.558080
+2023-03-19 20:19:05 INFO     Test 2i num_queries at epoch 100: 5000.000000
+2023-03-19 20:19:05 INFO     Test average MRR at epoch 100: 0.345153
+2023-03-19 20:19:05 INFO     Test average HITS1 at epoch 100: 0.238607
+2023-03-19 20:19:05 INFO     Test average HITS3 at epoch 100: 0.392256
+2023-03-19 20:19:05 INFO     Test average HITS10 at epoch 100: 0.558080
+2023-03-19 20:19:06 INFO     test: 3i: 5000
+2023-03-19 20:19:12 INFO     Test 3i MRR at epoch 100: 0.465999
+2023-03-19 20:19:12 INFO     Test 3i HITS1 at epoch 100: 0.363920
+2023-03-19 20:19:12 INFO     Test 3i HITS3 at epoch 100: 0.519302
+2023-03-19 20:19:12 INFO     Test 3i HITS10 at epoch 100: 0.662719
+2023-03-19 20:19:12 INFO     Test 3i num_queries at epoch 100: 5000.000000
+2023-03-19 20:19:12 INFO     Test average MRR at epoch 100: 0.465999
+2023-03-19 20:19:12 INFO     Test average HITS1 at epoch 100: 0.363920
+2023-03-19 20:19:12 INFO     Test average HITS3 at epoch 100: 0.519302
+2023-03-19 20:19:12 INFO     Test average HITS10 at epoch 100: 0.662719
+2023-03-19 20:19:14 INFO     test: ip: 5000
+2023-03-19 20:19:24 INFO     Test ip MRR at epoch 100: 0.190526
+2023-03-19 20:19:24 INFO     Test ip HITS1 at epoch 100: 0.127437
+2023-03-19 20:19:24 INFO     Test ip HITS3 at epoch 100: 0.199078
+2023-03-19 20:19:24 INFO     Test ip HITS10 at epoch 100: 0.311363
+2023-03-19 20:19:24 INFO     Test ip num_queries at epoch 100: 5000.000000
+2023-03-19 20:19:24 INFO     Test average MRR at epoch 100: 0.190526
+2023-03-19 20:19:24 INFO     Test average HITS1 at epoch 100: 0.127437
+2023-03-19 20:19:24 INFO     Test average HITS3 at epoch 100: 0.199078
+2023-03-19 20:19:24 INFO     Test average HITS10 at epoch 100: 0.311363
+2023-03-19 20:19:26 INFO     test: pi: 5000
+2023-03-19 20:19:37 INFO     Test pi MRR at epoch 100: 0.272339
+2023-03-19 20:19:37 INFO     Test pi HITS1 at epoch 100: 0.190915
+2023-03-19 20:19:37 INFO     Test pi HITS3 at epoch 100: 0.294631
+2023-03-19 20:19:37 INFO     Test pi HITS10 at epoch 100: 0.435657
+2023-03-19 20:19:37 INFO     Test pi num_queries at epoch 100: 5000.000000
+2023-03-19 20:19:37 INFO     Test average MRR at epoch 100: 0.272339
+2023-03-19 20:19:37 INFO     Test average HITS1 at epoch 100: 0.190915
+2023-03-19 20:19:37 INFO     Test average HITS3 at epoch 100: 0.294631
+2023-03-19 20:19:37 INFO     Test average HITS10 at epoch 100: 0.435657
+2023-03-19 20:19:38 INFO     test: 2u: 5000
+2023-03-19 20:19:43 INFO     Test 2u MRR at epoch 100: 0.265586
+2023-03-19 20:19:43 INFO     Test 2u HITS1 at epoch 100: 0.165776
+2023-03-19 20:19:43 INFO     Test 2u HITS3 at epoch 100: 0.295147
+2023-03-19 20:19:43 INFO     Test 2u HITS10 at epoch 100: 0.482450
+2023-03-19 20:19:43 INFO     Test 2u num_queries at epoch 100: 5000.000000
+2023-03-19 20:19:43 INFO     Test average MRR at epoch 100: 0.265586
+2023-03-19 20:19:43 INFO     Test average HITS1 at epoch 100: 0.165776
+2023-03-19 20:19:43 INFO     Test average HITS3 at epoch 100: 0.295147
+2023-03-19 20:19:43 INFO     Test average HITS10 at epoch 100: 0.482450
+2023-03-19 20:19:45 INFO     test: up: 5000
+2023-03-19 20:19:55 INFO     Test up MRR at epoch 100: 0.213667
+2023-03-19 20:19:55 INFO     Test up HITS1 at epoch 100: 0.136169
+2023-03-19 20:19:55 INFO     Test up HITS3 at epoch 100: 0.228817
+2023-03-19 20:19:55 INFO     Test up HITS10 at epoch 100: 0.370617
+2023-03-19 20:19:55 INFO     Test up num_queries at epoch 100: 5000.000000
+2023-03-19 20:19:55 INFO     Test average MRR at epoch 100: 0.213667
+2023-03-19 20:19:55 INFO     Test average HITS1 at epoch 100: 0.136169
+2023-03-19 20:19:55 INFO     Test average HITS3 at epoch 100: 0.228817
+2023-03-19 20:19:55 INFO     Test average HITS10 at epoch 100: 0.370617

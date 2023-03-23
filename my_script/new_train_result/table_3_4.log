@@ -1,0 +1,94 @@
+2023-03-23 00:48:01 INFO     test: 1ap: 3000
+2023-03-23 00:48:02 INFO     Test 1ap MAE at epoch 100: 0.049310
+2023-03-23 00:48:02 INFO     Test 1ap MSE at epoch 100: 0.010478
+2023-03-23 00:48:02 INFO     Test 1ap RMSE at epoch 100: 0.102362
+2023-03-23 00:48:02 INFO     Test 1ap num_queries at epoch 100: 3000.000000
+2023-03-23 00:48:02 INFO     Test average MAE at epoch 100: 0.049310
+2023-03-23 00:48:02 INFO     Test average MSE at epoch 100: 0.010478
+2023-03-23 00:48:02 INFO     Test average RMSE at epoch 100: 0.102362
+2023-03-23 00:48:04 INFO     test: 2ap: 100
+2023-03-23 00:48:04 INFO     Test 2ap MAE at epoch 100: 0.033166
+2023-03-23 00:48:04 INFO     Test 2ap MSE at epoch 100: 0.003897
+2023-03-23 00:48:04 INFO     Test 2ap RMSE at epoch 100: 0.062426
+2023-03-23 00:48:04 INFO     Test 2ap num_queries at epoch 100: 100.000000
+2023-03-23 00:48:04 INFO     Test average MAE at epoch 100: 0.033166
+2023-03-23 00:48:04 INFO     Test average MSE at epoch 100: 0.003897
+2023-03-23 00:48:04 INFO     Test average RMSE at epoch 100: 0.062426
+2023-03-23 00:48:06 INFO     test: 3ap: 100
+2023-03-23 00:48:08 INFO     Test 3ap MAE at epoch 100: 0.040728
+2023-03-23 00:48:08 INFO     Test 3ap MSE at epoch 100: 0.006262
+2023-03-23 00:48:08 INFO     Test 3ap RMSE at epoch 100: 0.079130
+2023-03-23 00:48:08 INFO     Test 3ap num_queries at epoch 100: 100.000000
+2023-03-23 00:48:08 INFO     Test average MAE at epoch 100: 0.040728
+2023-03-23 00:48:08 INFO     Test average MSE at epoch 100: 0.006262
+2023-03-23 00:48:08 INFO     Test average RMSE at epoch 100: 0.079130
+2023-03-23 00:48:09 INFO     test: ai-lt: 66
+2023-03-23 00:48:12 INFO     Test ai-lt MRR at epoch 100: 0.344754
+2023-03-23 00:48:12 INFO     Test ai-lt HITS1 at epoch 100: 0.265226
+2023-03-23 00:48:12 INFO     Test ai-lt HITS3 at epoch 100: 0.382431
+2023-03-23 00:48:12 INFO     Test ai-lt HITS10 at epoch 100: 0.497057
+2023-03-23 00:48:12 INFO     Test ai-lt num_queries at epoch 100: 66.000000
+2023-03-23 00:48:12 INFO     Test average MRR at epoch 100: 0.344754
+2023-03-23 00:48:12 INFO     Test average HITS1 at epoch 100: 0.265226
+2023-03-23 00:48:12 INFO     Test average HITS3 at epoch 100: 0.382431
+2023-03-23 00:48:12 INFO     Test average HITS10 at epoch 100: 0.497057
+2023-03-23 00:48:14 INFO     test: ai-eq: 100
+2023-03-23 00:48:18 INFO     Test ai-eq MRR at epoch 100: 0.179298
+2023-03-23 00:48:18 INFO     Test ai-eq HITS1 at epoch 100: 0.096520
+2023-03-23 00:48:18 INFO     Test ai-eq HITS3 at epoch 100: 0.200597
+2023-03-23 00:48:18 INFO     Test ai-eq HITS10 at epoch 100: 0.342026
+2023-03-23 00:48:18 INFO     Test ai-eq num_queries at epoch 100: 100.000000
+2023-03-23 00:48:18 INFO     Test average MRR at epoch 100: 0.179298
+2023-03-23 00:48:18 INFO     Test average HITS1 at epoch 100: 0.096520
+2023-03-23 00:48:18 INFO     Test average HITS3 at epoch 100: 0.200597
+2023-03-23 00:48:18 INFO     Test average HITS10 at epoch 100: 0.342026
+2023-03-23 00:48:19 INFO     test: ai-gt: 64
+2023-03-23 00:48:22 INFO     Test ai-gt MRR at epoch 100: 0.233523
+2023-03-23 00:48:22 INFO     Test ai-gt HITS1 at epoch 100: 0.145117
+2023-03-23 00:48:22 INFO     Test ai-gt HITS3 at epoch 100: 0.287682
+2023-03-23 00:48:22 INFO     Test ai-gt HITS10 at epoch 100: 0.387409
+2023-03-23 00:48:22 INFO     Test ai-gt num_queries at epoch 100: 64.000000
+2023-03-23 00:48:22 INFO     Test average MRR at epoch 100: 0.233523
+2023-03-23 00:48:22 INFO     Test average HITS1 at epoch 100: 0.145117
+2023-03-23 00:48:22 INFO     Test average HITS3 at epoch 100: 0.287682
+2023-03-23 00:48:22 INFO     Test average HITS10 at epoch 100: 0.387409
+2023-03-23 00:48:24 INFO     test: 2ai: 100
+2023-03-23 00:48:31 INFO     Test 2ai MRR at epoch 100: 0.236133
+2023-03-23 00:48:31 INFO     Test 2ai HITS1 at epoch 100: 0.169874
+2023-03-23 00:48:31 INFO     Test 2ai HITS3 at epoch 100: 0.265602
+2023-03-23 00:48:31 INFO     Test 2ai HITS10 at epoch 100: 0.358133
+2023-03-23 00:48:31 INFO     Test 2ai num_queries at epoch 100: 100.000000
+2023-03-23 00:48:31 INFO     Test average MRR at epoch 100: 0.236133
+2023-03-23 00:48:31 INFO     Test average HITS1 at epoch 100: 0.169874
+2023-03-23 00:48:31 INFO     Test average HITS3 at epoch 100: 0.265602
+2023-03-23 00:48:31 INFO     Test average HITS10 at epoch 100: 0.358133
+2023-03-23 00:48:33 INFO     test: aip: 100
+2023-03-23 00:48:41 INFO     Test aip MRR at epoch 100: 0.111222
+2023-03-23 00:48:41 INFO     Test aip HITS1 at epoch 100: 0.079589
+2023-03-23 00:48:41 INFO     Test aip HITS3 at epoch 100: 0.102877
+2023-03-23 00:48:41 INFO     Test aip HITS10 at epoch 100: 0.186295
+2023-03-23 00:48:41 INFO     Test aip num_queries at epoch 100: 100.000000
+2023-03-23 00:48:41 INFO     Test average MRR at epoch 100: 0.111222
+2023-03-23 00:48:41 INFO     Test average HITS1 at epoch 100: 0.079589
+2023-03-23 00:48:41 INFO     Test average HITS3 at epoch 100: 0.102877
+2023-03-23 00:48:41 INFO     Test average HITS10 at epoch 100: 0.186295
+2023-03-23 00:48:42 INFO     test: pai: 100
+2023-03-23 00:48:47 INFO     Test pai MRR at epoch 100: 0.346775
+2023-03-23 00:48:47 INFO     Test pai HITS1 at epoch 100: 0.269978
+2023-03-23 00:48:47 INFO     Test pai HITS3 at epoch 100: 0.370506
+2023-03-23 00:48:47 INFO     Test pai HITS10 at epoch 100: 0.505909
+2023-03-23 00:48:47 INFO     Test pai num_queries at epoch 100: 100.000000
+2023-03-23 00:48:47 INFO     Test average MRR at epoch 100: 0.346775
+2023-03-23 00:48:47 INFO     Test average HITS1 at epoch 100: 0.269978
+2023-03-23 00:48:47 INFO     Test average HITS3 at epoch 100: 0.370506
+2023-03-23 00:48:47 INFO     Test average HITS10 at epoch 100: 0.505909
+2023-03-23 00:48:49 INFO     test: au: 100
+2023-03-23 00:48:56 INFO     Test au MRR at epoch 100: 0.168640
+2023-03-23 00:48:56 INFO     Test au HITS1 at epoch 100: 0.100709
+2023-03-23 00:48:56 INFO     Test au HITS3 at epoch 100: 0.174987
+2023-03-23 00:48:56 INFO     Test au HITS10 at epoch 100: 0.321560
+2023-03-23 00:48:56 INFO     Test au num_queries at epoch 100: 100.000000
+2023-03-23 00:48:56 INFO     Test average MRR at epoch 100: 0.168640
+2023-03-23 00:48:56 INFO     Test average HITS1 at epoch 100: 0.100709
+2023-03-23 00:48:56 INFO     Test average HITS3 at epoch 100: 0.174987
+2023-03-23 00:48:56 INFO     Test average HITS10 at epoch 100: 0.321560

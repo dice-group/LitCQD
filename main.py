@@ -882,7 +882,7 @@ def main(args):
         else:
             # It takes too long for query2box to answer all train queries
             eval_train_queries, eval_train_answers = None, None
-
+    
     # CD: do_tune doesn' work
     if train_config.do_tune:
         run_tune(
@@ -904,7 +904,9 @@ def main(args):
             eval_train_answers=eval_train_answers,
         )
     else:
+        print(train_config.do_train)
         if train_config.do_train:
+            
             logging.info("Training starts...")
             new_train(
                 train_config,
