@@ -88,7 +88,7 @@ class CQDComplExA(CQDBaseModel):
         attr_reg = self.regularizer.forward(attr_factors)
 
         # return alpha * (l_fit+l_reg) + alpha * (attr_loss + attr_reg)
-        return (1-alpha) * (l_fit+l_reg) + alpha * (attr_loss + attr_reg)
+        return (l_fit+l_reg) + (1-alpha) * (attr_loss + attr_reg)
 
     def score_candidates(self, triples: Tensor) -> Tuple[Tuple[Tensor, Tensor], Optional[List[Tensor]]]:
         lhs_emb = self.ent_embeddings(triples[:, 0])

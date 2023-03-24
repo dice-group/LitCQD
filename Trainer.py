@@ -9,7 +9,7 @@ from tqdm import tqdm
 from torch.autograd import Variable
 
 from Loss import Loss
-from models import CQDBaseModel
+from models import CQDBaseModel,CQDComplExAD
 from dataloader import TrainDataset
 
 
@@ -27,6 +27,7 @@ class Trainer(object):
                  rel_loss: Loss,
                  attr_loss: Loss,
                  alpha,
+                 beta,
                  dataloader_attr=None,
                  dataloader_desc=None,
                  neg_ent_attr=0,
@@ -55,6 +56,7 @@ class Trainer(object):
         self.rel_loss = rel_loss
         self.attr_loss = attr_loss
         self.alpha = alpha
+        self.beta = beta
         self.neg_ent_attr = neg_ent_attr
         self.reg_weight_ent = reg_weight_ent
         self.reg_weight_rel = reg_weight_rel
@@ -104,6 +106,8 @@ class Trainer(object):
     def train(self, write_loss_fn, eval_fn=None, eval_epochs=100):
         # get rid of eval_fn
         training_range = tqdm(range(self.train_times)) # initialize progress bar
+        
+        assert self.alpha >=0 and self.alpha<=1
         
         for epoch in training_range:
             
@@ -285,7 +289,12 @@ class Trainer(object):
                 # Loss function part of the model (e.g. ComplEx-N3)
 
                 def attr_loss_fn(scores): return self.attr_loss.compute(scores).nan_to_num() if self.attr_loss is not None else 0
-                loss = self.model.loss(data, attr_loss_fn, self.alpha)
+                
+                if isinstance(self.model,CQDComplExAD):
+                  loss = self.model.loss(data, attr_loss_fn, self.alpha,self.beta)
+                else:
+                  loss = self.model.loss(data, attr_loss_fn, self.alpha)
+                  
                 # loss = self.model.loss(data, attr_loss_fn)
                 if not do_eval:
                     loss.backward()

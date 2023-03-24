@@ -123,3 +123,50 @@ query_name_dict = {('a',): 'attr_exists',
                    }
 name_query_dict = {value: key for key, value in query_name_dict.items()}
 all_tasks = list(name_query_dict.keys())
+
+
+
+import pandas as pd
+
+
+def get_tablename(train_config):
+  method_name = ''
+  
+  if 'kblrn' not in train_config.checkpoint_path:
+    if train_config.geo.name == 'q2b':
+      return 'Query2Box'
+    
+    return 'CQD'
+  
+  else:
+    if train_config.geo.name == 'q2b':
+      return 'Query2Box+kblrn'
+    
+    return 'LitCQD'
+    
+  # slash_index = train_config.checkpoint_path.rfind('/')+1
+  # checkpoint_name = train_config.checkpoint_path[slash_index:]
+  # method_name = train_config.geo.name + '_' + checkpoint_name
+
+
+def create_table(task,metrics,table):
+  
+  tmp = []
+  for key,val in metrics.items():
+    if 'num_queries' in key:
+          break
+    tmp.append(val)
+  
+  table[task] = tmp
+  return table
+
+def store_latex(table,filename):
+  
+  import os
+  
+  df= pd.DataFrame(table)
+  store_path = os.path.join('./latext_results/', filename+'.log')
+  with open(store_path ,'w') as f:
+    f.write(df.to_latex(index=False))
+
+  print('fired')

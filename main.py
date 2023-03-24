@@ -17,9 +17,10 @@ from tensorboardX import SummaryWriter
 
 from collections import defaultdict
 from util_models import get_model, load_model
-from util import log_metrics, parse_time, set_global_seed, query_name_dict, set_logger
+from util import log_metrics, parse_time, set_global_seed, query_name_dict, set_logger,get_tablename
 from util_data import *
 from util_data_queries import *
+
 
 import dataclasses
 import ray
@@ -54,8 +55,10 @@ def create_latex_table(results, model_name):
 
     values_by_metric = defaultdict(list)
     for metrics_dict in results.values():
+      
         for metric, value in metrics_dict.items():
-            values_by_metric[metric.replace("_", "\_")].append(
+          
+          values_by_metric[metric.replace("_", "\_")].append(
                 f"{value:.3}" if type(value) == float else value
             )
     # values = [f'{x["HITS3"]:.3}' for x in results.values()]
@@ -95,6 +98,11 @@ def evaluate(
     metrics = tester.test_step(tp_answers, fn_answers, train_config, query_name_dict)
     num_query_structures = 0
     num_query_structures_attr = 0
+    
+    
+    table=dict(methods=[train_config.geo.name]*4) if train_config.to_latex else dict()
+    
+    
     for query_structure in metrics:
         if "ME" in metrics[query_structure]:
             # ignore attr pred metrics for average calculation
@@ -119,11 +127,26 @@ def evaluate(
                     average_metrics_attr[metric] += metrics[query_structure][metric]
                 elif metric not in ("cos_sim",):
                     average_metrics[metric] += metrics[query_structure][metric]
+                    
+        if train_config.to_latex and train_config.geo.name =='q2b':
+          from util import create_table
+          table = create_table(query_name_dict[query_structure],metrics[query_structure],table)
+                    
+           
         if query_name_dict[query_structure].endswith("ap"):
             num_query_structures_attr += 1
         elif query_name_dict[query_structure] != "1dp":
             num_query_structures += 1
 
+    if table and train_config.geo.name=='q2b':
+      from util import store_latex
+      # slash_index = train_config.checkpoint_path.rfind('/')+1
+      # checkpoint_name = train_config.checkpoint_path[slash_index:]
+      # method_name = train_config.geo.name + '_' + checkpoint_name
+      method_name = get_tablename(train_config)
+      
+      store_latex(table,method_name)
+    
     for metric in average_metrics:
         average_metrics[metric] /= num_query_structures
         if writer:
@@ -143,6 +166,8 @@ def evaluate(
 
     if False and mode.lower() == "test":
         create_latex_table(metrics, train_config.geo.name)
+   
+    
     return all_metrics
 
 
@@ -166,8 +191,10 @@ def test_model(
     dataloader = get_eval_dataloader(
         dataset, train_config.test_batch_size, train_config.cpu_num
     )
+    
     tester = Tester(model, dataloader, train_config.cuda)
-    return evaluate(
+    
+    metrics = evaluate(
         tester,
         easy_answers,
         hard_answers,
@@ -176,6 +203,25 @@ def test_model(
         mode,
         train_config.train_times,
     )
+    
+    
+    
+    # from util import create_latex_table
+    
+    # create_latex_table(train_config,tasks,model,None,metrics=metrics)
+    
+    
+    return metrics
+    
+    # return evaluate(
+    #     tester,
+    #     easy_answers,
+    #     hard_answers,
+    #     train_config,
+    #     query_name_dict,
+    #     mode,
+    #     train_config.train_times,
+    # )
 
 
 def train(train_config: TrainConfig, cqd_params: CQDParams):
@@ -738,6 +784,7 @@ def new_train(
         rel_loss,
         attr_loss,
         params.alpha,
+        params.beta,
         train_dataloader_attr,
         train_dataloader_desc,
         params.negative_attr_sample_size,
@@ -904,7 +951,7 @@ def main(args):
             eval_train_answers=eval_train_answers,
         )
     else:
-        print(train_config.do_train)
+        # print(train_config.do_train)
         if train_config.do_train:
             
             logging.info("Training starts...")
