@@ -1,0 +1,12 @@
+2023-03-19 17:17:56 INFO     train: 1p: 167827
+2023-03-19 17:17:56 INFO     train: 1ap: 17854
+2023-03-19 17:18:01 INFO     valid: 1p: 20101
+2023-03-19 17:18:01 INFO     valid: 1ap: 3000
+2023-03-19 17:18:02 INFO     valid: 1p: 20101
+2023-03-19 17:18:02 INFO     valid: 1ap: 3000
+2023-03-19 17:18:02 WARNING  valid: 1dp: not in pkl file
+2023-03-19 17:18:02 WARNING  valid: di: not in pkl file
+2023-03-19 17:18:02 INFO     Training starts...
+2023-03-19 17:18:03 INFO     attribute batch size: 32
+2023-03-19 17:18:04 INFO     attribute batch size: 86
+2023-03-19 18:04:29 INFO     Training finished!!

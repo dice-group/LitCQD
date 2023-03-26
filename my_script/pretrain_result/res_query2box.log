@@ -1,0 +1,61 @@
+python3 main.py --cuda --do_test --checkpoint_path checkpoints_FB15K-237/checkpoint_orig_attr_kblrn_q2b --data_path data/FB15k-237-q2b --rank 400 --geo q2b --test_batch_size 10 --print_on_screen
+logging to checkpoints_FB15K-237/checkpoint_orig_attr_kblrn_q2b
+False
+2023-03-23 15:39:34,295 INFO     test: 1p: 22812
+2023-03-23 15:39:34,295 INFO     test: 2p: 5000
+2023-03-23 15:39:34,295 INFO     test: 3p: 5000
+2023-03-23 15:39:34,296 INFO     test: 2i: 5000
+2023-03-23 15:39:34,296 INFO     test: 3i: 5000
+2023-03-23 15:39:34,296 INFO     test: ip: 5000
+2023-03-23 15:39:34,296 INFO     test: pi: 5000
+2023-03-23 15:39:34,296 INFO     test: 2u: 5000
+2023-03-23 15:39:34,296 INFO     test: up: 5000
+2023-03-23 15:40:22,964 INFO     Test 1p MRR at epoch 100: 0.397332
+2023-03-23 15:40:22,964 INFO     Test 1p HITS1 at epoch 100: 0.286094
+2023-03-23 15:40:22,964 INFO     Test 1p HITS3 at epoch 100: 0.446568
+2023-03-23 15:40:22,964 INFO     Test 1p HITS10 at epoch 100: 0.620618
+2023-03-23 15:40:22,964 INFO     Test 1p num_queries at epoch 100: 22812.000000
+2023-03-23 15:40:22,966 INFO     Test 2p MRR at epoch 100: 0.195299
+2023-03-23 15:40:22,966 INFO     Test 2p HITS1 at epoch 100: 0.117991
+2023-03-23 15:40:22,966 INFO     Test 2p HITS3 at epoch 100: 0.211022
+2023-03-23 15:40:22,966 INFO     Test 2p HITS10 at epoch 100: 0.350469
+2023-03-23 15:40:22,967 INFO     Test 2p num_queries at epoch 100: 5000.000000
+2023-03-23 15:40:22,968 INFO     Test 3p MRR at epoch 100: 0.135994
+2023-03-23 15:40:22,968 INFO     Test 3p HITS1 at epoch 100: 0.076032
+2023-03-23 15:40:22,968 INFO     Test 3p HITS3 at epoch 100: 0.142048
+2023-03-23 15:40:22,969 INFO     Test 3p HITS10 at epoch 100: 0.253729
+2023-03-23 15:40:22,969 INFO     Test 3p num_queries at epoch 100: 5000.000000
+2023-03-23 15:40:22,970 INFO     Test 2i MRR at epoch 100: 0.235634
+2023-03-23 15:40:22,970 INFO     Test 2i HITS1 at epoch 100: 0.119906
+2023-03-23 15:40:22,970 INFO     Test 2i HITS3 at epoch 100: 0.278400
+2023-03-23 15:40:22,970 INFO     Test 2i HITS10 at epoch 100: 0.469436
+2023-03-23 15:40:22,971 INFO     Test 2i num_queries at epoch 100: 5000.000000
+2023-03-23 15:40:22,971 INFO     Test 3i MRR at epoch 100: 0.325619
+2023-03-23 15:40:22,972 INFO     Test 3i HITS1 at epoch 100: 0.194833
+2023-03-23 15:40:22,972 INFO     Test 3i HITS3 at epoch 100: 0.387850
+2023-03-23 15:40:22,972 INFO     Test 3i HITS10 at epoch 100: 0.580661
+2023-03-23 15:40:22,972 INFO     Test 3i num_queries at epoch 100: 5000.000000
+2023-03-23 15:40:22,972 INFO     Test pi MRR at epoch 100: 0.156638
+2023-03-23 15:40:22,973 INFO     Test pi HITS1 at epoch 100: 0.079472
+2023-03-23 15:40:22,973 INFO     Test pi HITS3 at epoch 100: 0.178642
+2023-03-23 15:40:22,973 INFO     Test pi HITS10 at epoch 100: 0.300088
+2023-03-23 15:40:22,973 INFO     Test pi num_queries at epoch 100: 5000.000000
+2023-03-23 15:40:22,974 INFO     Test ip MRR at epoch 100: 0.102913
+2023-03-23 15:40:22,974 INFO     Test ip HITS1 at epoch 100: 0.053370
+2023-03-23 15:40:22,975 INFO     Test ip HITS3 at epoch 100: 0.104970
+2023-03-23 15:40:22,975 INFO     Test ip HITS10 at epoch 100: 0.196781
+2023-03-23 15:40:22,975 INFO     Test ip num_queries at epoch 100: 5000.000000
+2023-03-23 15:40:22,975 INFO     Test 2u MRR at epoch 100: 0.190239
+2023-03-23 15:40:22,976 INFO     Test 2u HITS1 at epoch 100: 0.087115
+2023-03-23 15:40:22,976 INFO     Test 2u HITS3 at epoch 100: 0.218405
+2023-03-23 15:40:22,976 INFO     Test 2u HITS10 at epoch 100: 0.410386
+2023-03-23 15:40:22,976 INFO     Test 2u num_queries at epoch 100: 5000.000000
+2023-03-23 15:40:22,977 INFO     Test up MRR at epoch 100: 0.152536
+2023-03-23 15:40:22,977 INFO     Test up HITS1 at epoch 100: 0.079219
+2023-03-23 15:40:22,977 INFO     Test up HITS3 at epoch 100: 0.164894
+2023-03-23 15:40:22,977 INFO     Test up HITS10 at epoch 100: 0.298979
+2023-03-23 15:40:22,977 INFO     Test up num_queries at epoch 100: 5000.000000
+2023-03-23 15:40:22,978 INFO     Test average MRR at epoch 100: 0.210245
+2023-03-23 15:40:22,979 INFO     Test average HITS1 at epoch 100: 0.121559
+2023-03-23 15:40:22,979 INFO     Test average HITS3 at epoch 100: 0.236978
+2023-03-23 15:40:22,979 INFO     Test average HITS10 at epoch 100: 0.386794

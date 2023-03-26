@@ -124,11 +124,13 @@ class TrainConfig:
     """General configurations for training"""
 
     # Path to queries
-    data_path: str = "data/FB15k-237-q2b"
+    data_path: str = "data/scripts/generated/FB15K-237_dummy_kblrn"
     # Output path for checkpoint and logs
+    # save_path: Optional[str] = './ablation_models/no_exists_scores/'
     save_path: Optional[str] = None
     # path for loading checkpoints
-    checkpoint_path: Optional[str] = "checkpoints_FB15K-237/checkpoint_orig_no_attr"
+    checkpoint_path: Optional[str] = None
+    checkpoint_path: Optional[str] = 'checkpoints_FB15K-237/checkpoint_orig_attr_kblrn'
     # the model to be trained
     geo: Enum(
         "geo",
@@ -225,7 +227,7 @@ class HyperParams:
     # L2 regularization weight for attribute embeddings
     reg_weight_attr: float = 0
     # Determines which fraction of the loss makes up the attribute loss
-    alpha: float = 1.0 #0.3
+    alpha: float = 0.5 #0.3
     beta:float = 1.0
     # optimizer
     optimizer: Enum("optimizer", ["adam", "adagrad", "sgd"]) = "adagrad"

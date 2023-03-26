@@ -1,0 +1,10 @@
+\begin{tabular}{llrrrrrrrrr}
+\toprule
+        methods & metric &     1p &     2p &     3p &     2i &     3i &     pi &     ip &     2u &     up \\
+\midrule
+Query2Box+kblrn &    MRR & 0.3985 & 0.1910 & 0.1346 & 0.2379 & 0.3247 & 0.1569 & 0.1036 & 0.1904 & 0.1562 \\
+Query2Box+kblrn &  HITS1 & 0.2878 & 0.1144 & 0.0754 & 0.1217 & 0.1921 & 0.0810 & 0.0543 & 0.0838 & 0.0847 \\
+Query2Box+kblrn &  HITS3 & 0.4485 & 0.2039 & 0.1395 & 0.2854 & 0.3938 & 0.1763 & 0.1040 & 0.2242 & 0.1642 \\
+Query2Box+kblrn & HITS10 & 0.6188 & 0.3452 & 0.2552 & 0.4694 & 0.5772 & 0.2995 & 0.1973 & 0.4107 & 0.3015 \\
+\bottomrule
+\end{tabular}

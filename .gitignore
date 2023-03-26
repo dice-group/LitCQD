@@ -86,3 +86,11 @@ my_script/logs/
 my_script/.ipynb_checkpoints/
 Experiments/
 
+
+# log
+
+logs-debug/
+
+
+# zip files
+*.zip

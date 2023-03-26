@@ -61,6 +61,9 @@ class Trainer(object):
         self.reg_weight_ent = reg_weight_ent
         self.reg_weight_rel = reg_weight_rel
         self.reg_weight_attr = reg_weight_attr
+        
+        assert self.alpha >=0 and self.alpha<=1
+        assert self.beta >=0 and self.beta<=1
 
     def to_var(self, x, use_gpu):
         if use_gpu:
@@ -107,7 +110,7 @@ class Trainer(object):
         # get rid of eval_fn
         training_range = tqdm(range(self.train_times)) # initialize progress bar
         
-        assert self.alpha >=0 and self.alpha<=1
+        
         
         for epoch in training_range:
             

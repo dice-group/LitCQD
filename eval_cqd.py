@@ -4,7 +4,7 @@ from util_data import *
 from util_data_queries import *
 from main import set_logger, test_model
 from util_models import get_model, load_model
-from util import create_table,store_latex,get_tablename
+from util import create_table_col,store_latex,create_latex_table,get_tablename
 
 
 num_bound_vars = {x: 1 for x in name_query_dict.keys()}
@@ -63,9 +63,10 @@ def main(args):
     # slash_index = train_config.checkpoint_path.rfind('/')+1
     # checkpoint_name = train_config.checkpoint_path[slash_index:]
     # method_name = train_config.geo.name + '_' + checkpoint_name
-    method_name = get_tablename(train_config)
-
-    table=dict(methods=[method_name]*4) if train_config.to_latex else dict()
+    # method_name = get_tablename(train_config)
+    
+    # table=dict(methods=[method_name]*4) if train_config.to_latex else dict()
+    table = create_latex_table(train_config)
     
 
     for query_type in tasks:
@@ -73,10 +74,10 @@ def main(args):
         metrics = eval(model, train_config, cqd_params, query_type, train_config.test_batch_size)
         
         if train_config.to_latex: 
-          table = create_table(query_type,metrics,table)
+          table = create_table_col(query_type,metrics,table)
     
     if table:
-      store_latex(table,method_name)
+      store_latex(table, train_config)
     
 
     

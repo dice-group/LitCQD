@@ -17,7 +17,7 @@ from tensorboardX import SummaryWriter
 
 from collections import defaultdict
 from util_models import get_model, load_model
-from util import log_metrics, parse_time, set_global_seed, query_name_dict, set_logger,get_tablename
+from util import log_metrics, parse_time, set_global_seed, query_name_dict, set_logger
 from util_data import *
 from util_data_queries import *
 
@@ -100,8 +100,12 @@ def evaluate(
     num_query_structures_attr = 0
     
     
-    table=dict(methods=[train_config.geo.name]*4) if train_config.to_latex else dict()
-    
+    table = None
+    if train_config.geo.name =='q2b':
+      # method_name = get_tablename(train_config)
+      # table=dict(methods = [method_name]*4) if train_config.to_latex else dict()
+      import util
+      table = util.create_latex_table(train_config)
     
     for query_structure in metrics:
         if "ME" in metrics[query_structure]:
@@ -127,10 +131,10 @@ def evaluate(
                     average_metrics_attr[metric] += metrics[query_structure][metric]
                 elif metric not in ("cos_sim",):
                     average_metrics[metric] += metrics[query_structure][metric]
-                    
+        
         if train_config.to_latex and train_config.geo.name =='q2b':
-          from util import create_table
-          table = create_table(query_name_dict[query_structure],metrics[query_structure],table)
+          from util import create_table_col
+          table = create_table_col(query_name_dict[query_structure],metrics[query_structure],table)
                     
            
         if query_name_dict[query_structure].endswith("ap"):
@@ -143,9 +147,7 @@ def evaluate(
       # slash_index = train_config.checkpoint_path.rfind('/')+1
       # checkpoint_name = train_config.checkpoint_path[slash_index:]
       # method_name = train_config.geo.name + '_' + checkpoint_name
-      method_name = get_tablename(train_config)
-      
-      store_latex(table,method_name)
+      store_latex(table, train_config)
     
     for metric in average_metrics:
         average_metrics[metric] /= num_query_structures
