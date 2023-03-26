@@ -198,16 +198,23 @@ class CQDBaseModel(nn.Module):
                         attr_exists_scores = get_attr_exists_scores[attr_idx](e_emb[idxs])
 
                 for i, idx in enumerate(idxs):
-                    no_filter_scores = False
-                    no_exists_scores = False
+                    no_filter_scores = True
+                    no_exists_scores = True
                     if no_exists_scores:
                         attr_exists_scores[i] = torch.ones_like(scores[idx])
+                        
+                    filter_score = score_restriction(restrictions[idx], stdev[..., i], values[idx], predictions[idx])
+                    filter_score = self.normalize(filter_score)
+                    
                     if no_filter_scores:
-                        scores[idx] = torch.ones_like(scores[idx])
-                    else:
-                        filter_score = score_restriction(restrictions[idx], stdev[..., i], values[idx], predictions[idx])
-                        filter_score = self.normalize(filter_score)
-
+                        # scores[idx] = torch.ones_like(scores[idx])
+                        filter_score = torch.ones_like(filter_score[idx])
+                        
+                    # else:
+                        # filter_score = score_restriction(restrictions[idx], stdev[..., i], values[idx], predictions[idx])
+                        # filter_score = self.normalize(filter_score)
+                    # filter_score = score_restriction(restrictions[idx], stdev[..., i], values[idx], predictions[idx])
+                    # filter_score = self.normalize(filter_score)
                     # Use minimum:
                     #scores[idx] = torch.where(scores[idx] < attr_exists_scores[i], scores[idx], attr_exists_scores[i])
                     # continue

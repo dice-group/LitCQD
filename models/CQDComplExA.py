@@ -87,7 +87,6 @@ class CQDComplExA(CQDBaseModel):
         attr_loss = attr_loss_fn(attr_scores)
         attr_reg = self.regularizer.forward(attr_factors)
 
-        # return alpha * (l_fit+l_reg) + alpha * (attr_loss + attr_reg)
         return (l_fit+l_reg) + (1-alpha) * (attr_loss + attr_reg)
 
     def score_candidates(self, triples: Tensor) -> Tuple[Tuple[Tensor, Tensor], Optional[List[Tensor]]]:
