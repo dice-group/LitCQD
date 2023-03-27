@@ -116,3 +116,45 @@ To create the graphics in the thesis based on the results of the grid search, th
 The csv files are a copy-paste from the console output of ray tune after finishing the grid search.
 
 The implementation is based on the publicly available implementation of Query2Box ([Link](https://github.com/snap-stanford/KGReasoning)) .
+
+## Query answering results
+Query answering results with different attribute embedding models for multihop entity queries without literals. Results were computed for test queries over the FB15k-237 dataset and evaluated in terms of mean reciprocal rank (MRR) and Hits@k for k ∈ {1, 3, 10}.
+| Method   | Average | 1p      | 2p      | 3p      | 2i      | 3i      | ip      | pi      | 2u      | up      |
+| :-------- | :--------: | :--------: | :-------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: |
+|          |         |         |         |         |   MRR   |         |         |         |         |         |
+| CQD      |    0.2950     | 0.4547  | 0.2746  | **0.1997**  | 0.3393  | 0.4594  | 0.1880  | 0.2666  | **0.2601**  | **0.2127**  |
+|  LitCQD |**0.2981**| **0.4553**  | **0.2814**  | 0.1974  | **0.3476**  | **0.4639**  | **0.1923**  | **0.2744**  | 0.2600  | 0.2109  |
+| Query2Box| 0.2104| 0.3985 | 0.1910 | 0.1346 | 0.2379 | 0.3247 | 0.1569 | 0.1036 | 0.1904 | 0.1562 |
+|          |         |         |         |         | HITS@1  |         |         |         |         |         |
+| CQD  |  0.2115  | **0.3555**  | 0.1981  | **0.1421**  | 0.2346  | 0.3583  | 0.1280  | 0.1863  | **0.1648**  | **0.1359**  |
+|  LitCQD |**0.2129**| 0.3539  | **0.2025**  | 0.1379  | **0.2432**  | **0.3627**  | **0.1296**  | **0.1939**  | 0.1632  | 0.1296  |
+| Query2Box| 0.1217 | 0.2878| 0.1144| 0.0754| 0.1217| 0.1921| 0.0810| 0.0543| 0.0838| 0.0847|
+|          |         |         |         |         | HITS@3  |         |         |         |         |         |
+| CQD      |    0.3218   | 0.4987  | 0.2971  | 0.2090  | 0.3819  | 0.5075  | 0.1946  | 0.2902  | **0.2875**  | 0.2300  |
+|  LitCQD |**0.3271**| **0.5021**  | **0.3057**  | **0.2093**  | **0.3907**  | **0.5149**  | **0.2050**  | **0.2982**  | 0.2872  | **0.2310**  |
+| Query2Box| 0.2378| 0.4485| 0.2039| 0.1395| 0.2854| 0.3938| 0.1763| 0.1040| 0.2242| 0.1642|
+|          |         |         |         |         | HITS@10 |         |         |         |         |         |
+| CQD |  0.4620 | 0.6562  | 0.4225  | 0.3109  | 0.5486  | 0.6572  | 0.3074  | 0.4243  | 0.4629  | 0.3683  |
+|  LitCQD |**0.4700**| **0.6574**  | **0.4446**  | **0.3199** | **0.5568** | **0.6602**  | **0.3150**  | **0.4325**  | **0.4659**  | **0.3779**  |
+| Query2Box| 0.3861| 0.6188| 0.3452| 0.2552| 0.4694| 0.5772| 0.2995| 0.1973| 0.4107| 0.3015|
+
+
+
+Query answering results for multihop entity queries with literals. Our best-performing model Complex-N3 + Attributes (KBLRN) is compared to variations thereof. Results were computed for test queries over the FB15k-237 dataset and evaluated in terms of Hit@10.
+| methods                     | ai-lt  | ai-eq  | ai-gt  | 2ai    | aip    | pai    | au     |
+|:---------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+| LitCQD                      | 0.4971 | 0.3420 | 0.3874 | 0.3581 | 0.1863 | 0.5059 | 0.3216 |
+| No Value Prediction        | 0.3120 | 0.0042 | 0.2318 | 0.1580 | 0.1270 | 0.4339 | 0.0537 |
+| No Attribute Exists Check  | 0.1540 | 0.1532 | 0.1737 | 0.1175 | 0.1821 | 0.4894 | 0.0309 |
+| Neither of them             | 0.0015 | 0.0000 | 0.0000 | 0.0000 | 0.0943 | 0.4324 | 0.0016 |
+
+Query answering results for multihop literal queries for test queries over the FB15k-237 dataset evaluated in terms of mean absolute error (MAE) and mean squared error (MSE).
+| methods        | 1ap MAE | 1ap MSE | 2ap MAE | 2ap MSE | 3ap MAE | 3ap MSE |
+|:---------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+| LitCQD         | 0.0493  | 0.0105  | 0.0332  | 0.0039  | 0.0407  | 0.0063  |
+| Query2Box      | 0.0648  | 0.0151  | 0.0476  | 0.0067  | 0.0558  | 0.0139  |
+| Mean Predictor | 0.3419  | 0.143   | 0.3461  | 0.1412  | 0.3621  | 0.1517  |
+
+
+
+
