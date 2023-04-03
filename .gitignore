@@ -79,6 +79,8 @@ data/
 
 # checkpoints
 checkpoints_FB15K-237/
+my_script/check_point/
+my_script/checkpoints_litwd1k/checkpoints_litwd1k/
 
 # tests
 tests/
