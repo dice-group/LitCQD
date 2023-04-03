@@ -66,13 +66,14 @@ def main(args):
     # method_name = get_tablename(train_config)
     
     # table=dict(methods=[method_name]*4) if train_config.to_latex else dict()
+    
     table = create_latex_table(train_config)
     
 
     for query_type in tasks:
       
+        # metrics = eval(model, train_config, cqd_params, query_type, train_config.test_batch_size)
         metrics = eval(model, train_config, cqd_params, query_type, train_config.test_batch_size)
-        
         if train_config.to_latex: 
           table = create_table_col(query_type,metrics,table)
     

@@ -98,14 +98,13 @@ def evaluate(
     metrics = tester.test_step(tp_answers, fn_answers, train_config, query_name_dict)
     num_query_structures = 0
     num_query_structures_attr = 0
-    
-    
     table = None
-    if train_config.geo.name =='q2b':
-      # method_name = get_tablename(train_config)
-      # table=dict(methods = [method_name]*4) if train_config.to_latex else dict()
+    
+    
+    if train_config.geo.name =='q2b' and train_config.to_latex:
       import util
       table = util.create_latex_table(train_config)
+
     
     for query_structure in metrics:
         if "ME" in metrics[query_structure]:
@@ -144,9 +143,6 @@ def evaluate(
 
     if table and train_config.geo.name=='q2b':
       from util import store_latex
-      # slash_index = train_config.checkpoint_path.rfind('/')+1
-      # checkpoint_name = train_config.checkpoint_path[slash_index:]
-      # method_name = train_config.geo.name + '_' + checkpoint_name
       store_latex(table, train_config)
     
     for metric in average_metrics:

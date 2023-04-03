@@ -156,22 +156,29 @@ class CQDBaseModel(nn.Module):
             """
             # Replace zeros in stdev with ones to allow normal distributions
             stdev = stdev.where(stdev != 0, torch.ones_like(stdev))
+            
+            normalized_score =((preds - value).abs())/stdev
 
             if restriction.item() == symbol_placeholder_dict['=']:
-                return F.relu(1 - (preds - value).abs())
+                # TODO: adapt the new equation of the submitted paper 
+                return 1/torch.exp(normalized_score)
+                # return F.relu(1 - (preds - value).abs())
             elif restriction.item() == symbol_placeholder_dict['<']:
                 # return (preds < value).float()
-                normal = torch.distributions.Normal(preds, stdev)
-                return normal.cdf(value)
+                # normal = torch.distributions.Normal(preds, stdev)
+                # return normal.cdf(value)
+                return 1/(1+normalized_score)
+                
             elif restriction.item() == symbol_placeholder_dict['>']:
                 # return (preds > value).float()
-                normal = torch.distributions.Normal(preds, stdev)
-                scores = 1-normal.cdf(value)
-                if scores.count_nonzero() == 0:
-                    # stdev is that low, that every score is 0
-                    # set to 1 s.t. attr_exists_score is still relevant
-                    scores += 1
-                return scores
+                # normal = torch.distributions.Normal(preds, stdev)
+                # scores = 1-normal.cdf(value)
+                # if scores.count_nonzero() == 0:
+                #     # stdev is that low, that every score is 0
+                #     # set to 1 s.t. attr_exists_score is still relevant
+                #     scores += 1
+                # return scores
+                return 1 - 1/(1+normalized_score)
             raise KeyError()
 
         def _score_attribute_restriction(e_emb=None):
