@@ -147,6 +147,8 @@ Query answering results for multihop entity queries with literals. Our best-perf
 | No Value Prediction        | 0.3120 | 0.0042 | 0.2318 | 0.1580 | 0.1270 | 0.4339 | 0.0537 |
 | No Attribute Exists Check  | 0.1540 | 0.1532 | 0.1737 | 0.1175 | 0.1821 | 0.4894 | 0.0309 |
 | Neither of them             | 0.0015 | 0.0000 | 0.0000 | 0.0000 | 0.0943 | 0.4324 | 0.0016 |
+|without attribute-specific standard deviation | 0.4928 | 0.3420 | 0.3454 | 0.3557 | 0.1914 | 0.5057 | 0.2699 |
+
 
 Query answering results for multihop literal queries for test queries over the FB15k-237 dataset evaluated in terms of mean absolute error (MAE) and mean squared error (MSE).
 | methods        | 1ap MAE | 1ap MSE | 2ap MAE | 2ap MSE | 3ap MAE | 3ap MSE |
