@@ -127,7 +127,7 @@ class TrainConfig:
     data_path: str = "data/scripts/generated/FB15K-237_dummy_kblrn"
     # Output path for checkpoint and logs
     # save_path: Optional[str] = './ablation_models/no_exists_scores/'
-    save_path: Optional[str] = None
+    save_path: Optional[str] = 'checkpoints_FB15K-237/modified_version'
     # path for loading checkpoints
     checkpoint_path: Optional[str] = None
     checkpoint_path: Optional[str] = 'checkpoints_FB15K-237/checkpoint_orig_attr_kblrn'
@@ -168,7 +168,7 @@ class TrainConfig:
     # use GPU
     cuda: bool = False
     # use attribute data
-    use_attributes: bool = True
+    use_attributes: bool = False
     use_descriptions: bool = False
     # train using triples and the cqd dataloader or use queries with a subsampling weight
     train_data_type: Enum("train_data_type", ["queries", "triples"]) = "triples"
@@ -177,7 +177,7 @@ class TrainConfig:
     # tune hyperparameters using ray tune
     do_tune: bool = False
     do_train: bool = False
-    do_test: bool = True
+    do_test: bool = False
     # evaluate on train queries aswell
     eval_on_train: bool = False
     # evaluate on simple (1-hop) queries only

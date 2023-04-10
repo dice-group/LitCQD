@@ -21,7 +21,6 @@ from util import log_metrics, parse_time, set_global_seed, query_name_dict, set_
 from util_data import *
 from util_data_queries import *
 
-
 import dataclasses
 import ray
 from ray import tune
@@ -55,10 +54,8 @@ def create_latex_table(results, model_name):
 
     values_by_metric = defaultdict(list)
     for metrics_dict in results.values():
-      
         for metric, value in metrics_dict.items():
-          
-          values_by_metric[metric.replace("_", "\_")].append(
+            values_by_metric[metric.replace("_", "\_")].append(
                 f"{value:.3}" if type(value) == float else value
             )
     # values = [f'{x["HITS3"]:.3}' for x in results.values()]
@@ -98,14 +95,6 @@ def evaluate(
     metrics = tester.test_step(tp_answers, fn_answers, train_config, query_name_dict)
     num_query_structures = 0
     num_query_structures_attr = 0
-    table = None
-    
-    
-    if train_config.geo.name =='q2b' and train_config.to_latex:
-      import util
-      table = util.create_latex_table(train_config)
-
-    
     for query_structure in metrics:
         if "ME" in metrics[query_structure]:
             # ignore attr pred metrics for average calculation
@@ -130,21 +119,11 @@ def evaluate(
                     average_metrics_attr[metric] += metrics[query_structure][metric]
                 elif metric not in ("cos_sim",):
                     average_metrics[metric] += metrics[query_structure][metric]
-        
-        if train_config.to_latex and train_config.geo.name =='q2b':
-          from util import create_table_col
-          table = create_table_col(query_name_dict[query_structure],metrics[query_structure],table)
-                    
-           
         if query_name_dict[query_structure].endswith("ap"):
             num_query_structures_attr += 1
         elif query_name_dict[query_structure] != "1dp":
             num_query_structures += 1
 
-    if table and train_config.geo.name=='q2b':
-      from util import store_latex
-      store_latex(table, train_config)
-    
     for metric in average_metrics:
         average_metrics[metric] /= num_query_structures
         if writer:
@@ -164,8 +143,6 @@ def evaluate(
 
     if False and mode.lower() == "test":
         create_latex_table(metrics, train_config.geo.name)
-   
-    
     return all_metrics
 
 
@@ -189,10 +166,8 @@ def test_model(
     dataloader = get_eval_dataloader(
         dataset, train_config.test_batch_size, train_config.cpu_num
     )
-    
     tester = Tester(model, dataloader, train_config.cuda)
-    
-    metrics = evaluate(
+    return evaluate(
         tester,
         easy_answers,
         hard_answers,
@@ -201,25 +176,6 @@ def test_model(
         mode,
         train_config.train_times,
     )
-    
-    
-    
-    # from util import create_latex_table
-    
-    # create_latex_table(train_config,tasks,model,None,metrics=metrics)
-    
-    
-    return metrics
-    
-    # return evaluate(
-    #     tester,
-    #     easy_answers,
-    #     hard_answers,
-    #     train_config,
-    #     query_name_dict,
-    #     mode,
-    #     train_config.train_times,
-    # )
 
 
 def train(train_config: TrainConfig, cqd_params: CQDParams):
@@ -764,7 +720,6 @@ def new_train(
 
     # initialize model
     model = get_model(train_config, params, cqd_params, nentity, nrelation, nattribute)
-    
 
     learning_rate = params.learning_rate
     learning_rate_attr = params.learning_rate_attr
@@ -783,7 +738,6 @@ def new_train(
         rel_loss,
         attr_loss,
         params.alpha,
-        params.beta,
         train_dataloader_attr,
         train_dataloader_desc,
         params.negative_attr_sample_size,
@@ -950,7 +904,7 @@ def main(args):
             eval_train_answers=eval_train_answers,
         )
     else:
-        # print(train_config.do_train)
+        print(train_config.do_train)
         if train_config.do_train:
             
             logging.info("Training starts...")

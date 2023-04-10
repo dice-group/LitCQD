@@ -164,3 +164,11 @@ python3 main.py --cuda --do_test --checkpoint_path checkpoints_FB15K-237/checkpo
 #   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/cuda/__init__.py", line 172, in _lazy_init
 #     torch._C._cuda_init()
 # RuntimeError: No HIP GPUs are available
+
+
+
+
+# python3 main.py --cuda --do_test --checkpoint_path checkpoints_FB15K-237/checkpoint_orig_no_attr_q2b/ --data_path data/scripts/generated/FB15K-237_dummy_kblrn --use_attributes --rank 400 --geo q2b --test_batch_size 10 --print_on_screen
+
+
+python3 main.py --cuda --do_test --checkpoint_path checkpoints_FB15K-237/checkpoint_orig_attr_kblrn_q2b/ --data_path data/scripts/generated/FB15K-237_dummy_kblrn --use_attributes --rank 400 --geo q2b --test_batch_size 10 --print_on_screen

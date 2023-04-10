@@ -14,3 +14,7 @@ python3 main.py --cuda --do_train --do_test --desc_emb 1-layer --word_emb_dim 10
 
 # Train the CQD-based approach using both, attributes and descriptions
 python3 main.py --cuda --do_train --do_test --desc_emb 1-layer --data_path data/scripts/generated/FB15K-237_dummy_kblrn_desc --use_descriptions --use_attributes -n 0 --rank 1000 -lr 0.1 --alpha 0.5 --geo cqd-complexad --batch_size 1024 --test_batch_size 1024 --train_times 100 --valid_epochs 10 --print_on_screen
+
+
+
+

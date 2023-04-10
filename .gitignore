@@ -94,3 +94,7 @@ logs-debug/
 
 # zip files
 *.zip
+
+
+my_script/check_point/
+my_script/ablation_models/

@@ -95,7 +95,7 @@ def get_model(train_config: TrainConfig, params: HyperParams, cqd_params: CQDPar
             k=cqd_params.cqd_k,
         )
     elif geo == 'cqd-complexa':
-        model = CQDComplExA(
+        model = CQDLite(
             use_attributes=train_config.use_attributes,
             rank=params.rank,
             nentity=nentity,

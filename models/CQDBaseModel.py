@@ -140,13 +140,13 @@ class CQDBaseModel(nn.Module):
         # precompute standard deviations
 
         # Use all entities to compute stdev
-        stdevs = [get_stdevs((attributes == attr).nonzero().squeeze(1), range(self.nentity)) for i, attr in enumerate(unique_attr)]
+        # stdevs = [get_stdevs((attributes == attr).nonzero().squeeze(1), range(self.nentity)) for i, attr in enumerate(unique_attr)]
         # Use top k entities with highest attr_exists_score to compute stdev
         # stdevs = [get_stdevs((attributes == attr).nonzero().squeeze(1), get_attr_exists_scores[i](None).topk(k=20).indices) for i, attr in enumerate(unique_attr)]
         # Use attributes with max_value - stdev of attr_exists_scores to compute stdev
         # stdevs = [get_stdevs((attributes == attr).nonzero().squeeze(1), attr_exists_ids_within_stdev(get_attr_exists_scores[i](None))) for i, attr in enumerate(unique_attr)]
         # Use a fixed stdev
-        #stdevs = [torch.as_tensor([0.25], device=attributes.device).expand(1, self.nentity) for i, attr in enumerate(unique_attr)]
+        stdevs = [torch.as_tensor([0.25], device=attributes.device).expand(1, self.nentity) for i, attr in enumerate(unique_attr)]
 
         def score_restriction(restriction, stdev, value, preds):
             """
@@ -157,28 +157,28 @@ class CQDBaseModel(nn.Module):
             # Replace zeros in stdev with ones to allow normal distributions
             stdev = stdev.where(stdev != 0, torch.ones_like(stdev))
             
-            normalized_score =((preds - value).abs())/stdev
+            
 
             if restriction.item() == symbol_placeholder_dict['=']:
                 # TODO: adapt the new equation of the submitted paper 
-                return 1/torch.exp(normalized_score)
+                return 1/torch.exp(((preds - value).abs())/stdev)
                 # return F.relu(1 - (preds - value).abs())
             elif restriction.item() == symbol_placeholder_dict['<']:
                 # return (preds < value).float()
                 # normal = torch.distributions.Normal(preds, stdev)
                 # return normal.cdf(value)
-                return 1/(1+normalized_score)
+                return 1/(1+torch.exp((preds - value)/stdev))
                 
             elif restriction.item() == symbol_placeholder_dict['>']:
                 # return (preds > value).float()
                 # normal = torch.distributions.Normal(preds, stdev)
                 # scores = 1-normal.cdf(value)
                 # if scores.count_nonzero() == 0:
-                #     # stdev is that low, that every score is 0
-                #     # set to 1 s.t. attr_exists_score is still relevant
+                # #     # stdev is that low, that every score is 0
+                # #     # set to 1 s.t. attr_exists_score is still relevant
                 #     scores += 1
                 # return scores
-                return 1 - 1/(1+normalized_score)
+                return 1 - 1/(1+torch.exp((preds - value)/stdev))
             raise KeyError()
 
         def _score_attribute_restriction(e_emb=None):
@@ -205,8 +205,8 @@ class CQDBaseModel(nn.Module):
                         attr_exists_scores = get_attr_exists_scores[attr_idx](e_emb[idxs])
 
                 for i, idx in enumerate(idxs):
-                    no_filter_scores = True
-                    no_exists_scores = True
+                    no_filter_scores = False
+                    no_exists_scores = False
                     if no_exists_scores:
                         attr_exists_scores[i] = torch.ones_like(scores[idx])
                         
@@ -226,16 +226,19 @@ class CQDBaseModel(nn.Module):
                     #scores[idx] = torch.where(scores[idx] < attr_exists_scores[i], scores[idx], attr_exists_scores[i])
                     # continue
 
-                    if restrictions[idx] in (-5, -6):
-                        # weight attr_exists_scores more if > or < expression
-                        scores[idx] = torch.sqrt(filter_score * attr_exists_scores[i]**2)
-                        # use mean:
-                        #scores[idx] = (filter_score + attr_exists_scores[i]**2)/2
-                    else:
-                        # weight restriction scores more if = expression
-                        scores[idx] = torch.sqrt(filter_score**2 * attr_exists_scores[i])
-                        # use mean:
-                        #scores[idx] = (filter_score**2 + attr_exists_scores[i])/2
+                    # TODO: change the equation to pass to the submitted paper
+                    # if restrictions[idx] in (-5, -6):
+                    #     # weight attr_exists_scores more if > or < expression
+                    #     scores[idx] = torch.sqrt(filter_score * attr_exists_scores[i]**2)
+                        
+                    #     # use mean:
+                    #     #scores[idx] = (filter_score + attr_exists_scores[i]**2)/2
+                    # else:
+                    #     # weight restriction scores more if = expression
+                    #     scores[idx] = torch.sqrt(filter_score**2 * attr_exists_scores[i])
+                    #     # use mean:
+                    #     #scores[idx] = (filter_score**2 + attr_exists_scores[i])/2
+                    scores[idx] = filter_score * attr_exists_scores[i]
             return scores
 
         return _score_attribute_restriction
