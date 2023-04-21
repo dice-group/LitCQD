@@ -39,3 +39,19 @@ python3 ../eval_cqd.py --do_test --checkpoint_path ../checkpoints_FB15K-237/modi
 # litcqd
 python3 ../eval_cqd.py --cuda --do_test --checkpoint_path check_point/old_trained/FB15K-237_dummy_kblrn/2023.03.19-18:04:34/ --data_path ../data/scripts/generated/FB15K-237_dummy_kblrn --use_attributes --rank 1000 --geo cqd-complexa --test_batch_size 1024 --print_on_screen
 
+
+
+
+# ablation study 
+
+python3 eval_cqd.py --cuda --do_test --checkpoint_path checkpoints_FB15K-237/ablation_study --data_path data/scripts/generated/FB15K-237_dummy_kblrn --use_attributes --rank 1000 --geo cqd-complexa --test_batch_size 1024 --print_on_screen
+
+
+python3 eval_cqd.py --do_test --checkpoint_path checkpoints_FB15K-237/modified_1 --data_path data/scripts/generated/FB15K-237_dummy_kblrn --use_attributes --rank 1000 --geo cqd-complexa --test_batch_size 1024 --print_on_screen
+
+
+
+python3 eval_cqd.py --cuda --do_test --checkpoint_path checkpoints_FB15K-237/modified_4 --data_path data/scripts/generated/FB15K-237_dummy_kblrn --use_attributes --rank 1000 --geo cqd-complexa --test_batch_size 1024 --print_on_screen
+
+
+python3 eval_cqd.py --cuda --do_test --checkpoint_path checkpoints_FB15K-237/modified_5 --data_path data/FB15k-237-q2b --rank 1000 --geo cqd-complexa --test_batch_size 1024 --print_on_screen --to_latex

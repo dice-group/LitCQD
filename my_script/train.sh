@@ -23,3 +23,7 @@ python3 ../main.py --cuda --do_train --do_test --data_path ../data/scripts/gener
 
 # with attribute
 python3 ../main.py --cuda --do_train --do_test --data_path ../data/scripts/generated/FB15K-237_dummy_kblrn -n 10 --rank 400 --margin 24.0 --alpha 0.5 -lr 0.001 --use_attributes --loss q2b --attr_loss mae --train_data_type queries --train_times 100 --optimizer adam --geo q2b --test_batch_size 100 --batch_size 512 --valid_epochs 10 --print_on_screen
+
+
+
+

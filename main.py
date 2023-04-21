@@ -2,7 +2,7 @@ from enum import Enum
 from ray.tune.progress_reporter import CLIReporter
 
 from Loss import MAELoss, MSELoss, CELoss, MRLoss, Q2BLoss
-from config import CQDParams, HyperParams, TrainConfig, parse_args
+from config import parse_args, CQDParams, HyperParams, TrainConfig
 import json
 
 import logging
@@ -240,8 +240,9 @@ def train(train_config: TrainConfig, cqd_params: CQDParams):
         eval_train_answers,
         checkpoint_dir=None,
     ):
+
         set_global_seed(train_config.seed)
-        params = HyperParams(**config)
+        params = HyperParams(**config) # config parameters are passed here
         dataloader_type = "python"
 
         if not train_config.use_attributes:
@@ -267,6 +268,9 @@ def train(train_config: TrainConfig, cqd_params: CQDParams):
         train_dataset = get_dataset_train(
             *train_data_rel, train_config, nentity, nrelation, params
         )
+        
+        
+        
         train_dataset_attr = get_dataset_train_attr(*train_data_attr, nentity, params)
         train_dataset_desc = get_dataset_train_desc(
             *train_data_desc, train_config.geo.name == "cqd-complexd-jointly"
@@ -288,8 +292,10 @@ def train(train_config: TrainConfig, cqd_params: CQDParams):
 
         attr_loss = None
         attr_loss_param = params.attr_loss
-        if type(attr_loss_param) != str:
-            attr_loss_param = attr_loss_param.name
+        # if type(attr_loss_param) != str:
+        #     # bug
+        #     attr_loss_param = attr_loss_param.name
+        
         if train_config.use_attributes and dataloader_type == "python":
             if attr_loss_param == "mae":
                 attr_loss = MAELoss(params.negative_attr_sample_size)
@@ -302,6 +308,7 @@ def train(train_config: TrainConfig, cqd_params: CQDParams):
 
         learning_rate = params.learning_rate
         learning_rate_attr = params.learning_rate_attr
+        
         trainer = Trainer(
             model,
             train_dataloader,
@@ -315,6 +322,7 @@ def train(train_config: TrainConfig, cqd_params: CQDParams):
             rel_loss,
             attr_loss,
             params.alpha,
+            params.beta,
             train_dataloader_attr,
             train_dataloader_desc,
             params.negative_attr_sample_size,
@@ -436,6 +444,7 @@ def train(train_config: TrainConfig, cqd_params: CQDParams):
                 )
         else:
             trainer.train(eval_fn, tensorboard_write_loss, train_config.valid_epochs)
+            
             torch.save(
                 (model.state_dict(), trainer.optimizer.state_dict()),
                 os.path.join(train_config.save_path, "checkpoint"),
@@ -448,9 +457,9 @@ def run_tune(
     train_config: TrainConfig,
     cqd_params: CQDParams,
     params: HyperParams,
-    nentity,
-    nrelation,
-    nattribute,
+    # nentity,
+    # nrelation,
+    # nattribute,
     **data,
 ):
     ray.init(num_gpus=1)
@@ -468,12 +477,14 @@ def run_tune(
         reporter.add_metric_column("di_mrr")
         reporter.add_metric_column("loss")
         reporter.add_metric_column("valid_loss")
+        
+
         result = tune.run(
             tune.with_parameters(
                 train(train_config, cqd_params),
-                nentity=nentity,
-                nrelation=nrelation,
-                nattribute=nattribute,
+                # nentity=nentity,
+                # nrelation=nrelation,
+                # nattribute=nattribute,
                 **data,
             ),
             config=dataclasses.asdict(
@@ -481,6 +492,7 @@ def run_tune(
             ),  # convert parameters to dict (argument config in the train!!!)
             metric="mrr",
             mode="max",
+            num_samples = 10,
             # num_samples=20,
             # training has to be done on the same device for reproducibility; randomness not guaranteed on different devices; also not guaranteed at 100% utilization
             resources_per_trial={"gpu": 0.25, "cpu": 1},
@@ -521,7 +533,7 @@ def run_tune(
 
         best_params = HyperParams(**best_trial.config)
         best_trained_model = get_model(
-            train_config, best_params, cqd_params, nentity, nrelation, nattribute
+            train_config, best_params, cqd_params, data['nentity'], data['nrelation'], data['nattribute']
         )
         best_checkpoint_dir = best_trial.checkpoint.value
         model_state, _ = torch.load(os.path.join(best_checkpoint_dir, "checkpoint"))
@@ -544,12 +556,14 @@ def run_tune(
         # params.learning_rate = tune.loguniform(1e-3, 1)
         # params.learning_rate_attr = tune.loguniform(1e-3, 1)
         params.rank_attr = tune.grid_search([20, 50])
-        params.learning_rate = tune.grid_search([0.1, 0.01])
-        params.rank = tune.grid_search([128, 256, 512, 1024])
+        params.learning_rate = tune.grid_search([0.1, 0.01,0.001])
+        # params.rank = tune.grid_search([128, 256, 512, 1024])
+        params.rank = tune.grid_search([256, 512, 1024])
         params.alpha = tune.grid_search([0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9])
-        params.p_norm = tune.grid_search([1, 2])
-        params.attr_loss = tune.grid_search(["mae", "mse"])
-        params.do_sigmoid = tune.grid_search([True, False])
+        # params.p_norm = tune.grid_search([1, 2])
+        # params.attr_loss = tune.grid_search(["mae", "mse"])
+        # params.do_sigmoid = tune.grid_search([True, False])
+        
         search_alg = BasicVariantGenerator()
         # search_alg = BasicVariantGenerator(max_concurrent=2)
         # search_alg = HyperOptSearch(points_to_evaluate=current_best_params)
@@ -563,18 +577,28 @@ def run_tune(
         reporter.add_metric_column("loss")
         reporter.add_metric_column("rel_loss")
         reporter.add_metric_column("attribute_loss")
+        
+        # test
+        # _train = train(train_config, cqd_params)
+        # _train(config=dataclasses.asdict(
+        #         params
+        #     ),nentity=nentity,nrelation=nrelation,
+        #         nattribute=nattribute,**data)
+        
+        # exit(1)
+        
         result = tune.run(
             tune.with_parameters(
                 train(train_config, cqd_params),
-                nentity=nentity,
-                nrelation=nrelation,
-                nattribute=nattribute,
+                # nentity=nentity,
+                # nrelation=nrelation,
+                # nattribute=nattribute,
                 **data,
             ),
             config=dataclasses.asdict(params),
             metric="score",
             mode="max",
-            # num_samples=20,
+            num_samples=10,
             # training has to be done on the same device for reproducibility; randomness not guaranteed on different devices; also not guaranteed at 100% utilization
             resources_per_trial={"gpu": 0.25, "cpu": 1},
             search_alg=search_alg,
@@ -582,6 +606,7 @@ def run_tune(
             progress_reporter=reporter,
             fail_fast=False,
             max_failures=2,
+            
             # name='train_ray_2022-01-17_09-56-26',
             # resume=True,
             # scheduler=scheduler
@@ -622,7 +647,7 @@ def run_tune(
 
         best_params = HyperParams(**best_trial.config)
         best_trained_model = get_model(
-            train_config, best_params, cqd_params, nentity, nrelation, nattribute
+            train_config, best_params, cqd_params, data['nentity'], data['nrelation'], data['nattribute']
         )
         best_checkpoint_dir = best_trial.checkpoint.value
         model_state, _ = torch.load(os.path.join(best_checkpoint_dir, "checkpoint"))
@@ -665,7 +690,7 @@ def run_tune(
 
         best_params = HyperParams(**best_trial.config)
         best_trained_model = get_model(
-            train_config, best_params, cqd_params, nentity, nrelation, nattribute
+            train_config, best_params, cqd_params, data['nentity'], data['nrelation'], data['nattribute']
         )
         best_checkpoint_dir = best_trial.checkpoint.value
         model_state, _ = torch.load(os.path.join(best_checkpoint_dir, "checkpoint"))
@@ -835,6 +860,13 @@ def new_train(
     )
 
     
+    
+# def train_ray_test():
+#     test = train()
+    
+    
+    
+    
 
 
 def main(args):
@@ -935,9 +967,12 @@ def main(args):
             train_config,
             cqd_params,
             params,
-            nentity,
-            nrelation,
-            nattribute,
+            # nentity,
+            # nrelation,
+            # nattribute,
+            nentity=nentity,
+            nrelation=nrelation,
+            nattribute=nattribute,
             train_data_rel=train_data_rel,
             train_data_attr=train_data_attr,
             train_data_desc=train_data_desc,

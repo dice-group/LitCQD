@@ -127,7 +127,7 @@ class TrainConfig:
     data_path: str = "data/scripts/generated/FB15K-237_dummy_kblrn"
     # Output path for checkpoint and logs
     # save_path: Optional[str] = './ablation_models/no_exists_scores/'
-    save_path: Optional[str] = 'checkpoints_FB15K-237/modified_version'
+    save_path: Optional[str] = 'checkpoints_FB15K-237/test'
     # path for loading checkpoints
     checkpoint_path: Optional[str] = None
     checkpoint_path: Optional[str] = 'checkpoints_FB15K-237/checkpoint_orig_attr_kblrn'
@@ -158,25 +158,25 @@ class TrainConfig:
     # loss function of the relational part
     loss: Enum("loss", ["margin", "ce", "q2b"]) = "ce"
     # How many epochs the model is trained for
-    train_times: int = 100
+    train_times: int = 2
     # Evaluate validation queries every xx epochs
-    valid_epochs: int = 10
+    valid_epochs: int = 1 #10
     # How many workers pytorch uses to load data
     cpu_num: int = 13
     # random seed applied globally
     seed: int = 0
     # use GPU
-    cuda: bool = False
+    cuda: bool = True
     # use attribute data
-    use_attributes: bool = False
+    use_attributes: bool = True
     use_descriptions: bool = False
     # train using triples and the cqd dataloader or use queries with a subsampling weight
     train_data_type: Enum("train_data_type", ["queries", "triples"]) = "triples"
     # valid/test batch size
     test_batch_size: int = 1024   #100
     # tune hyperparameters using ray tune
-    do_tune: bool = False
-    do_train: bool = False
+    do_tune: bool = True
+    do_train: bool = True
     do_test: bool = False
     # evaluate on train queries aswell
     eval_on_train: bool = False
@@ -198,7 +198,6 @@ class CQDParams:
     cqd_t_norm: Enum("t-norm", list(CQDBaseModel.NORMS)) = "prod"
     # How many samples are retained for each step in the discrete optimization algorithm
     cqd_k: int = 4
-
 
 @dataclass
 class HyperParams:
@@ -242,7 +241,7 @@ class HyperParams:
     # p_norm for TransE
     p_norm: int = 2
     # apply sigmoid on the attribute value predictions
-    do_sigmoid: bool = False
+    do_sigmoid: bool = True   #False
     # rank for transr
     rank_attr: int = 50
     # how to represent description embeddings

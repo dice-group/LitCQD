@@ -62,8 +62,8 @@ class Trainer(object):
         self.reg_weight_rel = reg_weight_rel
         self.reg_weight_attr = reg_weight_attr
         
-        assert self.alpha >=0 and self.alpha<=1
-        assert self.beta >=0 and self.beta<=1
+        # assert self.alpha >=0 and self.alpha<=1
+        # assert self.beta >=0 and self.beta<=1
 
     def to_var(self, x, use_gpu):
         if use_gpu:
@@ -120,6 +120,7 @@ class Trainer(object):
             loss_per_step = list()
             dataloader_attr = self.dataloader_attr if self.dataloader_attr else [None]*len(self.dataloader)
             dataloader_desc = self.dataloader_desc if self.dataloader_desc else [None]*len(self.dataloader)
+            
             for data, data_attr, data_desc in zip(self.dataloader, dataloader_attr, dataloader_desc):
                 loss_per_step.append(self.train_step_python(data, data_attr=data_attr, data_desc=data_desc))
 
@@ -165,7 +166,7 @@ class Trainer(object):
             dataloader_attr = self.dataloader_attr if self.dataloader_attr else [None]*len(self.dataloader)
             dataloader_desc = self.dataloader_desc if self.dataloader_desc else [None]*len(self.dataloader)
             for data, data_attr, data_desc in zip(self.dataloader, dataloader_attr, dataloader_desc):
-                loss_per_step.append(self.train_step_python(data, data_attr, data_desc))
+                loss_per_step.append(self.train_step_python(data, data_attr=data_attr, data_desc=data_desc))
 
             loss_mean = sum([_[0] for _ in loss_per_step]) / len(loss_per_step)
 
@@ -189,9 +190,9 @@ class Trainer(object):
 
             loss_per_step = list()
             for data, data_attr in zip(self.dataloader, self.dataloader_attr) if self.dataloader_attr else zip(self.dataloader, [None]*len(self.dataloader)):
-                loss_per_step.append(self.train_step_python(data, data_attr))
-
-            #loss_mean = sum([_[0] for _ in loss_per_step]) / len(loss_per_step)
+                loss_per_step.append(self.train_step_python(data, data_attr=data_attr))
+                
+            loss_mean = sum([_[0] for _ in loss_per_step]) / len(loss_per_step)
 
             # self.scheduler.step(loss_mean)
             if (epoch + 1) % eval_epochs == 0:
@@ -221,6 +222,8 @@ class Trainer(object):
 
     # TODO: train_step()
     def train_step_python(self, data, data_attr=None, data_desc=None, do_eval=False):
+      
+        # print(f'data_attr:{data_attr}')
         # data_desc, do_eval should not be used
         if do_eval:
             # Used to get a loss on validation set for ray tune
@@ -292,7 +295,7 @@ class Trainer(object):
                 # Loss function part of the model (e.g. ComplEx-N3)
 
                 def attr_loss_fn(scores): return self.attr_loss.compute(scores).nan_to_num() if self.attr_loss is not None else 0
-                
+                # print(f'data:{data.keys()}')
                 if isinstance(self.model,CQDComplExAD):
                   loss = self.model.loss(data, attr_loss_fn, self.alpha,self.beta)
                 else:

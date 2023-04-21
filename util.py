@@ -194,7 +194,9 @@ def store_latex(table,train_config):
     import os
     filename = get_tablename(train_config)
     df = pd.DataFrame(table)
+    
     store_path = os.path.join("./latext_results/", filename + ".log")
+    os.makedirs(os.path.dirname(store_path), exist_ok=True)
     with open(store_path, "w") as f:
         f.write(df.to_latex(index=False))
 

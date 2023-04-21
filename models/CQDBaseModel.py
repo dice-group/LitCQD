@@ -185,28 +185,36 @@ class CQDBaseModel(nn.Module):
             Uses CDFs where the mean values are the predicted values.
             """
             # Replace zeros in stdev with ones to allow normal distributions
+            
             stdev = stdev.where(stdev != 0, torch.ones_like(stdev))
+            factor = 0.5
 
             if restriction.item() == symbol_placeholder_dict["="]:
                 # TODO: adapt the new equation of the submitted paper
-                # return 1/torch.exp(((preds - value).abs())/stdev)
-                return F.relu(1 - (preds - value).abs())
+                # print(f'value: {(preds - value).abs()/(factor*stdev)}')
+                return 1/torch.exp(((preds - value).abs())/(factor*stdev))
+                # return F.relu(1 - (preds - value).abs())
+                # print(f'normalized value: {(preds - value).abs()}')
+                # print(f'value: {1/torch.exp(10*(((preds - value).abs()/stdev)-0.5))}')
+                
+                # return 1/(1+torch.exp(10*((preds - value).abs()-0.5)))
+              
             elif restriction.item() == symbol_placeholder_dict["<"]:
                 # return (preds < value).float()
-                normal = torch.distributions.Normal(preds, stdev)
-                return normal.cdf(value)
-                # return 1/(1+torch.exp((preds - value)/stdev))
+                # normal = torch.distributions.Normal(preds, stdev)
+                # return normal.cdf(value)
+                return 1/(1+torch.exp((preds - value)/(factor*stdev)))
 
             elif restriction.item() == symbol_placeholder_dict[">"]:
                 # return (preds > value).float()
-                normal = torch.distributions.Normal(preds, stdev)
-                scores = 1 - normal.cdf(value)
-                if scores.count_nonzero() == 0:
-                    # #     # stdev is that low, that every score is 0
-                    # #     # set to 1 s.t. attr_exists_score is still relevant
-                    scores += 1
-                return scores
-                # return 1 - 1/(1+torch.exp((preds - value)/stdev))
+                # normal = torch.distributions.Normal(preds, stdev)
+                # scores = 1 - normal.cdf(value)
+                # if scores.count_nonzero() == 0:
+                #     # #     # stdev is that low, that every score is 0
+                #     # #     # set to 1 s.t. attr_exists_score is still relevant
+                #     scores += 1
+                # return scores
+                return 1 - 1/(1+torch.exp((preds - value)/(factor*stdev)))
             raise KeyError()
 
         def _score_attribute_restriction(e_emb=None):
@@ -267,23 +275,24 @@ class CQDBaseModel(nn.Module):
                     # continue
 
                     # TODO: change the equation to pass to the submitted paper
-                    if restrictions[idx] in (-5, -6):
-                        #     # weight attr_exists_scores more if > or < expression
-                        scores[idx] = torch.sqrt(
-                            filter_score * attr_exists_scores[i] ** 2
-                        )
+                    # if restrictions[idx] in (-5, -6):
+                    #     #     # weight attr_exists_scores more if > or < expression
+                    #     scores[idx] = torch.sqrt(
+                    #         filter_score * attr_exists_scores[i] ** 2
+                    #     )
 
-                    #     # use mean:
-                    #     #scores[idx] = (filter_score + attr_exists_scores[i]**2)/2
-                    else:
-                        #     # weight restriction scores more if = expression
-                        scores[idx] = torch.sqrt(
-                            filter_score**2 * attr_exists_scores[i]
-                        )
+                    # #     # use mean:
+                    # #     #scores[idx] = (filter_score + attr_exists_scores[i]**2)/2
+                    # else:
+                    #     #     # weight restriction scores more if = expression
+                    #     scores[idx] = torch.sqrt(
+                    #         filter_score**2 * attr_exists_scores[i]
+                    #     )
                     #     # use mean:
                     #     #scores[idx] = (filter_score**2 + attr_exists_scores[i])/2
                     
                     # scores[idx] = torch.sqrt(filter_score * attr_exists_scores[i]) # NEW EXPERIEMNT: square root of product
+                    scores[idx] = torch.pow(filter_score * (attr_exists_scores[i]**4),1/5)
             return scores
 
         return _score_attribute_restriction
