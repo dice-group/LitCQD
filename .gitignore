@@ -75,7 +75,10 @@ venv.bak/
 dmypy.json
 
 # data
-data/
+data/FB15k-237-q2b
+data/scripts/Datasets
+data/scripts/generated
+data/scripts/data
 
 # checkpoints
 checkpoints_FB15K-237/

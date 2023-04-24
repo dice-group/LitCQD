@@ -1,0 +1,24 @@
+input: 
+  name: PickleMappings
+  header: False
+  path: data/relational/FB15K-237
+  has_inverse: True
+  add_inverse: False
+  add_attr_exists_rel: True
+literals:
+  name: kblrn
+  path: data/numeric/KBLRN
+  normalize: True
+  std: True
+  valid_size: 3000
+  test_size: 3000
+output:
+  name: file
+  path: FB15K-237_dummy_kblrn_std
+  queries:
+    generate: True
+    path: FB15K-237_dummy_kblrn_std
+    print_debug: True
+    complex_train_queries: True
+
+    

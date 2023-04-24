@@ -127,7 +127,7 @@ class TrainConfig:
     data_path: str = "data/scripts/generated/FB15K-237_dummy_kblrn"
     # Output path for checkpoint and logs
     # save_path: Optional[str] = './ablation_models/no_exists_scores/'
-    save_path: Optional[str] = 'checkpoints_FB15K-237/test'
+    save_path: Optional[str] = 'checkpoints_FB15K-237/ray'
     # path for loading checkpoints
     checkpoint_path: Optional[str] = None
     checkpoint_path: Optional[str] = 'checkpoints_FB15K-237/checkpoint_orig_attr_kblrn'
@@ -166,17 +166,17 @@ class TrainConfig:
     # random seed applied globally
     seed: int = 0
     # use GPU
-    cuda: bool = True
+    cuda: bool = False
     # use attribute data
-    use_attributes: bool = True
+    use_attributes: bool = False
     use_descriptions: bool = False
     # train using triples and the cqd dataloader or use queries with a subsampling weight
     train_data_type: Enum("train_data_type", ["queries", "triples"]) = "triples"
     # valid/test batch size
-    test_batch_size: int = 1024   #100
+    test_batch_size: int = 100   #100
     # tune hyperparameters using ray tune
     do_tune: bool = True
-    do_train: bool = True
+    do_train: bool = False
     do_test: bool = False
     # evaluate on train queries aswell
     eval_on_train: bool = False
