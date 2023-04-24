@@ -76,7 +76,6 @@ dmypy.json
 
 # data
 data/FB15k-237-q2b
-data/scripts/Datasets
 data/scripts/generated
 data/scripts/data
 
