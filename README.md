@@ -10,6 +10,11 @@ pip3 install ray[tune]==1.9.1 simple-parsing==0.0.17 tqdm==4.62.0
 pip3 install tensorboardX==2.4.1 tensorboard==2.7.0 protobuf==3.20.3
 ```
 
+## Reproduce the results
+
+Please refer to the `final_scripts/final_script.sh`. To config the save path of pre-trained models, please refer to `config.py` and set the corresponding variables.
+
+
 ## Datasets and Pre-trained Models
 
 ```
