@@ -96,7 +96,6 @@ logs-debug/
 *.zip
 
 # scripts
-my_script/*
-!my_script/final_script.sh
+my_script/
 
 nohup.out
