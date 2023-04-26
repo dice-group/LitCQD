@@ -291,4 +291,3 @@ python3 eval_cqd.py --do_test --checkpoint_path checkpoints_FB15K-237/checkpoint
 2023-02-22 09:28:45 INFO     Test average HITS1 at epoch 100: 0.097019
 2023-02-22 09:28:45 INFO     Test average HITS3 at epoch 100: 0.183570
 2023-02-22 09:28:45 INFO     Test average HITS10 at epoch 100: 0.329039
-

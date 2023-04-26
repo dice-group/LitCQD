@@ -133,7 +133,8 @@ class RSLoss(Loss):
 class MAELoss(Loss):
     # mean absolute error for attributes
     def compute(self, batch_score: Tensor, subsampling_weight: Tensor = None) -> Tensor:
-        return torch.mean(abs(batch_score[..., 0] - batch_score[..., 1]))
+      
+      return torch.mean(abs(batch_score[..., 0] - batch_score[..., 1]))
 
 
 class MSELoss(Loss):

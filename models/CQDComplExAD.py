@@ -17,7 +17,7 @@ class CQDComplExAD(CQDComplExD):
                  ):
         super(CQDComplExAD, self).__init__(*args, **kwargs)
 
-    def loss(self, data, attr_loss_fn, alpha) -> Tensor:
+    def loss(self, data, attr_loss_fn, alpha,beta = 1.0) -> Tensor:
         triples = torch.cat((data['batch_h'].unsqueeze(1), data['batch_r'].unsqueeze(1), data['batch_t'].unsqueeze(1)), -1)
         (scores_o, scores_s), factors = self.score_candidates(triples)
         l_fit = self.loss_fn(scores_o, triples[:, 2]) + self.loss_fn(scores_s, triples[:, 0])
@@ -41,4 +41,6 @@ class CQDComplExAD(CQDComplExD):
         desc_factors.append(torch.sqrt(desc_e_emb[..., :self.rank] ** 2 + desc_e_emb[..., self.rank:] ** 2))
         desc_reg = self.regularizer.forward(desc_factors)
 
-        return alpha * (l_fit + l_reg) + alpha * (attr_loss + attr_reg) + alpha * (desc_loss + desc_reg)
+        # return alpha * (l_fit + l_reg) + alpha * (attr_loss + attr_reg) + alpha * (desc_loss + desc_reg)
+        return l_fit + l_reg + alpha * (attr_loss + attr_reg) + beta * (desc_loss + desc_reg)
+        

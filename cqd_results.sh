@@ -25,3 +25,213 @@ python3 eval_cqd.py --cuda --do_test --checkpoint_path checkpoints_FB15K-237/che
 
 # Reproducing the results fot the example query containing a desription filtering expression
 python3 eval_description_embeddings_example.py
+
+
+
+# (litcqd) renzhong@litcqd:~/LitCQD$ ./cqd_results.sh 
+# Traceback (most recent call last):
+#   File "eval_cqd.py", line 60, in <module>
+#     main(parse_args())
+#   File "eval_cqd.py", line 48, in main
+#     model = get_model(train_config, params, cqd_params, *load_stats(train_config.data_path))
+#   File "/home/renzhong/LitCQD/util_models.py", line 174, in get_model
+#     model = model.cuda()
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 637, in cuda
+#     return self._apply(lambda t: t.cuda(device))
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 530, in _apply
+#     module._apply(fn)
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 552, in _apply
+#     param_applied = fn(param)
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 637, in <lambda>
+#     return self._apply(lambda t: t.cuda(device))
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/cuda/__init__.py", line 172, in _lazy_init
+#     torch._C._cuda_init()
+# RuntimeError: No HIP GPUs are available
+# Traceback (most recent call last):
+#   File "eval_cqd.py", line 60, in <module>
+#     main(parse_args())
+#   File "eval_cqd.py", line 48, in main
+#     model = get_model(train_config, params, cqd_params, *load_stats(train_config.data_path))
+#   File "/home/renzhong/LitCQD/util_models.py", line 174, in get_model
+#     model = model.cuda()
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 637, in cuda
+#     return self._apply(lambda t: t.cuda(device))
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 530, in _apply
+#     module._apply(fn)
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 552, in _apply
+#     param_applied = fn(param)
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 637, in <lambda>
+#     return self._apply(lambda t: t.cuda(device))
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/cuda/__init__.py", line 172, in _lazy_init
+#     torch._C._cuda_init()
+# RuntimeError: No HIP GPUs are available
+# Traceback (most recent call last):
+#   File "eval_cqd.py", line 60, in <module>
+#     main(parse_args())
+#   File "eval_cqd.py", line 48, in main
+#     model = get_model(train_config, params, cqd_params, *load_stats(train_config.data_path))
+#   File "/home/renzhong/LitCQD/util_models.py", line 174, in get_model
+#     model = model.cuda()
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 637, in cuda
+#     return self._apply(lambda t: t.cuda(device))
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 530, in _apply
+#     module._apply(fn)
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 552, in _apply
+#     param_applied = fn(param)
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 637, in <lambda>
+#     return self._apply(lambda t: t.cuda(device))
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/cuda/__init__.py", line 172, in _lazy_init
+#     torch._C._cuda_init()
+# RuntimeError: No HIP GPUs are available
+# Traceback (most recent call last):
+#   File "eval_cqd.py", line 60, in <module>
+#     main(parse_args())
+#   File "eval_cqd.py", line 48, in main
+#     model = get_model(train_config, params, cqd_params, *load_stats(train_config.data_path))
+#   File "/home/renzhong/LitCQD/util_models.py", line 174, in get_model
+#     model = model.cuda()
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 637, in cuda
+#     return self._apply(lambda t: t.cuda(device))
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 530, in _apply
+#     module._apply(fn)
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 552, in _apply
+#     param_applied = fn(param)
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 637, in <lambda>
+#     return self._apply(lambda t: t.cuda(device))
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/cuda/__init__.py", line 172, in _lazy_init
+#     torch._C._cuda_init()
+# RuntimeError: No HIP GPUs are available
+# Traceback (most recent call last):
+#   File "eval_cqd.py", line 60, in <module>
+#     main(parse_args())
+#   File "eval_cqd.py", line 48, in main
+#     model = get_model(train_config, params, cqd_params, *load_stats(train_config.data_path))
+#   File "/home/renzhong/LitCQD/util_models.py", line 174, in get_model
+#     model = model.cuda()
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 637, in cuda
+#     return self._apply(lambda t: t.cuda(device))
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 530, in _apply
+#     module._apply(fn)
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 552, in _apply
+#     param_applied = fn(param)
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 637, in <lambda>
+#     return self._apply(lambda t: t.cuda(device))
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/cuda/__init__.py", line 172, in _lazy_init
+#     torch._C._cuda_init()
+# RuntimeError: No HIP GPUs are available
+# 2023-03-08 20:08:42 INFO     train: 1p: 173033
+# 2023-03-08 20:08:42 INFO     train: 1ap: 23229
+# 2023-03-08 20:08:46 INFO     valid: 1p: 20101
+# 2023-03-08 20:08:46 INFO     valid: 1ap: 3000
+# 2023-03-08 20:08:56 INFO     test: 1p: 22812
+# 2023-03-08 20:08:56 INFO     test: 1ap: 3000
+# Traceback (most recent call last):
+#   File "eval_attribute_filtering_example.py", line 29, in <module>
+#     load_model(model, checkpoint_path, train_config.cuda)
+#   File "/home/renzhong/LitCQD/util_models.py", line 206, in load_model
+#     model.load_state_dict(model_state)
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1406, in load_state_dict
+#     raise RuntimeError('Error(s) in loading state_dict for {}:\n\t{}'.format(
+# RuntimeError: Error(s) in loading state_dict for CQDComplExAD:
+#         size mismatch for description_net.weight: copying a param with shape torch.Size([300, 2000]) from checkpoint, the shape in current model is torch.Size([3, 2000]).
+#         size mismatch for description_net.bias: copying a param with shape torch.Size([300]) from checkpoint, the shape in current model is torch.Size([3]).
+# Traceback (most recent call last):
+#   File "eval_attribute_value_predictions.py", line 56, in <module>
+#     main(parse_args())
+#   File "eval_attribute_value_predictions.py", line 50, in main
+#     model = get_model(train_config, params, cqd_params, *load_stats(train_config.data_path))
+#   File "/home/renzhong/LitCQD/util_models.py", line 174, in get_model
+#     model = model.cuda()
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 637, in cuda
+#     return self._apply(lambda t: t.cuda(device))
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 530, in _apply
+#     module._apply(fn)
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 552, in _apply
+#     param_applied = fn(param)
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 637, in <lambda>
+#     return self._apply(lambda t: t.cuda(device))
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/cuda/__init__.py", line 172, in _lazy_init
+#     torch._C._cuda_init()
+# RuntimeError: No HIP GPUs are available
+# Traceback (most recent call last):
+#   File "eval_cqd.py", line 60, in <module>
+#     main(parse_args())
+#   File "eval_cqd.py", line 48, in main
+#     model = get_model(train_config, params, cqd_params, *load_stats(train_config.data_path))
+#   File "/home/renzhong/LitCQD/util_models.py", line 174, in get_model
+#     model = model.cuda()
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 637, in cuda
+#     return self._apply(lambda t: t.cuda(device))
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 530, in _apply
+#     module._apply(fn)
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 552, in _apply
+#     param_applied = fn(param)
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 637, in <lambda>
+#     return self._apply(lambda t: t.cuda(device))
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/cuda/__init__.py", line 172, in _lazy_init
+#     torch._C._cuda_init()
+# RuntimeError: No HIP GPUs are available
+# Traceback (most recent call last):
+#   File "eval_cqd.py", line 60, in <module>
+#     main(parse_args())
+#   File "eval_cqd.py", line 48, in main
+#     model = get_model(train_config, params, cqd_params, *load_stats(train_config.data_path))
+#   File "/home/renzhong/LitCQD/util_models.py", line 174, in get_model
+#     model = model.cuda()
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 637, in cuda
+#     return self._apply(lambda t: t.cuda(device))
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 530, in _apply
+#     module._apply(fn)
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 552, in _apply
+#     param_applied = fn(param)
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 637, in <lambda>
+#     return self._apply(lambda t: t.cuda(device))
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/cuda/__init__.py", line 172, in _lazy_init
+#     torch._C._cuda_init()
+# RuntimeError: No HIP GPUs are available
+# Traceback (most recent call last):
+#   File "eval_cqd.py", line 60, in <module>
+#     main(parse_args())
+#   File "eval_cqd.py", line 48, in main
+#     model = get_model(train_config, params, cqd_params, *load_stats(train_config.data_path))
+#   File "/home/renzhong/LitCQD/util_models.py", line 174, in get_model
+#     model = model.cuda()
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 637, in cuda
+#     return self._apply(lambda t: t.cuda(device))
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 530, in _apply
+#     module._apply(fn)
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 552, in _apply
+#     param_applied = fn(param)
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 637, in <lambda>
+#     return self._apply(lambda t: t.cuda(device))
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/cuda/__init__.py", line 172, in _lazy_init
+#     torch._C._cuda_init()
+# RuntimeError: No HIP GPUs are available
+# Traceback (most recent call last):
+#   File "eval_cqd.py", line 60, in <module>
+#     main(parse_args())
+#   File "eval_cqd.py", line 48, in main
+#     model = get_model(train_config, params, cqd_params, *load_stats(train_config.data_path))
+#   File "/home/renzhong/LitCQD/util_models.py", line 174, in get_model
+#     model = model.cuda()
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 637, in cuda
+#     return self._apply(lambda t: t.cuda(device))
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 530, in _apply
+#     module._apply(fn)
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 552, in _apply
+#     param_applied = fn(param)
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 637, in <lambda>
+#     return self._apply(lambda t: t.cuda(device))
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/cuda/__init__.py", line 172, in _lazy_init
+#     torch._C._cuda_init()
+# RuntimeError: No HIP GPUs are available
+# Traceback (most recent call last):
+#   File "eval_description_embeddings_example.py", line 26, in <module>
+#     load_model(model, checkpoint_path, train_config.cuda)
+#   File "/home/renzhong/LitCQD/util_models.py", line 206, in load_model
+#     model.load_state_dict(model_state)
+#   File "/home/renzhong/.conda/envs/litcqd/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1406, in load_state_dict
+#     raise RuntimeError('Error(s) in loading state_dict for {}:\n\t{}'.format(
+# RuntimeError: Error(s) in loading state_dict for CQDComplExAD:
+#         size mismatch for description_net.weight: copying a param with shape torch.Size([300, 2000]) from checkpoint, the shape in current model is torch.Size([3, 2000]).
+#         size mismatch for description_net.bias: copying a param with shape torch.Size([300]) from checkpoint, the shape in current model is torch.Size([3]).

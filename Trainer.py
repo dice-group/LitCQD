@@ -9,7 +9,7 @@ from tqdm import tqdm
 from torch.autograd import Variable
 
 from Loss import Loss
-from models import CQDBaseModel
+from models import CQDBaseModel,CQDComplExAD
 from dataloader import TrainDataset
 
 
@@ -27,6 +27,7 @@ class Trainer(object):
                  rel_loss: Loss,
                  attr_loss: Loss,
                  alpha,
+                 beta,
                  dataloader_attr=None,
                  dataloader_desc=None,
                  neg_ent_attr=0,
@@ -55,10 +56,14 @@ class Trainer(object):
         self.rel_loss = rel_loss
         self.attr_loss = attr_loss
         self.alpha = alpha
+        self.beta = beta
         self.neg_ent_attr = neg_ent_attr
         self.reg_weight_ent = reg_weight_ent
         self.reg_weight_rel = reg_weight_rel
         self.reg_weight_attr = reg_weight_attr
+        
+        # assert self.alpha >=0 and self.alpha<=1
+        # assert self.beta >=0 and self.beta<=1
 
     def to_var(self, x, use_gpu):
         if use_gpu:
@@ -101,26 +106,57 @@ class Trainer(object):
             self.optimizer.step()
         return loss.item(), rel_loss.item(), attr_loss.item() if attr_loss != 0 else attr_loss
 
-    def train(self, eval_fn, write_loss_fn, eval_epochs=100):
-        training_range = tqdm(range(self.train_times))
+    def train(self, write_loss_fn, eval_fn=None, eval_epochs=100):
+        # get rid of eval_fn
+        training_range = tqdm(range(self.train_times)) # initialize progress bar
+        
+        
+        
         for epoch in training_range:
-            if epoch % eval_epochs == 0 and epoch > 0 or epoch == 1:
-                eval_fn(epoch)
+            
+            # if eval_fn and epoch % eval_epochs == 0 and epoch > 0 or epoch == 1:
+            #     eval_fn(epoch)
 
             loss_per_step = list()
             dataloader_attr = self.dataloader_attr if self.dataloader_attr else [None]*len(self.dataloader)
             dataloader_desc = self.dataloader_desc if self.dataloader_desc else [None]*len(self.dataloader)
+            
             for data, data_attr, data_desc in zip(self.dataloader, dataloader_attr, dataloader_desc):
-                loss_per_step.append(self.train_step_python(data, data_attr, data_desc))
+                loss_per_step.append(self.train_step_python(data, data_attr=data_attr, data_desc=data_desc))
 
             loss_mean = sum([_[0] for _ in loss_per_step]) / len(loss_per_step)
             rel_loss_mean = sum([_[1] for _ in loss_per_step]) / len(loss_per_step)
             attr_loss_mean = sum([_[2] for _ in loss_per_step]) / len(loss_per_step)
 
             training_range.set_description("Epoch %d | relational/attribute loss: %.3f/%.3f | lr: %f" % (epoch, rel_loss_mean, attr_loss_mean, self.optimizer.param_groups[0]['lr']))
-            write_loss_fn(loss_mean, rel_loss_mean, attr_loss_mean, epoch + 1)
+            
+            if write_loss_fn:
+                write_loss_fn(loss_mean, rel_loss_mean, attr_loss_mean, epoch + 1)
 
             # self.scheduler.step(loss_mean)
+
+
+    # def train(self, eval_fn, write_loss_fn, eval_epochs=100):
+    #     # get rid of eval_fn
+    #     training_range = tqdm(range(self.train_times))
+    #     for epoch in training_range:
+    #         if epoch % eval_epochs == 0 and epoch > 0 or epoch == 1:
+    #             eval_fn(epoch)
+
+    #         loss_per_step = list()
+    #         dataloader_attr = self.dataloader_attr if self.dataloader_attr else [None]*len(self.dataloader)
+    #         dataloader_desc = self.dataloader_desc if self.dataloader_desc else [None]*len(self.dataloader)
+    #         for data, data_attr, data_desc in zip(self.dataloader, dataloader_attr, dataloader_desc):
+    #             loss_per_step.append(self.train_step_python(data, data_attr, data_desc))
+
+    #         loss_mean = sum([_[0] for _ in loss_per_step]) / len(loss_per_step)
+    #         rel_loss_mean = sum([_[1] for _ in loss_per_step]) / len(loss_per_step)
+    #         attr_loss_mean = sum([_[2] for _ in loss_per_step]) / len(loss_per_step)
+
+    #         training_range.set_description("Epoch %d | relational/attribute loss: %.3f/%.3f | lr: %f" % (epoch, rel_loss_mean, attr_loss_mean, self.optimizer.param_groups[0]['lr']))
+    #         write_loss_fn(loss_mean, rel_loss_mean, attr_loss_mean, epoch + 1)
+
+    #         # self.scheduler.step(loss_mean)
 
     def train_ray_desc(self, eval_fn, eval_epochs=20):
         training_range = range(self.train_times)
@@ -130,7 +166,7 @@ class Trainer(object):
             dataloader_attr = self.dataloader_attr if self.dataloader_attr else [None]*len(self.dataloader)
             dataloader_desc = self.dataloader_desc if self.dataloader_desc else [None]*len(self.dataloader)
             for data, data_attr, data_desc in zip(self.dataloader, dataloader_attr, dataloader_desc):
-                loss_per_step.append(self.train_step_python(data, data_attr, data_desc))
+                loss_per_step.append(self.train_step_python(data, data_attr=data_attr, data_desc=data_desc))
 
             loss_mean = sum([_[0] for _ in loss_per_step]) / len(loss_per_step)
 
@@ -154,9 +190,9 @@ class Trainer(object):
 
             loss_per_step = list()
             for data, data_attr in zip(self.dataloader, self.dataloader_attr) if self.dataloader_attr else zip(self.dataloader, [None]*len(self.dataloader)):
-                loss_per_step.append(self.train_step_python(data, data_attr))
-
-            #loss_mean = sum([_[0] for _ in loss_per_step]) / len(loss_per_step)
+                loss_per_step.append(self.train_step_python(data, data_attr=data_attr))
+                
+            loss_mean = sum([_[0] for _ in loss_per_step]) / len(loss_per_step)
 
             # self.scheduler.step(loss_mean)
             if (epoch + 1) % eval_epochs == 0:
@@ -184,7 +220,11 @@ class Trainer(object):
 
                 tune.report(score=score, mrr=rel_metric, mae=attr_metric, mse=attr_metric2, loss=valid_loss_mean, rel_loss=valid_rel_loss_mean, attribute_loss=valid_attr_loss_mean)
 
+    # TODO: train_step()
     def train_step_python(self, data, data_attr=None, data_desc=None, do_eval=False):
+      
+        # print(f'data_attr:{data_attr}')
+        # data_desc, do_eval should not be used
         if do_eval:
             # Used to get a loss on validation set for ray tune
             self.model.eval()
@@ -217,7 +257,7 @@ class Trainer(object):
         if type(self.dataloader.dataset) is TrainDataset:
             # train using queries, which may be complex (queries other than 1p, 1ap)
             samples = torch.cat((positive_sample.unsqueeze(-1), negative_sample), dim=-1)
-            scores = self.model(batch_queries_dict, samples)
+            scores = self.model(batch_queries_dict, samples)  # forward()
             scores = torch.stack(scores, dim=0)
             rel_scores = torch.cat((scores[..., 0], scores[..., 1:].reshape((-1,))), dim=0)
             if data_attr:
@@ -227,9 +267,9 @@ class Trainer(object):
                     "batch_v": torch.flatten(data_attr[2]).to(device=device),
                     "attr_pos_samples": data_attr[0].shape[0],
                 }
-                attr_scores = self.model.score_attr(data)
+                attr_scores = self.model.score_attr(data) # get the scores of attributes
             else:
-                attr_scores = torch.FloatTensor().to(device=device)
+                attr_scores = torch.FloatTensor().to(device=device) # empty tensor
         else:
             # train using triples (CQD Dataloader)
             input_batch = batch_queries_dict[('e', ('r',))]
@@ -255,10 +295,18 @@ class Trainer(object):
                 # Loss function part of the model (e.g. ComplEx-N3)
 
                 def attr_loss_fn(scores): return self.attr_loss.compute(scores).nan_to_num() if self.attr_loss is not None else 0
-                loss = self.model.loss(data, attr_loss_fn, self.alpha)
+                # print(f'data:{data.keys()}')
+                if isinstance(self.model,CQDComplExAD):
+                  loss = self.model.loss(data, attr_loss_fn, self.alpha,self.beta)
+                else:
+                  loss = self.model.loss(data, attr_loss_fn, self.alpha)
+                  
+                # loss = self.model.loss(data, attr_loss_fn)
                 if not do_eval:
                     loss.backward()
                     self.optimizer.step()
                 return loss.item(), loss.item(), 0
+            
             rel_scores, attr_scores = self.model.score(data)
+        
         return self._finish_step(rel_scores, attr_scores, subsampling_weight, do_eval)

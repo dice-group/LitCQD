@@ -2,7 +2,7 @@ from enum import Enum
 from ray.tune.progress_reporter import CLIReporter
 
 from Loss import MAELoss, MSELoss, CELoss, MRLoss, Q2BLoss
-from config import parse_args, CQDParams, HyperParams, TrainConfig
+from config import CQDParams, HyperParams, TrainConfig, parse_args
 import json
 
 import logging
@@ -20,7 +20,6 @@ from util_models import get_model, load_model
 from util import log_metrics, parse_time, set_global_seed, query_name_dict, set_logger
 from util_data import *
 from util_data_queries import *
-
 
 import dataclasses
 import ray
@@ -55,10 +54,8 @@ def create_latex_table(results, model_name):
 
     values_by_metric = defaultdict(list)
     for metrics_dict in results.values():
-      
         for metric, value in metrics_dict.items():
-          
-          values_by_metric[metric.replace("_", "\_")].append(
+            values_by_metric[metric.replace("_", "\_")].append(
                 f"{value:.3}" if type(value) == float else value
             )
     # values = [f'{x["HITS3"]:.3}' for x in results.values()]
@@ -98,14 +95,6 @@ def evaluate(
     metrics = tester.test_step(tp_answers, fn_answers, train_config, query_name_dict)
     num_query_structures = 0
     num_query_structures_attr = 0
-    table = None
-    
-    
-    if train_config.geo.name =='q2b' and train_config.to_latex:
-      import util
-      table = util.create_latex_table(train_config)
-
-    
     for query_structure in metrics:
         if "ME" in metrics[query_structure]:
             # ignore attr pred metrics for average calculation
@@ -130,21 +119,11 @@ def evaluate(
                     average_metrics_attr[metric] += metrics[query_structure][metric]
                 elif metric not in ("cos_sim",):
                     average_metrics[metric] += metrics[query_structure][metric]
-        
-        if train_config.to_latex and train_config.geo.name =='q2b':
-          from util import create_table_col
-          table = create_table_col(query_name_dict[query_structure],metrics[query_structure],table)
-                    
-           
         if query_name_dict[query_structure].endswith("ap"):
             num_query_structures_attr += 1
         elif query_name_dict[query_structure] != "1dp":
             num_query_structures += 1
 
-    if table and train_config.geo.name=='q2b':
-      from util import store_latex
-      store_latex(table, train_config)
-    
     for metric in average_metrics:
         average_metrics[metric] /= num_query_structures
         if writer:
@@ -164,8 +143,6 @@ def evaluate(
 
     if False and mode.lower() == "test":
         create_latex_table(metrics, train_config.geo.name)
-   
-    
     return all_metrics
 
 
@@ -189,10 +166,8 @@ def test_model(
     dataloader = get_eval_dataloader(
         dataset, train_config.test_batch_size, train_config.cpu_num
     )
-    
     tester = Tester(model, dataloader, train_config.cuda)
-    
-    metrics = evaluate(
+    return evaluate(
         tester,
         easy_answers,
         hard_answers,
@@ -201,25 +176,6 @@ def test_model(
         mode,
         train_config.train_times,
     )
-    
-    
-    
-    # from util import create_latex_table
-    
-    # create_latex_table(train_config,tasks,model,None,metrics=metrics)
-    
-    
-    return metrics
-    
-    # return evaluate(
-    #     tester,
-    #     easy_answers,
-    #     hard_answers,
-    #     train_config,
-    #     query_name_dict,
-    #     mode,
-    #     train_config.train_times,
-    # )
 
 
 def train(train_config: TrainConfig, cqd_params: CQDParams):
@@ -240,9 +196,8 @@ def train(train_config: TrainConfig, cqd_params: CQDParams):
         eval_train_answers,
         checkpoint_dir=None,
     ):
-
         set_global_seed(train_config.seed)
-        params = HyperParams(**config) # config parameters are passed here
+        params = HyperParams(**config)
         dataloader_type = "python"
 
         if not train_config.use_attributes:
@@ -268,9 +223,6 @@ def train(train_config: TrainConfig, cqd_params: CQDParams):
         train_dataset = get_dataset_train(
             *train_data_rel, train_config, nentity, nrelation, params
         )
-        
-        
-        
         train_dataset_attr = get_dataset_train_attr(*train_data_attr, nentity, params)
         train_dataset_desc = get_dataset_train_desc(
             *train_data_desc, train_config.geo.name == "cqd-complexd-jointly"
@@ -292,10 +244,8 @@ def train(train_config: TrainConfig, cqd_params: CQDParams):
 
         attr_loss = None
         attr_loss_param = params.attr_loss
-        # if type(attr_loss_param) != str:
-        #     # bug
-        #     attr_loss_param = attr_loss_param.name
-        
+        if type(attr_loss_param) != str:
+            attr_loss_param = attr_loss_param.name
         if train_config.use_attributes and dataloader_type == "python":
             if attr_loss_param == "mae":
                 attr_loss = MAELoss(params.negative_attr_sample_size)
@@ -308,7 +258,6 @@ def train(train_config: TrainConfig, cqd_params: CQDParams):
 
         learning_rate = params.learning_rate
         learning_rate_attr = params.learning_rate_attr
-        
         trainer = Trainer(
             model,
             train_dataloader,
@@ -322,7 +271,6 @@ def train(train_config: TrainConfig, cqd_params: CQDParams):
             rel_loss,
             attr_loss,
             params.alpha,
-            params.beta,
             train_dataloader_attr,
             train_dataloader_desc,
             params.negative_attr_sample_size,
@@ -444,7 +392,6 @@ def train(train_config: TrainConfig, cqd_params: CQDParams):
                 )
         else:
             trainer.train(eval_fn, tensorboard_write_loss, train_config.valid_epochs)
-            
             torch.save(
                 (model.state_dict(), trainer.optimizer.state_dict()),
                 os.path.join(train_config.save_path, "checkpoint"),
@@ -457,9 +404,9 @@ def run_tune(
     train_config: TrainConfig,
     cqd_params: CQDParams,
     params: HyperParams,
-    # nentity,
-    # nrelation,
-    # nattribute,
+    nentity,
+    nrelation,
+    nattribute,
     **data,
 ):
     ray.init(num_gpus=1)
@@ -477,14 +424,12 @@ def run_tune(
         reporter.add_metric_column("di_mrr")
         reporter.add_metric_column("loss")
         reporter.add_metric_column("valid_loss")
-        
-
         result = tune.run(
             tune.with_parameters(
                 train(train_config, cqd_params),
-                # nentity=nentity,
-                # nrelation=nrelation,
-                # nattribute=nattribute,
+                nentity=nentity,
+                nrelation=nrelation,
+                nattribute=nattribute,
                 **data,
             ),
             config=dataclasses.asdict(
@@ -492,7 +437,6 @@ def run_tune(
             ),  # convert parameters to dict (argument config in the train!!!)
             metric="mrr",
             mode="max",
-            num_samples = 10,
             # num_samples=20,
             # training has to be done on the same device for reproducibility; randomness not guaranteed on different devices; also not guaranteed at 100% utilization
             resources_per_trial={"gpu": 0.25, "cpu": 1},
@@ -533,7 +477,7 @@ def run_tune(
 
         best_params = HyperParams(**best_trial.config)
         best_trained_model = get_model(
-            train_config, best_params, cqd_params, data['nentity'], data['nrelation'], data['nattribute']
+            train_config, best_params, cqd_params, nentity, nrelation, nattribute
         )
         best_checkpoint_dir = best_trial.checkpoint.value
         model_state, _ = torch.load(os.path.join(best_checkpoint_dir, "checkpoint"))
@@ -552,18 +496,16 @@ def run_tune(
             return dict((k, convert_value(v)) for k, v in data)
 
         # current_best_params = [dataclasses.asdict(params)]  # , dict_factory=custom_asdict_factory)]
-        # params.batch_size = tune.choice([100, 500, 1000])
+        # params.batch_size = tune.choice([200, 1000])
         # params.learning_rate = tune.loguniform(1e-3, 1)
         # params.learning_rate_attr = tune.loguniform(1e-3, 1)
-        # params.rank_attr = tune.grid_search([20, 50])
-        # params.learning_rate = tune.grid_search([0.1, 0.01,0.001])
-        # params.rank = tune.grid_search([128, 256, 512, 1024])
-        params.rank = tune.grid_search([200, 500, 1000])
-        params.alpha = tune.grid_search([0.2, 0.3, 0.4, 0.5, 0.6, 0.7])
-        # params.p_norm = tune.grid_search([1, 2])
-        # params.attr_loss = tune.grid_search(["mae", "mse"])
-        # params.do_sigmoid = tune.grid_search([True, False])
-        
+        params.rank_attr = tune.grid_search([20, 50])
+        params.learning_rate = tune.grid_search([0.1, 0.01])
+        params.rank = tune.grid_search([128, 256, 512, 1024])
+        params.alpha = tune.grid_search([0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9])
+        params.p_norm = tune.grid_search([1, 2])
+        params.attr_loss = tune.grid_search(["mae", "mse"])
+        params.do_sigmoid = tune.grid_search([True, False])
         search_alg = BasicVariantGenerator()
         # search_alg = BasicVariantGenerator(max_concurrent=2)
         # search_alg = HyperOptSearch(points_to_evaluate=current_best_params)
@@ -577,28 +519,18 @@ def run_tune(
         reporter.add_metric_column("loss")
         reporter.add_metric_column("rel_loss")
         reporter.add_metric_column("attribute_loss")
-        
-        # test
-        # _train = train(train_config, cqd_params)
-        # _train(config=dataclasses.asdict(
-        #         params
-        #     ),nentity=nentity,nrelation=nrelation,
-        #         nattribute=nattribute,**data)
-        
-        # exit(1)
-        
         result = tune.run(
             tune.with_parameters(
                 train(train_config, cqd_params),
-                # nentity=nentity,
-                # nrelation=nrelation,
-                # nattribute=nattribute,
+                nentity=nentity,
+                nrelation=nrelation,
+                nattribute=nattribute,
                 **data,
             ),
             config=dataclasses.asdict(params),
             metric="score",
             mode="max",
-            num_samples=10,
+            # num_samples=20,
             # training has to be done on the same device for reproducibility; randomness not guaranteed on different devices; also not guaranteed at 100% utilization
             resources_per_trial={"gpu": 0.25, "cpu": 1},
             search_alg=search_alg,
@@ -606,7 +538,6 @@ def run_tune(
             progress_reporter=reporter,
             fail_fast=False,
             max_failures=2,
-            
             # name='train_ray_2022-01-17_09-56-26',
             # resume=True,
             # scheduler=scheduler
@@ -647,7 +578,7 @@ def run_tune(
 
         best_params = HyperParams(**best_trial.config)
         best_trained_model = get_model(
-            train_config, best_params, cqd_params, data['nentity'], data['nrelation'], data['nattribute']
+            train_config, best_params, cqd_params, nentity, nrelation, nattribute
         )
         best_checkpoint_dir = best_trial.checkpoint.value
         model_state, _ = torch.load(os.path.join(best_checkpoint_dir, "checkpoint"))
@@ -690,7 +621,7 @@ def run_tune(
 
         best_params = HyperParams(**best_trial.config)
         best_trained_model = get_model(
-            train_config, best_params, cqd_params, data['nentity'], data['nrelation'], data['nattribute']
+            train_config, best_params, cqd_params, nentity, nrelation, nattribute
         )
         best_checkpoint_dir = best_trial.checkpoint.value
         model_state, _ = torch.load(os.path.join(best_checkpoint_dir, "checkpoint"))
@@ -789,7 +720,6 @@ def new_train(
 
     # initialize model
     model = get_model(train_config, params, cqd_params, nentity, nrelation, nattribute)
-    
 
     learning_rate = params.learning_rate
     learning_rate_attr = params.learning_rate_attr
@@ -808,7 +738,6 @@ def new_train(
         rel_loss,
         attr_loss,
         params.alpha,
-        params.beta,
         train_dataloader_attr,
         train_dataloader_desc,
         params.negative_attr_sample_size,
@@ -859,13 +788,6 @@ def new_train(
         os.path.join(train_config.save_path, "checkpoint"),
     )
 
-    
-    
-# def train_ray_test():
-#     test = train()
-    
-    
-    
     
 
 
@@ -967,12 +889,9 @@ def main(args):
             train_config,
             cqd_params,
             params,
-            # nentity,
-            # nrelation,
-            # nattribute,
-            nentity=nentity,
-            nrelation=nrelation,
-            nattribute=nattribute,
+            nentity,
+            nrelation,
+            nattribute,
             train_data_rel=train_data_rel,
             train_data_attr=train_data_attr,
             train_data_desc=train_data_desc,
@@ -985,7 +904,7 @@ def main(args):
             eval_train_answers=eval_train_answers,
         )
     else:
-        # print(train_config.do_train)
+        print(train_config.do_train)
         if train_config.do_train:
             
             logging.info("Training starts...")
