@@ -127,7 +127,7 @@ class TrainConfig:
     data_path: str = "data/scripts/generated/FB15K-237_dummy_kblrn"
     # Output path for checkpoint and logs
     # save_path: Optional[str] = './ablation_models/no_exists_scores/'
-    save_path: Optional[str] = 'checkpoints_FB15K-237/ray'
+    save_path: Optional[str] = 'checkpoints_FB15K-237/submitted_paper'
     # path for loading checkpoints
     checkpoint_path: Optional[str] = None
     checkpoint_path: Optional[str] = 'checkpoints_FB15K-237/checkpoint_orig_attr_kblrn'
@@ -175,7 +175,7 @@ class TrainConfig:
     # valid/test batch size
     test_batch_size: int = 100   #100
     # tune hyperparameters using ray tune
-    do_tune: bool = True
+    do_tune: bool = False
     do_train: bool = False
     do_test: bool = False
     # evaluate on train queries aswell

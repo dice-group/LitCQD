@@ -80,14 +80,10 @@ data/scripts/generated
 data/scripts/data
 
 # checkpoints
-checkpoints_FB15K-237/
-my_script/check_point/
-my_script/checkpoints_litwd1k/checkpoints_litwd1k/
+checkpoints_FB15K-237/*
 
 # tests
 tests/
-my_script/logs/
-my_script/.ipynb_checkpoints/
 Experiments/
 
 
@@ -99,6 +95,8 @@ logs-debug/
 # zip files
 *.zip
 
+# scripts
+my_script/*
+!my_script/final_script.sh
 
-my_script/check_point/
-my_script/ablation_models/
+nohup.out

@@ -187,7 +187,7 @@ class CQDBaseModel(nn.Module):
             # Replace zeros in stdev with ones to allow normal distributions
             
             stdev = stdev.where(stdev != 0, torch.ones_like(stdev))
-            factor = 0.5
+            factor = 1
 
             if restriction.item() == symbol_placeholder_dict["="]:
                 # TODO: adapt the new equation of the submitted paper
@@ -281,18 +281,18 @@ class CQDBaseModel(nn.Module):
                     #         filter_score * attr_exists_scores[i] ** 2
                     #     )
 
-                    # #     # use mean:
-                    # #     #scores[idx] = (filter_score + attr_exists_scores[i]**2)/2
+                    # # #     # use mean:
+                    # # #     #scores[idx] = (filter_score + attr_exists_scores[i]**2)/2
                     # else:
-                    #     #     # weight restriction scores more if = expression
+                    # #     #     # weight restriction scores more if = expression
                     #     scores[idx] = torch.sqrt(
                     #         filter_score**2 * attr_exists_scores[i]
                     #     )
-                    #     # use mean:
-                    #     #scores[idx] = (filter_score**2 + attr_exists_scores[i])/2
+                    # #     # use mean:
+                    # #     #scores[idx] = (filter_score**2 + attr_exists_scores[i])/2
                     
-                    # scores[idx] = torch.sqrt(filter_score * attr_exists_scores[i]) # NEW EXPERIEMNT: square root of product
-                    scores[idx] = torch.pow(filter_score * (attr_exists_scores[i]**4),1/5)
+                    scores[idx] = filter_score * attr_exists_scores[i]
+                    # scores[idx] = torch.pow(filter_score * (attr_exists_scores[i]**4),1/5)
             return scores
 
         return _score_attribute_restriction

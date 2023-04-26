@@ -1,4 +1,4 @@
-# Train the CDD model without attributes
+# Train the CQD model without attributes
 python3 main.py --cuda --do_train --do_test --data_path data/FB15k-237-q2b -n 0 --rank 1000 -lr 0.1 --geo cqd-complexa --batch_size 1024 --test_batch_size 100 --train_times 100 --valid_epochs 10 --print_on_screen
 
 # Train the CQD-based approach using attributes from the different datasets
