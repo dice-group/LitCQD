@@ -200,4 +200,18 @@ def store_latex(table,train_config):
     with open(store_path, "w") as f:
         f.write(df.to_latex(index=False))
 
-    print("fired")
+    
+
+
+def parse_idetifier(identifier:str):
+  res = ''
+  with open('./entity2text.txt', 'r') as f:
+    # Read the file line by line
+    for line in f:
+        mapping = line.split(maxsplit=1)
+        if identifier in mapping[0]:
+          res = mapping[1]
+          return res
+    
+    if res == '':
+      raise ValueError('cannot parse the given identifier.')

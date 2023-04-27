@@ -1,7 +1,7 @@
 import torch
 from config import CQDParams, HyperParams, TrainConfig
 from util_data import denormalize, load_data, load_descriptions_from_file, load_mappings_from_file, normalize
-from util import name_query_dict, set_logger
+from util import name_query_dict, set_logger, parse_idetifier
 from util_models import get_model, load_model
 
 set_logger('', None, True, True)
@@ -50,7 +50,7 @@ for ent in torch.argsort(preds[0], descending=True):
 
     predicted_birth_date = model.predict_attribute_values(model.ent_embeddings(torch.tensor([ent])), torch.tensor([83])).item()
     predicted_birth_date = denormalize(83, predicted_birth_date, data_path)
-    print(f"{preds[0][ent].item():.2f}\t{entity2id.inverse[ent]}\t{ent}\t{relation_trained}\t\t{predicted_birth_date:.2f}\t\t{attribute_value}\t\t{desc}")
+    print(f"{preds[0][ent].item():.2f}\t{parse_idetifier(entity2id.inverse[ent])}\t{ent}\t{relation_trained}\t\t{predicted_birth_date:.2f}\t\t{attribute_value}\t\t{desc}")
 
     count += 1
     if count > 20:
@@ -78,3 +78,6 @@ for ent, i in entity2id.items():
             elif valid_answers[(i, (-3, attr))]:
                 attr_dataset = 'Valid'
             print(f"{ent}\t{i}\t{denormalize(attr, next(iter(attribute_value)), data_path):.2f}\tRelation in {rel_dataset} dataset\tAttribute in {attr_dataset} dataset\t{desc}")
+
+
+
