@@ -121,7 +121,7 @@ The csv files are a copy-paste from the console output of ray tune after finishi
 
 The implementation is based on the publicly available implementation of Query2Box ([Link](https://github.com/snap-stanford/KGReasoning)) .
 
-## Query answering results(Data is not up to date)
+## Query answering results
 Query answering results with different attribute embedding models for multihop entity queries without literals. Results were computed for test queries over the FB15k-237 dataset and evaluated in terms of mean reciprocal rank (MRR) and Hits@k for k ∈ {1, 3, 10}.
 | Method   | Average | 1p      | 2p      | 3p      | 2i      | 3i      | ip      | pi      | 2u      | up      |
 | :-------- | :--------: | :--------: | :-------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: |
@@ -150,14 +150,15 @@ Query answering results for multihop entity queries with literals. Our best-perf
 | LitCQD                      | 0.405 | 0.232 | 0.329 | 0.216 | 0.174 | 0.320 | 0.212 |
 | -No Value Prediction        | 0.280 | 0.005 | 0.237 | 0.148 | 0.124 | 0.421 | 0.054 |
 | -No Attribute Exists Check  | 0.203 | 0.137 | 0.128 | 0.099 | 0.156 | 0.412 | 0.002 |
-| -Neither of them             | 0.002 | 0.0000 | 0.0000 | 0.0000 | 0.086 | 0.412 | 0.002 |
+| -Neither of them             | 0.002 | 0.000 | 0.000 | 0.000 | 0.086 | 0.412 | 0.002 |
 |-without attribute-specific standard deviation | 0.391 | 0.359 | 0.330 | 0.329 | 0.195 | 0.447 | 0.248 |
 
 
-Query answering results for multihop literal queries for test queries over the FB15k-237 dataset evaluated in terms of mean absolute error (MAE) and mean squared error (MSE).
+Query answering results for multihop literal queries for test queries over the FB15k-237 dataset evaluated in terms of mean absolute error (MAE) and mean squared error (MSE). Query2Box uses the attributes of KBLRN dataset.
 | methods        | 1ap MAE | 1ap MSE | 2ap MAE | 2ap MSE | 3ap MAE | 3ap MSE |
 |:---------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 | LitCQD         | 0.050  | 0.011  | 0.034  | 0.005  | 0.041  | 0.007  |
+| Query2Box + Attribute | 0.065  | 0.015   | 0.048  | 0.007  | 0.056  | 0.014  |
 | Mean Predictor | 0.341  | 0.143   | 0.346  | 0.141  | 0.362  | 0.152  |
 
 
