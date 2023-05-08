@@ -10,6 +10,7 @@ import re
 
 
 set_logger('', None, True, True)
+print('loading data....')
 data_path = "./data/scripts/generated/FB15K-237_dummy_kblrn"
 checkpoint_path = './checkpoints_FB15K-237/checkpoint_orig_attr_kblrn_desc'
 entity2id = load_mappings_from_file(data_path, "entity")
@@ -46,20 +47,22 @@ def example_query():
 }
 
 
-  input_filter = input('Musicians from the USA are born [>: after, <: before, in: =]')
-  while input_filter not in symbol_placeholder_dict:
-    input_filter = input('Musicians from the USA are born [>: after, <: before, in: =]')
-  # if input_filter not in symbol_placeholder_dict:
-  #   raise ValueError('The input operator does not exist.')
+  # input_filter = input('Musicians from the USA are born [>: after, <: before, in: =]')
+  # while input_filter not in symbol_placeholder_dict:
+  #   input_filter = input('Musicians from the USA are born [>: after, <: before, in: =]')
+  # # if input_filter not in symbol_placeholder_dict:
+  # #   raise ValueError('The input operator does not exist.')
 
-  year_regex = re.compile(r"\b\d{4}\b")
-  input_year = input('[year]')
-  match = year_regex.search(input_year)
+  # year_regex = re.compile(r"\b\d{4}\b")
+  # input_year = input('[year]')
+  # match = year_regex.search(input_year)
 
-  while match==None:
-    input_year = input('[year]')
-    match = year_regex.search(input_year)
-    
+  # while match==None:
+  #   input_year = input('[year]')
+  #   match = year_regex.search(input_year)
+  
+  input_filter = '<'
+  input_year = 1978
   
   anchor = entity2id['/m/09c7w0']  # USA
   age_threshold = normalize(83, int(input_year), data_path)

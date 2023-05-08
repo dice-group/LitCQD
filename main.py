@@ -190,6 +190,18 @@ def test_model(
         dataset, train_config.test_batch_size, train_config.cpu_num
     )
     
+    
+    
+    if not tasks[0] in "1ap" and not tasks[0] in "2ap" and not tasks[0] in "3ap":
+      attr_values = defaultdict(list)
+      train_queries = dataset.queries
+      for query in train_queries:
+        attr_values[query[0][0][1]].append(query[0][1][0])
+        
+      model.attr_values = attr_values
+    
+    
+    
     tester = Tester(model, dataloader, train_config.cuda)
     
     metrics = evaluate(
@@ -789,6 +801,16 @@ def new_train(
 
     # initialize model
     model = get_model(train_config, params, cqd_params, nentity, nrelation, nattribute)
+    
+    
+    train_queries = data['train_data_attr'][1]
+    attr_values = defaultdict(list)
+    for key,value in train_queries.items():
+      attr_values[key[1][1]].append(next(iter(value)))
+    
+    model.attr_values = attr_values
+      
+    
     
 
     learning_rate = params.learning_rate

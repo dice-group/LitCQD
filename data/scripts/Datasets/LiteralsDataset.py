@@ -150,6 +150,25 @@ class LiteralsDataset(object):
             attr_values[triple[1]].append(triple[2])
         return attr_values
 
+    
+    # def _get_overall_std(self):
+      
+    #   import numpy as np
+      
+      
+    #   attr_values = self._get_values_per_attribute()
+    #   all_values = []
+    #   for v in attr_values.values():
+    #     all_values.extend(v)
+      
+      
+      
+    #   stdv = np.std(all_values)
+      
+    #   return stdv
+      
+    
+    
     def get_min_max_values_per_attribute(self):
         try:
             return self.min_max_values
@@ -177,7 +196,8 @@ class LiteralsDataset(object):
     def normalize_value_std(self):
         from sklearn.preprocessing import StandardScaler
         import numpy as np
-
+        
+        
         attr_values = self._get_values_per_attribute()
         mean_and_stdv = dict()
         for i, value in attr_values.items():
@@ -203,6 +223,7 @@ class LiteralsDataset(object):
         # print(self.triples)
 
     def normalize_values(self, use_std = False):
+        
         if use_std:
           self.normalize_value_std()
           return

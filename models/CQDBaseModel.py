@@ -73,6 +73,9 @@ class CQDBaseModel(nn.Module):
         Based on a relation for each attribute and a dummy entity /attribute/exists:
         (/attribute/exists, r_a, e) for each (e, r_a) if e,r_a \in triples
         """
+        
+        # using lhs entity and the realtion of the corresponding attribute to do link prediction 
+        # o_score_all: compute all the scores of object with the given s, r
         attr_exists_ent = self.ent_embeddings(
             torch.tensor([self.nentity - 1]).to(device=attribute.device)
         )
@@ -164,13 +167,23 @@ class CQDBaseModel(nn.Module):
                 return x.topk(k=10).indices
             return res
 
+        # stdv of all the values of attributes of each query
+        import numpy as np
+        
+        all_values = []
+        for v in self.attr_values.values():
+          all_values.extend(v)
+        
+        stdv = np.std(all_values)
+        stdevs = [torch.as_tensor([stdv], device=attributes.device).expand(1, self.nentity) for i, attr in enumerate(unique_attr)]
+
         # precompute standard deviations
 
         # Use all entities to compute stdev
-        stdevs = [
-            get_stdevs((attributes == attr).nonzero().squeeze(1), range(self.nentity))
-            for i, attr in enumerate(unique_attr)
-        ]
+        # stdevs = [
+        #     get_stdevs((attributes == attr).nonzero().squeeze(1), range(self.nentity))
+        #     for i, attr in enumerate(unique_attr)
+        # ]
         # Use top k entities with highest attr_exists_score to compute stdev
         # stdevs = [get_stdevs((attributes == attr).nonzero().squeeze(1), get_attr_exists_scores[i](None).topk(k=20).indices) for i, attr in enumerate(unique_attr)]
         # Use attributes with max_value - stdev of attr_exists_scores to compute stdev

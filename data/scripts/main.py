@@ -71,6 +71,8 @@ class Config(object):
                   # self._literalsDataset._z_score()
                   self._literalsDataset.normalize_values()
 
+            
+            
             valid_size = int(self.__literals["valid_size"])
             if valid_size > 0:
                 self._literalsDataset.split_eval_data('valid', valid_size)
@@ -165,7 +167,7 @@ class Config(object):
         return self._queryGenerator
 
 
-configMap = yaml.safe_load(open('/upb/users/r/renzhong/profiles/unix/cs/LitCQD/data/scripts/config_fb15k-237.yaml', 'r'))
+configMap = yaml.safe_load(open('./config_fb15k-237.yaml', 'r'))
 config = Config(**configMap)
 print(config.inputDataset)
 print(config.literalsDataset)
