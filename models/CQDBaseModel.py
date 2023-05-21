@@ -443,7 +443,7 @@ class CQDBaseModel(nn.Module):
             i += 1
 
         return h_emb
-
+  
     def forward(self, batch_queries_dict: Dict[Tuple, Tensor]):
         all_scores = []
 
