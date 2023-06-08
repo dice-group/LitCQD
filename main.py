@@ -802,13 +802,13 @@ def new_train(
     # initialize model
     model = get_model(train_config, params, cqd_params, nentity, nrelation, nattribute)
     
-    
-    train_queries = data['train_data_attr'][1]
-    attr_values = defaultdict(list)
-    for key,value in train_queries.items():
-      attr_values[key[1][1]].append(next(iter(value)))
-    
-    model.attr_values = attr_values
+    if train_config.use_attributes:
+      train_queries = data['train_data_attr'][1]
+      attr_values = defaultdict(list)
+      for key,value in train_queries.items():
+        attr_values[key[1][1]].append(next(iter(value)))
+      
+      model.attr_values = attr_values
       
     
     
