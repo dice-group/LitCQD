@@ -192,12 +192,12 @@ def test_model(
     
     
     
-    if not tasks[0] in "1ap" and not tasks[0] in "2ap" and not tasks[0] in "3ap":
+    if train_config.use_attributes:
       attr_values = defaultdict(list)
       train_queries = dataset.queries
       for query in train_queries:
-        attr_values[query[0][0][1]].append(query[0][1][0])
-        
+        # attr_values[query[0][0][1]].append(query[0][1][0])
+        attr_values[query[0][0]].append(query[0][1])
       model.attr_values = attr_values
     
     

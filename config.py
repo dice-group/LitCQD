@@ -129,7 +129,7 @@ class TrainConfig:
    
     # Output path for checkpoint and logs
     # save_path: Optional[str] = './ablation_models/no_exists_scores/'
-    save_path: Optional[str] = 'checkpoints_FB15K-237/overall_std'
+    save_path: Optional[str] = 'checkpoints_FB15K-237/fbk15_half'
     # path for loading checkpoints
     # checkpoint_path: Optional[str] = None
     checkpoint_path: Optional[str] = 'checkpoints_FB15K-237/checkpoint_orig_attr_kblrn'
@@ -160,7 +160,7 @@ class TrainConfig:
     # loss function of the relational part
     loss: Enum("loss", ["margin", "ce", "q2b"]) = "ce"
     # How many epochs the model is trained for
-    train_times: int = 2
+    train_times: int = 100
     # Evaluate validation queries every xx epochs
     valid_epochs: int = 1 #10
     # How many workers pytorch uses to load data

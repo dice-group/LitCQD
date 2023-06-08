@@ -168,28 +168,35 @@ class CQDBaseModel(nn.Module):
             return res
 
         # stdv of all the values of attributes of each query
+        # import numpy as np
+        
+        # all_values = []
+        # for v in self.attr_values.values():
+        #   all_values.extend(v)
+        
+        # stdv = np.std(all_values)
+        # stdevs = [torch.as_tensor([stdv], device=attributes.device).expand(1, self.nentity) for i, attr in enumerate(unique_attr)]
         import numpy as np
+        stdv = 0.25
+        if hasattr(self,'attr_values'):
+          all_values = []
+          for v in self.attr_values.values():
+            all_values.extend(v)
         
-        all_values = []
-        for v in self.attr_values.values():
-          all_values.extend(v)
-        
-        stdv = np.std(all_values)
-        stdevs = [torch.as_tensor([stdv], device=attributes.device).expand(1, self.nentity) for i, attr in enumerate(unique_attr)]
-
+          stdv = np.std(all_values)
         # precompute standard deviations
 
         # Use all entities to compute stdev
-        # stdevs = [
-        #     get_stdevs((attributes == attr).nonzero().squeeze(1), range(self.nentity))
-        #     for i, attr in enumerate(unique_attr)
-        # ]
+        stdevs = [
+            get_stdevs((attributes == attr).nonzero().squeeze(1), range(self.nentity))
+            for i, attr in enumerate(unique_attr)
+        ]
         # Use top k entities with highest attr_exists_score to compute stdev
         # stdevs = [get_stdevs((attributes == attr).nonzero().squeeze(1), get_attr_exists_scores[i](None).topk(k=20).indices) for i, attr in enumerate(unique_attr)]
         # Use attributes with max_value - stdev of attr_exists_scores to compute stdev
         # stdevs = [get_stdevs((attributes == attr).nonzero().squeeze(1), attr_exists_ids_within_stdev(get_attr_exists_scores[i](None))) for i, attr in enumerate(unique_attr)]
         # Use a fixed stdev
-        # stdevs = [torch.as_tensor([0.25], device=attributes.device).expand(1, self.nentity) for i, attr in enumerate(unique_attr)]
+        # stdevs = [torch.as_tensor([stdv], device=attributes.device).expand(1, self.nentity) for i, attr in enumerate(unique_attr)]
 
         def score_restriction(restriction, stdev, value, preds):
             """
