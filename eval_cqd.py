@@ -40,7 +40,7 @@ def eval(model, train_config, cqd_params, query_type, test_batch_size):
 
     train_config.test_batch_size = max(1, int(test_batch_size // (2**(num_bound_vars[t]*(math.log(model.k, 2)-2)))))
     
-    
+
     
     metrics = test_model(model, train_config, 'Test', tasks=(query_type,))
     return metrics
@@ -69,6 +69,10 @@ def main(args):
     
     table = create_latex_table(train_config)
     
+    from data.scripts.stdv_from_fb15k import calculate_all_value_std
+    path = "/home/renzhong/LitCQD/data/scripts/data/numeric/KBLRN/FB15K_NumericalTriples.txt"
+    stdv = calculate_all_value_std(path)
+    model.stdv = stdv
 
     for query_type in tasks:
       

@@ -1,6 +1,6 @@
 import os
 import csv
-from Datasets.Dataset import Dataset
+from .Dataset import Dataset
 from bidict import bidict
 import pickle
 

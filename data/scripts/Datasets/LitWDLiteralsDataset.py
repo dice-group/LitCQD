@@ -5,7 +5,7 @@ import csv
 import re
 from datetime import datetime
 
-from Datasets.LiteralsDataset import LiteralsDataset
+from .LiteralsDataset import LiteralsDataset
 
 
 class LitWDLiteralsDataset(LiteralsDataset):

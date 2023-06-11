@@ -3,7 +3,7 @@ import itertools
 import os
 import csv
 
-from Datasets.LiteralsDataset import LiteralsDataset
+from .LiteralsDataset import LiteralsDataset
 
 
 class LiteralELiteralsDataset(LiteralsDataset):

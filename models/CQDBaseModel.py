@@ -176,14 +176,20 @@ class CQDBaseModel(nn.Module):
         
         # stdv = np.std(all_values)
         # stdevs = [torch.as_tensor([stdv], device=attributes.device).expand(1, self.nentity) for i, attr in enumerate(unique_attr)]
-        import numpy as np
-        stdv = 0.25
-        if hasattr(self,'attr_values'):
-          all_values = []
-          for v in self.attr_values.values():
-            all_values.extend(v)
+  
+        # stdv = 0.25
+        # if hasattr(self,'attr_values'):
+        #   all_values = []
+        #   for v in self.attr_values.values():
+        #     all_values.extend(v)
         
-          stdv = np.std(all_values)
+        #   stdv = np.std(all_values)
+        
+        
+        # calculate the stdv from the values of all the attributes 
+        # stdv = self.stdv
+        
+        
         # precompute standard deviations
 
         # Use all entities to compute stdev

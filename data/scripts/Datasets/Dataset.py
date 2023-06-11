@@ -1,8 +1,11 @@
 import itertools
 from bidict import bidict
 
-from Datasets.DatasetProperty import DatasetProperty
-from Datasets.LiteralsDataset import LiteralsDataset
+from .DatasetProperty import DatasetProperty
+from .LiteralsDataset import LiteralsDataset
+
+# from Datasets.DatasetProperty import DatasetProperty
+# from Datasets.LiteralsDataset import LiteralsDataset
 
 
 class Dataset(object):

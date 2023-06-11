@@ -1,7 +1,7 @@
 import time
 import gensim.downloader
 import gensim
-from Datasets.DatasetProperty import DatasetProperty
+from .DatasetProperty import DatasetProperty
 from collections import defaultdict
 import csv
 import os

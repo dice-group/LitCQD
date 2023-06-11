@@ -126,10 +126,11 @@ class TrainConfig:
     # Path to queries
     data_path: str = "data/scripts/generated/FB15K-237_dummy_kblrn"
     # data_path: str = "data/FB15k-237-q2b"
+    
    
     # Output path for checkpoint and logs
     # save_path: Optional[str] = './ablation_models/no_exists_scores/'
-    save_path: Optional[str] = 'checkpoints_FB15K-237/fbk15_half'
+    save_path: Optional[str] = 'checkpoints_FB15K-237/demo'
     # path for loading checkpoints
     # checkpoint_path: Optional[str] = None
     checkpoint_path: Optional[str] = 'checkpoints_FB15K-237/checkpoint_orig_attr_kblrn'

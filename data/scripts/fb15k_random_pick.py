@@ -7,6 +7,8 @@ from Datasets import KBLRNLiteralsDataset
 import pickle
 from tqdm import tqdm
 import math
+from collections import defaultdict
+import itertools
 
 
 class FB15KRandomPick:
@@ -15,8 +17,8 @@ class FB15KRandomPick:
         self.path = path
         self._inputDataset = PickleMappingsDataset(path, False)
         self._inputDataset.load_data()
-        
-
+   
+    
     def numeric_to_half(self, numeric_file_path, new_ent2id, all_dfs):
         filename = "FB15K_NumericalTriples.txt"
 

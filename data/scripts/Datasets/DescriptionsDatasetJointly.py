@@ -3,7 +3,7 @@ from gensim.models import Word2Vec
 import itertools
 import time
 from bidict import bidict
-from Datasets.DatasetProperty import DatasetProperty
+from .DatasetProperty import DatasetProperty
 import csv
 import os
 

@@ -4,7 +4,7 @@ import os
 import csv
 
 from bidict import bidict
-from Datasets.Dataset import Dataset
+from .Dataset import Dataset
 
 
 class DefaultDataset(Dataset):

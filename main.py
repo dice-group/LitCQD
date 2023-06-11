@@ -192,14 +192,16 @@ def test_model(
     
     
     
-    if train_config.use_attributes:
-      attr_values = defaultdict(list)
-      train_queries = dataset.queries
-      for query in train_queries:
-        # attr_values[query[0][0][1]].append(query[0][1][0])
-        attr_values[query[0][0]].append(query[0][1])
-      model.attr_values = attr_values
-    
+    if train_config.use_attributes and ('ai-lt' in tasks or 'ai-eq' in tasks or 'ai-gt' in tasks) :
+      
+      # attr_values = defaultdict(list)
+      # train_queries = dataset.queries
+      # for query in train_queries:
+      #   attr_values[query[0][0][1]].append(query[0][1][0])
+        
+      # model.attr_values = attr_values
+      pass    
+      
     
     
     tester = Tester(model, dataloader, train_config.cuda)
@@ -802,13 +804,13 @@ def new_train(
     # initialize model
     model = get_model(train_config, params, cqd_params, nentity, nrelation, nattribute)
     
-    if train_config.use_attributes:
-      train_queries = data['train_data_attr'][1]
-      attr_values = defaultdict(list)
-      for key,value in train_queries.items():
-        attr_values[key[1][1]].append(next(iter(value)))
+    # if train_config.use_attributes:
+    #   train_queries = data['train_data_attr'][1]
+    #   attr_values = defaultdict(list)
+    #   for key,value in train_queries.items():
+    #     attr_values[key[1][1]].append(next(iter(value)))
       
-      model.attr_values = attr_values
+    #   model.attr_values = attr_values
       
     
     
@@ -961,6 +963,7 @@ def main(args):
         valid_loss_data_rel, valid_loss_data_attr, _ = load_queries_train(
             train_config, "valid"
         )
+        
         valid_queries, valid_answers_easy, valid_answers_hard = load_queries_eval(
             train_config.data_path,
             ("1p", "1ap", "1dp", "di")

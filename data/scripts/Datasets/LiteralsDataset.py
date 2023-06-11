@@ -4,7 +4,7 @@ import random
 from typing import Tuple
 import statistics
 
-from Datasets.DatasetProperty import DatasetProperty
+from .DatasetProperty import DatasetProperty
 
 random.seed(0)
 
@@ -175,6 +175,7 @@ class LiteralsDataset(object):
         except:
             # not loaded yet
             attr_values = self._get_values_per_attribute()
+            
             self.min_max_values = {
                 self.attr2id.inverse[i]: (min(values), max(values))
                 for i, values in attr_values.items()
