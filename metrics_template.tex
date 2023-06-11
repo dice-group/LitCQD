@@ -1,0 +1,27 @@
+\documentclass[12pt,english]{article}
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+
+\newcommand{\VAR}[1]{}
+\newcommand{\BLOCK}[1]{}
+
+\begin{document}
+
+\begin{table}[t]
+    \centering
+    \resizebox{\textwidth}{!}{
+        \begin{tabular}{l\BLOCK{for _ in range(0, query_structures|length)}c\BLOCK{endfor}}
+            \toprule
+            {\bf Method} \BLOCK{for qs in query_structures} & {\bf \VAR{qs}} \BLOCK{endfor} \\
+            \BLOCK{for metric,values in metrics.items()}
+            \midrule
+            \multicolumn{\VAR{query_structures|length}}{c}{\bf \VAR{metric}} \\
+            \midrule
+            \VAR{model_name} \BLOCK{for val in values} & \VAR{val} \BLOCK{endfor} \\
+            \BLOCK{endfor}
+            \bottomrule
+        \end{tabular}
+    }
+\end{table}
+
+\end{document}

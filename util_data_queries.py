@@ -10,7 +10,7 @@ from util import flatten_query, name_query_dict
 from torch.utils.data import DataLoader
 
 
-def load_queries_train(train_config: TrainConfig, name='train'):
+def load_queries_train(train_config: TrainConfig, name='train',not_flatten = False):
     if train_config.train_data_type.name == 'triples':
         train_tasks = ('1p', '1ap', )
     elif train_config.train_data_type.name == 'queries':
@@ -44,12 +44,15 @@ def load_queries_train(train_config: TrainConfig, name='train'):
     else:
         train_queries_desc = dict()
         train_answers_desc = dict()
-
+    if not_flatten:
+      return (train_queries, train_answers), (train_queries_attr, train_answers_attr), (train_queries_desc, train_answers_desc)  
+    
     train_queries = flatten_query(train_queries)
     return (train_queries, train_answers), (train_queries_attr, train_answers_attr), (train_queries_desc, train_answers_desc)
 
 
-def get_train_dataloader(train_dataset, train_attr_dataset, train_desc_dataset, batch_size, use_attributes, use_descriptions, cpu_num=10, seed=0):
+def get_train_dataloader(train_dataset, train_attr_dataset, train_desc_dataset, batch_size, use_attributes, use_descriptions, cpu_num=0, seed=0):
+    # cpu_num is set to 0
     def _init_fn(worker_id):
         np.random.seed(seed)
 
@@ -121,10 +124,13 @@ def get_dataset_eval(queries):
     return TestDataset(queries)
 
 
-def load_queries_eval(data_path, tasks, name='valid'):
+def load_queries_eval(data_path, tasks, name='valid', not_flatten=False):
     if not tasks:
         tasks = ('1p',)
     queries, easy_answers, hard_answers = load_data(data_path, tasks, name)
+    if not_flatten:
+      return queries, easy_answers, hard_answers  
+    
     queries = flatten_query(queries)
     return queries, easy_answers, hard_answers
 
@@ -136,3 +142,7 @@ def get_eval_dataloader(dataset: TestDataset, batch_size, cpu_num):
         num_workers=cpu_num,
         collate_fn=type(dataset).collate_fn
     )
+
+
+
+  

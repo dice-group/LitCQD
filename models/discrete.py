@@ -27,6 +27,7 @@ def score_candidates(s_emb: Tensor,
     x_k_emb_3d = None
 
     # [B, N]
+    # TODO: take a look of the shape
     atom_scores_2d = scoring_function(s_emb, p_emb, candidates_emb).squeeze(1)
     atom_k_scores_2d = atom_scores_2d
 
@@ -51,7 +52,7 @@ def query_1p(entity_embeddings: nn.Module,
     candidates_emb = entity_embeddings.weight
 
     assert queries.shape[1] == 2
-
+    # TODO:
     res, _ = score_candidates(s_emb=s_emb, p_emb=p_emb,
                               candidates_emb=candidates_emb, k=None,
                               entity_embeddings=entity_embeddings,
@@ -298,10 +299,11 @@ def query_2i(entity_embeddings: nn.Module,
 
     scores_1 = query_1p(entity_embeddings=entity_embeddings, predicate_embeddings=predicate_embeddings,
                         queries=queries[:, 0:2], scoring_function=scoring_function)
+    # 
     scores_2 = query_1p(entity_embeddings=entity_embeddings, predicate_embeddings=predicate_embeddings,
                         queries=queries[:, 2:4], scoring_function=scoring_function)
 
-    res = t_norm(scores_1, scores_2)
+    res = t_norm(scores_1, scores_2)  
 
     return res
 

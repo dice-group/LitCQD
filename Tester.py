@@ -268,8 +268,8 @@ class Tester(object):
                         batch_queries_dict[query_structure] = torch.FloatTensor(batch_queries_dict[query_structure]).cuda()
                     else:
                         batch_queries_dict[query_structure] = torch.FloatTensor(batch_queries_dict[query_structure])
-
-                negative_logit = self.model(batch_queries_dict)
+                # TODO:take a look of return value whether it is a'
+                negative_logit = self.model(batch_queries_dict) # forward function of the model
 
                 ### MEAN ABSOLUTE ERROR EVALUATION ###
                 attr_query_structures = {i: x for i, x in enumerate(query_structures) if x[-1][0] == 'ap'}

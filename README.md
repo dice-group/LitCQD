@@ -10,6 +10,10 @@ pip3 install ray[tune]==1.9.1 simple-parsing==0.0.17 tqdm==4.62.0
 pip3 install tensorboardX==2.4.1 tensorboard==2.7.0 protobuf==3.20.3
 ```
 
+## Reproduce the results
+
+Please refer to the `final_scripts/final_script.sh`. To config the save path of pre-trained models, please refer to `config.py` and set the corresponding variables.
+
 ## Datasets and Pre-trained Models
 
 ```
@@ -116,3 +120,48 @@ To create the graphics in the thesis based on the results of the grid search, th
 The csv files are a copy-paste from the console output of ray tune after finishing the grid search.
 
 The implementation is based on the publicly available implementation of Query2Box ([Link](https://github.com/snap-stanford/KGReasoning)) .
+
+## Query answering results
+Query answering results with different attribute embedding models for multihop entity queries without literals. Results were computed for test queries over the FB15k-237 dataset and evaluated in terms of mean reciprocal rank (MRR) and Hits@k for k ∈ {1, 3, 10}.
+| Method   | Average | 1p      | 2p      | 3p      | 2i      | 3i      | ip      | pi      | 2u      | up      |
+| :-------- | :--------: | :--------: | :-------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: |
+|          |         |         |         |         |   MRR   |         |         |         |         |         |
+| CQD      |    0.295     | 0.454  | 0.275  | 0.197  | 0.339  | 0.457  | 0.188  | 0.267  | 0.261  | 0.214  |
+|  LitCQD |**0.301**| **0.457**  | **0.285**  | **0.202**  | **0.350**  | **0.466**  | **0.193**  | **0.274**  | **0.266**  | **0.215**  |
+| Query2Box| 0.213| 0.403 | 0.198 | 0.134 | 0.238 | 0.332 | 0.107 | 0.158 | 0.195 | 0.153 |
+|          |         |         |         |         | HITS@1  |         |         |         |         |         |
+| CQD  |  0.211  | 0.354  | 0.198  | 0.137  | 0.235  | 0.354  | 0.130  | 0.186  | 0.165 | **0.137**  |
+|  LitCQD |**0.215**| **0.355**  | **0.206**  | **0.141**  | **0.245**  | **0.365**  | **0.129**  | **0.193**  | **0.168**  | 0.135  |
+| Query2Box| 0.124 | 0.293| 0.120| 0.071| 0.124| 0.202| 0.056| 0.083| 0.094| 0.079|
+|          |         |         |         |         | HITS@3  |         |         |         |         |         |
+| CQD      |    0.322   | 0.498  | 0.297  | 0.208  | 0.380  | 0.508  | 0.195  | 0.290  | 0.287  | 0.230  |
+|  LitCQD |**0.330**| **0.506**  | **0.309**  | **0.214**  | **0.395**  | **0.517**  | **0.204**  | **0.296**  | **0.295**  | **0.235**  |
+| Query2Box| 0.240| 0.453| 0.214| 0.142| 0.277| 0.399| 0.111| 0.176| 0.226| 0.161|
+|          |         |         |         |         | HITS@10 |         |         |         |         |         |
+| CQD |  0.463 | 0.656  | 0.422  | 0.312  | 0.551  | 0.656  | 0.305  | 0.425  | 0.465  | 0.370  |
+|  LitCQD |**0.472**| **0.660**  | **0.439**  | **0.323** | **0.561** | **0.663**  | **0.315**  | **0.434**  | **0.475**  | **0.379**  |
+| Query2Box| 0.390 | 0.623| 0.356| 0.259| 0.472| 0.580| 0.203| 0.303| 0.405| 0.303|
+
+
+
+Query answering results for multihop entity queries with literals. Our best-performing model Complex-N3 + Attributes (KBLRN) using standard deviation computed by the all values of attributes from `data/scripts/data/numeric/KBLRN/FB15K_NumericalTriples.txt` is compared to variations thereof. Results were computed for test queries over the FB15k-237 dataset and evaluated in terms of Hit@10.
+| Method                                           | ai-lt        | ai-eq        | ai-gt        | 2ai          | aip          | pai          | au           |
+|--------------------------------------------------|--------------|--------------|--------------|--------------|--------------|--------------|--------------|
+| LitCQD                                          | **0.405**    | **0.361**    | 0.317        | **0.335**    | **0.182**    | **0.463**    | **0.256**    |
+| - w/o attribute filter predictor                 | 0.280        | 0.005        | 0.237        | 0.148        | 0.123        | 0.421        | 0.054        |
+| - w/o attribute existence predictor              | 0.206        | 0.137        | 0.128        | 0.104        | 0.165        | 0.470        | 0.120        |
+| - w/o both                                       | 0.002        | 0.001        | 0.003        | 0.001        | 0.051        | 0.412        | 0.003        |
+| - with attribute-specific standard deviation     | **0.405**    | 0.232        | **0.329**    | 0.216        | 0.174        | 0.320        | 0.212        |
+
+
+
+Query answering results for multihop literal queries for test queries over the FB15k-237 dataset evaluated in terms of mean absolute error (MAE) and mean squared error (MSE). Query2Box uses the attributes of KBLRN dataset.
+| methods        | 1ap MAE | 1ap MSE | 2ap MAE | 2ap MSE | 3ap MAE | 3ap MSE |
+|:---------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+| LitCQD         | 0.050  | 0.011  | 0.034  | 0.005  | 0.041  | 0.007  |
+| Query2Box + Attribute | 0.065  | 0.015   | 0.048  | 0.007  | 0.056  | 0.014  |
+| Mean Predictor | 0.341  | 0.143   | 0.346  | 0.141  | 0.362  | 0.152  |
+
+
+
+
