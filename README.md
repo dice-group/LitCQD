@@ -144,14 +144,15 @@ Query answering results with different attribute embedding models for multihop e
 
 
 
-Query answering results for multihop entity queries with literals. Our best-performing model Complex-N3 + Attributes (KBLRN) is compared to variations thereof. Results were computed for test queries over the FB15k-237 dataset and evaluated in terms of Hit@10.
-| methods                     | ai-lt  | ai-eq  | ai-gt  | 2ai    | aip    | pai    | au     |
-|:---------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
-| LitCQD                      | 0.405 | 0.232 | 0.329 | 0.216 | 0.174 | 0.320 | 0.212 |
-| - No Value Prediction        | 0.280 | 0.005 | 0.237 | 0.148 | 0.124 | 0.421 | 0.054 |
-| - No Attribute Exists Check  | 0.203 | 0.137 | 0.128 | 0.099 | 0.156 | 0.412 | 0.002 |
-| - Neither of them             | 0.002 | 0.000 | 0.000 | 0.000 | 0.086 | 0.412 | 0.002 |
-|- Without attribute-specific standard deviation | 0.391 | 0.359 | 0.330 | 0.329 | 0.195 | 0.447 | 0.248 |
+Query answering results for multihop entity queries with literals. Our best-performing model Complex-N3 + Attributes (KBLRN) using standard deviation computed by the all values of attributes from `data/scripts/data/numeric/KBLRN/FB15K_NumericalTriples.txt` is compared to variations thereof. Results were computed for test queries over the FB15k-237 dataset and evaluated in terms of Hit@10.
+| Method                                           | ai-lt        | ai-eq        | ai-gt        | 2ai          | aip          | pai          | au           |
+|--------------------------------------------------|--------------|--------------|--------------|--------------|--------------|--------------|--------------|
+| LitCQD                                          | **0.405**    | **0.361**    | 0.317        | **0.335**    | **0.182**    | **0.463**    | **0.256**    |
+| - w/o attribute filter predictor                 | 0.280        | 0.005        | 0.237        | 0.148        | 0.123        | 0.421        | 0.054        |
+| - w/o attribute existence predictor              | 0.206        | 0.137        | 0.128        | 0.104        | 0.165        | 0.470        | 0.120        |
+| - w/o both                                       | 0.002        | 0.001        | 0.003        | 0.001        | 0.051        | 0.412        | 0.003        |
+| - with attribute-specific standard deviation     | **0.405**    | 0.232        | **0.329**    | 0.216        | 0.174        | 0.320        | 0.212        |
+
 
 
 Query answering results for multihop literal queries for test queries over the FB15k-237 dataset evaluated in terms of mean absolute error (MAE) and mean squared error (MSE). Query2Box uses the attributes of KBLRN dataset.
