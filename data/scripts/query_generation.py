@@ -565,8 +565,10 @@ class QueryGenerator(object):
             func(triples, queries_eval, answers)
             print(" {:2f} seconds".format(time.time() - start_time))
 
+        # TODO: 1p and 1ap will be first created 
         generate_simple('1p', self._generate_1p_queries, triples_full, answers_eval_full)
         generate_simple('1ap', self._generate_1ap_queries, triples_attr_full, answers_eval_full)
+        
         for name in ('1p', '1ap'):
             for query in list(queries_eval[name_query_dict[name]]):
                 answers_easy = generator.get_answers(dataset_base, query)
@@ -641,12 +643,13 @@ class QueryGenerator(object):
             answers_eval_easy.update(answers_easy)
             print(" {:2f} seconds".format(time.time() - start_time))
 
+        # TODO: CODE FOR DEFINE THE LIMIT OF THE COMPLEX QUERIES
         for name in complex_query_names:
             limit = 5000
-            if 'a' in name:
-                limit = 100
-            if name.startswith('ai-'):
-                limit = 100
+            # if 'a' in name:
+            #     limit = 100
+            # if name.startswith('ai-'):
+            #     limit = 100
             generate_complex(name, limit)
 
         print(f"{type}: Computing easy & hard answers...")

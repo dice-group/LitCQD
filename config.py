@@ -124,7 +124,9 @@ class TrainConfig:
     """General configurations for training"""
 
     # Path to queries
-    data_path: str = "data/scripts/generated/FB15K-237_dummy_kblrn"
+    # data_path: str = "data/scripts/generated/FB15K-237_dummy_kblrn"
+    data_path: str = "data/scripts/generated/FB15K-237_dummy_kblrn_std_demo" # 5000 queries
+    
     # data_path: str = "data/FB15k-237-q2b"
     
    
@@ -165,13 +167,13 @@ class TrainConfig:
     # Evaluate validation queries every xx epochs
     valid_epochs: int = 1 #10
     # How many workers pytorch uses to load data
-    cpu_num: int = 13
+    cpu_num: int = 15
     # random seed applied globally
     seed: int = 0
     # use GPU
     cuda: bool = False
     # use attribute data
-    use_attributes: bool = False
+    use_attributes: bool = True
     use_descriptions: bool = False
     # train using triples and the cqd dataloader or use queries with a subsampling weight
     train_data_type: Enum("train_data_type", ["queries", "triples"]) = "triples"
@@ -179,10 +181,10 @@ class TrainConfig:
     test_batch_size: int = 1024  #100
     # tune hyperparameters using ray tune
     do_tune: bool = False
-    do_train: bool = False
-    do_test: bool = False
+    do_train: bool = True
+    do_test: bool = True
     # evaluate on train queries aswell
-    eval_on_train: bool = False
+    eval_on_train: bool = True
     # evaluate on simple (1-hop) queries only
     simple_eval: bool = False
     # embedding dimension of the word embeddings

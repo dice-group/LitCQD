@@ -1,0 +1,30 @@
+(litcqd) renzhong@litcqd:~/LitCQD$ python get_queries_stats.py 
+Loading queries for the training...
+train dataset:
+('e', ('r',)): 159023
+('e', ('ap', 'a')): 9229
+valiadation dataset of loss:
+('e', ('r',)): 20101
+('e', ('ap', 'a')): 10000
+validation dataset of queries:
+('e', ('r',)): 20101
+('e', ('ap', 'a')): 10000
+('e', ('dp',)): 0
+(('dp',), ('dv', '=')): 0
+evaluation dataset of queires:
+('e', ('ap', 'a')): 9229
+('e', ('dp',)): 0
+testing dataset: 
+('e', ('ap', 'a')): 9229
+('e', ('dp',)): 0
+queries of testing data with attributes: 
+('e', ('ap', 'a')): 10000
+(('e', ('r',)), ('ap', 'a')): 5000
+(('e', ('r', 'r')), ('ap', 'a')): 5000
+(('ap', 'a'), ('v', '<')): 102
+(('ap', 'a'), ('v', '=')): 5000
+(('ap', 'a'), ('v', '>')): 104
+((('ap', 'a'), ('v', 'f')), (('ap', 'a'), ('v', 'f'))): 5000
+((('ap', 'a'), ('v', 'f')), 'r'): 5000
+(('e', ('r',)), (('ap', 'a'), ('v', 'f'))): 5000
+((('ap', 'a'), ('v', 'f')), (('ap', 'a'), ('v', 'f')), ('u',)): 5000
