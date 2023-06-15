@@ -125,8 +125,8 @@ class TrainConfig:
 
     # Path to queries
     # data_path: str = "data/scripts/generated/FB15K-237_dummy_kblrn"
-    data_path: str = "data/scripts/generated/FB15K-237_dummy_kblrn_std_demo" # 5000 queries
-    
+    # data_path: str = "data/scripts/generated/FB15K-237_dummy_kblrn_std_demo" # 5000 queries
+    data_path: str = "data/scripts/generated/FB15K-237_dummy_kblrn_std_demo2"
     # data_path: str = "data/FB15k-237-q2b"
     
    
@@ -173,7 +173,7 @@ class TrainConfig:
     # use GPU
     cuda: bool = False
     # use attribute data
-    use_attributes: bool = True
+    use_attributes: bool = False
     use_descriptions: bool = False
     # train using triples and the cqd dataloader or use queries with a subsampling weight
     train_data_type: Enum("train_data_type", ["queries", "triples"]) = "triples"
@@ -181,10 +181,10 @@ class TrainConfig:
     test_batch_size: int = 1024  #100
     # tune hyperparameters using ray tune
     do_tune: bool = False
-    do_train: bool = True
-    do_test: bool = True
+    do_train: bool = False
+    do_test: bool = False
     # evaluate on train queries aswell
-    eval_on_train: bool = True
+    eval_on_train: bool = False
     # evaluate on simple (1-hop) queries only
     simple_eval: bool = False
     # embedding dimension of the word embeddings

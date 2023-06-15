@@ -10,14 +10,14 @@ literals:
   path: data/numeric/KBLRN
   normalize: True
   std: False
-  valid_size: 10000
-  test_size: 10000
+  valid_size: 3000 #10000
+  test_size: 3000
 output:
   name: file
-  path: FB15K-237_dummy_kblrn_std_demo
+  path: FB15K-237_dummy_kblrn_std_demo2
   queries:
     generate: True
-    path: FB15K-237_dummy_kblrn_std_demo
+    path: FB15K-237_dummy_kblrn_std_demo2
     print_debug: True
     complex_train_queries: True
 

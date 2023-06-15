@@ -166,6 +166,7 @@ class QueryGeneratorGeneric(object):
         gen = self._objects_gen(list(answers_container.triples_attr_inv.keys()) if answer_is_attr_val else list(answers_container.triples_rel_inv.keys()))
         tries_since_last_found = 0
         while len(queries) < limit:
+            # TODO: it seems like that the amount of generated queries of "<" and ">" cannot meet the given limit of more than 100
             if tries_since_last_found > 10000:
                 break  # unable to find as many queries as the given limit
             tries_since_last_found += 1
@@ -249,6 +250,7 @@ class QueryGeneratorGeneric(object):
                 return self._generate_query(answers_container, e, query_structure[0])
         elif query_structure[1][0] == 'v':
             # ('ap', 'a'), ('v', 'f')
+            # the queries of smaller, equal, bigger restrictions
 
             if query_structure[1][1] == 'f':
                 restriction = random.choice(('=', '<', '>'))

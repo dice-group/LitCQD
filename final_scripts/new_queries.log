@@ -17,7 +17,7 @@ evaluation dataset of queires:
 testing dataset: 
 ('e', ('ap', 'a')): 9229
 ('e', ('dp',)): 0
-queries of testing data with attributes: 
+queries of testing data with attributes: latitude
 ('e', ('ap', 'a')): 10000
 (('e', ('r',)), ('ap', 'a')): 5000
 (('e', ('r', 'r')), ('ap', 'a')): 5000
@@ -28,3 +28,116 @@ queries of testing data with attributes:
 ((('ap', 'a'), ('v', 'f')), 'r'): 5000
 (('e', ('r',)), (('ap', 'a'), ('v', 'f'))): 5000
 ((('ap', 'a'), ('v', 'f')), (('ap', 'a'), ('v', 'f')), ('u',)): 5000
+
+
+
+
+
+(litcqd) renzhong@litcqd:~/LitCQD$ python3 eval_cqd.py --do_test --checkpoint_path checkpoints_FB15K-237/submitted_paper --data_path data/scripts/generated/FB15K-237_dummy_kblrn_std_demo --use_attributes --rank 1000 --geo cqd-complexa --test_batch_size 1024 --print_on_screen
+Skipped 166 triples with attr data for 103 entities that are not part of the dataset.
+Removed mapping for 1 attributes as they are not part of the dataset.
+KBLRNLiteralsDataset:
+        train triples: 29395
+        valid triples: 0
+        test triples: 0
+        entities: 12493
+        attributes: 116
+        unique values: 17016
+        mean: 0.602
+        MAD: 0.323
+        mean per attribute: 0.512
+        MAD per attribute: 0.215
+2023-06-15 13:48:16 INFO     test: 1ap: 10000
+2023-06-15 13:48:18 INFO     Test 1ap MAE at epoch 100: 0.014546
+2023-06-15 13:48:18 INFO     Test 1ap MSE at epoch 100: 0.001901
+2023-06-15 13:48:18 INFO     Test 1ap RMSE at epoch 100: 0.043596
+2023-06-15 13:48:18 INFO     Test 1ap num_queries at epoch 100: 10000.000000
+2023-06-15 13:48:18 INFO     Test average MAE at epoch 100: 0.014546
+2023-06-15 13:48:18 INFO     Test average MSE at epoch 100: 0.001901
+2023-06-15 13:48:18 INFO     Test average RMSE at epoch 100: 0.043596
+2023-06-15 13:48:34 INFO     test: 2ap: 5000
+2023-06-15 13:48:38 INFO     Test 2ap MAE at epoch 100: 0.035300
+2023-06-15 13:48:38 INFO     Test 2ap MSE at epoch 100: 0.006000
+2023-06-15 13:48:38 INFO     Test 2ap RMSE at epoch 100: 0.077458
+2023-06-15 13:48:38 INFO     Test 2ap num_queries at epoch 100: 5000.000000
+2023-06-15 13:48:38 INFO     Test average MAE at epoch 100: 0.035300
+2023-06-15 13:48:38 INFO     Test average MSE at epoch 100: 0.006000
+2023-06-15 13:48:38 INFO     Test average RMSE at epoch 100: 0.077458
+2023-06-15 13:48:52 INFO     test: 3ap: 5000
+2023-06-15 13:49:59 INFO     Test 3ap MAE at epoch 100: 0.043014
+2023-06-15 13:49:59 INFO     Test 3ap MSE at epoch 100: 0.007346
+2023-06-15 13:49:59 INFO     Test 3ap RMSE at epoch 100: 0.085711
+2023-06-15 13:49:59 INFO     Test 3ap num_queries at epoch 100: 5000.000000
+2023-06-15 13:49:59 INFO     Test average MAE at epoch 100: 0.043014
+2023-06-15 13:49:59 INFO     Test average MSE at epoch 100: 0.007346
+2023-06-15 13:49:59 INFO     Test average RMSE at epoch 100: 0.085711
+2023-06-15 13:50:14 INFO     test: ai-lt: 102
+2023-06-15 13:50:34 INFO     Test ai-lt MRR at epoch 100: 0.693727
+2023-06-15 13:50:34 INFO     Test ai-lt HITS1 at epoch 100: 0.659146
+2023-06-15 13:50:34 INFO     Test ai-lt HITS3 at epoch 100: 0.715057
+2023-06-15 13:50:34 INFO     Test ai-lt HITS10 at epoch 100: 0.755377
+2023-06-15 13:50:34 INFO     Test ai-lt num_queries at epoch 100: 102.000000
+2023-06-15 13:50:34 INFO     Test average MRR at epoch 100: 0.693727
+2023-06-15 13:50:34 INFO     Test average HITS1 at epoch 100: 0.659146
+2023-06-15 13:50:34 INFO     Test average HITS3 at epoch 100: 0.715057
+2023-06-15 13:50:34 INFO     Test average HITS10 at epoch 100: 0.755377
+2023-06-15 13:50:52 INFO     test: ai-eq: 5000
+2023-06-15 14:06:44 INFO     Test ai-eq MRR at epoch 100: 0.284116
+2023-06-15 14:06:44 INFO     Test ai-eq HITS1 at epoch 100: 0.229125
+2023-06-15 14:06:44 INFO     Test ai-eq HITS3 at epoch 100: 0.307017
+2023-06-15 14:06:44 INFO     Test ai-eq HITS10 at epoch 100: 0.384023
+2023-06-15 14:06:44 INFO     Test ai-eq num_queries at epoch 100: 5000.000000
+2023-06-15 14:06:44 INFO     Test average MRR at epoch 100: 0.284116
+2023-06-15 14:06:44 INFO     Test average HITS1 at epoch 100: 0.229125
+2023-06-15 14:06:44 INFO     Test average HITS3 at epoch 100: 0.307017
+2023-06-15 14:06:44 INFO     Test average HITS10 at epoch 100: 0.384023
+2023-06-15 14:07:03 INFO     test: ai-gt: 104
+2023-06-15 14:07:24 INFO     Test ai-gt MRR at epoch 100: 0.752705
+2023-06-15 14:07:24 INFO     Test ai-gt HITS1 at epoch 100: 0.718197
+2023-06-15 14:07:24 INFO     Test ai-gt HITS3 at epoch 100: 0.773445
+2023-06-15 14:07:24 INFO     Test ai-gt HITS10 at epoch 100: 0.811927
+2023-06-15 14:07:24 INFO     Test ai-gt num_queries at epoch 100: 104.000000
+2023-06-15 14:07:24 INFO     Test average MRR at epoch 100: 0.752705
+2023-06-15 14:07:24 INFO     Test average HITS1 at epoch 100: 0.718197
+2023-06-15 14:07:24 INFO     Test average HITS3 at epoch 100: 0.773445
+2023-06-15 14:07:24 INFO     Test average HITS10 at epoch 100: 0.811927
+2023-06-15 14:07:39 INFO     test: 2ai: 5000
+2023-06-15 14:39:17 INFO     Test 2ai MRR at epoch 100: 0.251762
+2023-06-15 14:39:17 INFO     Test 2ai HITS1 at epoch 100: 0.206165
+2023-06-15 14:39:17 INFO     Test 2ai HITS3 at epoch 100: 0.267094
+2023-06-15 14:39:17 INFO     Test 2ai HITS10 at epoch 100: 0.333338
+2023-06-15 14:39:17 INFO     Test 2ai num_queries at epoch 100: 5000.000000
+2023-06-15 14:39:17 INFO     Test average MRR at epoch 100: 0.251762
+2023-06-15 14:39:17 INFO     Test average HITS1 at epoch 100: 0.206165
+2023-06-15 14:39:17 INFO     Test average HITS3 at epoch 100: 0.267094
+2023-06-15 14:39:17 INFO     Test average HITS10 at epoch 100: 0.333338
+2023-06-15 14:39:35 INFO     test: aip: 5000
+2023-06-15 14:59:31 INFO     Test aip MRR at epoch 100: 0.245876
+2023-06-15 14:59:31 INFO     Test aip HITS1 at epoch 100: 0.207662
+2023-06-15 14:59:31 INFO     Test aip HITS3 at epoch 100: 0.251083
+2023-06-15 14:59:31 INFO     Test aip HITS10 at epoch 100: 0.313872
+2023-06-15 14:59:31 INFO     Test aip num_queries at epoch 100: 5000.000000
+2023-06-15 14:59:31 INFO     Test average MRR at epoch 100: 0.245876
+2023-06-15 14:59:31 INFO     Test average HITS1 at epoch 100: 0.207662
+2023-06-15 14:59:31 INFO     Test average HITS3 at epoch 100: 0.251083
+2023-06-15 14:59:31 INFO     Test average HITS10 at epoch 100: 0.313872
+2023-06-15 14:59:50 INFO     test: pai: 5000
+2023-06-15 15:16:29 INFO     Test pai MRR at epoch 100: 0.455782
+2023-06-15 15:16:29 INFO     Test pai HITS1 at epoch 100: 0.400776
+2023-06-15 15:16:29 INFO     Test pai HITS3 at epoch 100: 0.474646
+2023-06-15 15:16:29 INFO     Test pai HITS10 at epoch 100: 0.559796
+2023-06-15 15:16:29 INFO     Test pai num_queries at epoch 100: 5000.000000
+2023-06-15 15:16:29 INFO     Test average MRR at epoch 100: 0.455782
+2023-06-15 15:16:29 INFO     Test average HITS1 at epoch 100: 0.400776
+2023-06-15 15:16:29 INFO     Test average HITS3 at epoch 100: 0.474646
+2023-06-15 15:16:29 INFO     Test average HITS10 at epoch 100: 0.559796
+2023-06-15 15:16:59 INFO     test: au: 5000
+2023-06-15 15:49:20 INFO     Test au MRR at epoch 100: 0.438579
+2023-06-15 15:49:20 INFO     Test au HITS1 at epoch 100: 0.395219
+2023-06-15 15:49:20 INFO     Test au HITS3 at epoch 100: 0.459316
+2023-06-15 15:49:20 INFO     Test au HITS10 at epoch 100: 0.518215
+2023-06-15 15:49:20 INFO     Test au num_queries at epoch 100: 5000.000000
+2023-06-15 15:49:20 INFO     Test average MRR at epoch 100: 0.438579
+2023-06-15 15:49:20 INFO     Test average HITS1 at epoch 100: 0.395219
+2023-06-15 15:49:20 INFO     Test average HITS3 at epoch 100: 0.459316
+2023-06-15 15:49:20 INFO     Test average HITS10 at epoch 100: 0.518215
