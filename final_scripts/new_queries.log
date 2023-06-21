@@ -141,3 +141,176 @@ KBLRNLiteralsDataset:
 2023-06-15 15:49:20 INFO     Test average HITS1 at epoch 100: 0.395219
 2023-06-15 15:49:20 INFO     Test average HITS3 at epoch 100: 0.459316
 2023-06-15 15:49:20 INFO     Test average HITS10 at epoch 100: 0.518215
+
+
+
+
+
+(litcqd) renzhong@litcqd:~/LitCQD$ python3 eval_cqd.py --do_test --checkpoint_path checkpoints_FB15K-237/submitted_paper --data_path data/scripts/generated/FB15K-237_dummy_kblrn_std_demo2 --use_attributes --rank 1000 --geo cqd-complexa --test_batch_size 1024 --print_on_screen
+Skipped 166 triples with attr data for 103 entities that are not part of the dataset.
+Removed mapping for 1 attributes as they are not part of the dataset.
+KBLRNLiteralsDataset:
+        train triples: 29395
+        valid triples: 0
+        test triples: 0
+        entities: 12493
+        attributes: 116
+        unique values: 17016
+        mean: 0.602
+        MAD: 0.323
+        mean per attribute: 0.512
+        MAD per attribute: 0.215
+2023-06-15 21:04:52 INFO     test: 1ap: 3000
+2023-06-15 21:04:54 INFO     Test 1ap MAE at epoch 100: 0.050005
+2023-06-15 21:04:54 INFO     Test 1ap MSE at epoch 100: 0.010781
+2023-06-15 21:04:54 INFO     Test 1ap RMSE at epoch 100: 0.103832
+2023-06-15 21:04:54 INFO     Test 1ap num_queries at epoch 100: 3000.000000
+2023-06-15 21:04:54 INFO     Test average MAE at epoch 100: 0.050005
+2023-06-15 21:04:54 INFO     Test average MSE at epoch 100: 0.010781
+2023-06-15 21:04:54 INFO     Test average RMSE at epoch 100: 0.103832
+2023-06-15 21:05:08 INFO     test: 2ap: 5000
+2023-06-15 21:05:12 INFO     Test 2ap MAE at epoch 100: 0.045663
+2023-06-15 21:05:12 INFO     Test 2ap MSE at epoch 100: 0.009165
+2023-06-15 21:05:12 INFO     Test 2ap RMSE at epoch 100: 0.095736
+2023-06-15 21:05:12 INFO     Test 2ap num_queries at epoch 100: 5000.000000
+2023-06-15 21:05:12 INFO     Test average MAE at epoch 100: 0.045663
+2023-06-15 21:05:12 INFO     Test average MSE at epoch 100: 0.009165
+2023-06-15 21:05:12 INFO     Test average RMSE at epoch 100: 0.095736
+2023-06-15 21:05:27 INFO     test: 3ap: 5000
+2023-06-15 21:06:42 INFO     Test 3ap MAE at epoch 100: 0.044951
+2023-06-15 21:06:42 INFO     Test 3ap MSE at epoch 100: 0.008019
+2023-06-15 21:06:42 INFO     Test 3ap RMSE at epoch 100: 0.089547
+2023-06-15 21:06:42 INFO     Test 3ap num_queries at epoch 100: 5000.000000
+2023-06-15 21:06:42 INFO     Test average MAE at epoch 100: 0.044951
+2023-06-15 21:06:42 INFO     Test average MSE at epoch 100: 0.008019
+2023-06-15 21:06:42 INFO     Test average RMSE at epoch 100: 0.089547
+2023-06-15 21:06:55 INFO     test: ai-lt: 66
+2023-06-15 21:07:09 INFO     Test ai-lt MRR at epoch 100: 0.294087
+2023-06-15 21:07:09 INFO     Test ai-lt HITS1 at epoch 100: 0.236098
+2023-06-15 21:07:09 INFO     Test ai-lt HITS3 at epoch 100: 0.312021
+2023-06-15 21:07:09 INFO     Test ai-lt HITS10 at epoch 100: 0.404770
+2023-06-15 21:07:09 INFO     Test ai-lt num_queries at epoch 100: 66.000000
+2023-06-15 21:07:09 INFO     Test average MRR at epoch 100: 0.294087
+2023-06-15 21:07:09 INFO     Test average HITS1 at epoch 100: 0.236098
+2023-06-15 21:07:09 INFO     Test average HITS3 at epoch 100: 0.312021
+2023-06-15 21:07:09 INFO     Test average HITS10 at epoch 100: 0.404770
+2023-06-15 21:07:27 INFO     test: ai-eq: 5000
+2023-06-15 21:23:25 INFO     Test ai-eq MRR at epoch 100: 0.118371
+2023-06-15 21:23:25 INFO     Test ai-eq HITS1 at epoch 100: 0.069313
+2023-06-15 21:23:25 INFO     Test ai-eq HITS3 at epoch 100: 0.132825
+2023-06-15 21:23:25 INFO     Test ai-eq HITS10 at epoch 100: 0.210960
+2023-06-15 21:23:25 INFO     Test ai-eq num_queries at epoch 100: 5000.000000
+2023-06-15 21:23:25 INFO     Test average MRR at epoch 100: 0.118371
+2023-06-15 21:23:25 INFO     Test average HITS1 at epoch 100: 0.069313
+2023-06-15 21:23:25 INFO     Test average HITS3 at epoch 100: 0.132825
+2023-06-15 21:23:25 INFO     Test average HITS10 at epoch 100: 0.210960
+2023-06-15 21:23:44 INFO     test: ai-gt: 64
+2023-06-15 21:23:58 INFO     Test ai-gt MRR at epoch 100: 0.196951
+2023-06-15 21:23:58 INFO     Test ai-gt HITS1 at epoch 100: 0.126382
+2023-06-15 21:23:58 INFO     Test ai-gt HITS3 at epoch 100: 0.239646
+2023-06-15 21:23:58 INFO     Test ai-gt HITS10 at epoch 100: 0.328840
+2023-06-15 21:23:58 INFO     Test ai-gt num_queries at epoch 100: 64.000000
+2023-06-15 21:23:58 INFO     Test average MRR at epoch 100: 0.196951
+2023-06-15 21:23:58 INFO     Test average HITS1 at epoch 100: 0.126382
+2023-06-15 21:23:58 INFO     Test average HITS3 at epoch 100: 0.239646
+2023-06-15 21:23:58 INFO     Test average HITS10 at epoch 100: 0.328840
+2023-06-15 21:24:16 INFO     test: 2ai: 5000
+2023-06-15 21:53:38 INFO     Test 2ai MRR at epoch 100: 0.122596
+2023-06-15 21:53:38 INFO     Test 2ai HITS1 at epoch 100: 0.079518
+2023-06-15 21:53:38 INFO     Test 2ai HITS3 at epoch 100: 0.132024
+2023-06-15 21:53:38 INFO     Test 2ai HITS10 at epoch 100: 0.203271
+2023-06-15 21:53:38 INFO     Test 2ai num_queries at epoch 100: 5000.000000
+2023-06-15 21:53:38 INFO     Test average MRR at epoch 100: 0.122596
+2023-06-15 21:53:38 INFO     Test average HITS1 at epoch 100: 0.079518
+2023-06-15 21:53:38 INFO     Test average HITS3 at epoch 100: 0.132024
+2023-06-15 21:53:38 INFO     Test average HITS10 at epoch 100: 0.203271
+2023-06-15 21:53:56 INFO     test: aip: 5000
+2023-06-15 22:11:17 INFO     Test aip MRR at epoch 100: 0.090724
+2023-06-15 22:11:17 INFO     Test aip HITS1 at epoch 100: 0.053729
+2023-06-15 22:11:17 INFO     Test aip HITS3 at epoch 100: 0.090273
+2023-06-15 22:11:17 INFO     Test aip HITS10 at epoch 100: 0.159213
+2023-06-15 22:11:17 INFO     Test aip num_queries at epoch 100: 5000.000000
+2023-06-15 22:11:17 INFO     Test average MRR at epoch 100: 0.090724
+2023-06-15 22:11:17 INFO     Test average HITS1 at epoch 100: 0.053729
+2023-06-15 22:11:17 INFO     Test average HITS3 at epoch 100: 0.090273
+2023-06-15 22:11:17 INFO     Test average HITS10 at epoch 100: 0.159213
+2023-06-15 22:11:30 INFO     test: pai: 5000
+2023-06-15 22:25:46 INFO     Test pai MRR at epoch 100: 0.226212
+2023-06-15 22:25:46 INFO     Test pai HITS1 at epoch 100: 0.166713
+2023-06-15 22:25:46 INFO     Test pai HITS3 at epoch 100: 0.241004
+2023-06-15 22:25:46 INFO     Test pai HITS10 at epoch 100: 0.337635
+2023-06-15 22:25:46 INFO     Test pai num_queries at epoch 100: 5000.000000
+2023-06-15 22:25:46 INFO     Test average MRR at epoch 100: 0.226212
+2023-06-15 22:25:46 INFO     Test average HITS1 at epoch 100: 0.166713
+2023-06-15 22:25:46 INFO     Test average HITS3 at epoch 100: 0.241004
+2023-06-15 22:25:46 INFO     Test average HITS10 at epoch 100: 0.337635
+2023-06-15 22:26:00 INFO     test: au: 5000
+2023-06-15 22:53:34 INFO     Test au MRR at epoch 100: 0.130910
+2023-06-15 22:53:34 INFO     Test au HITS1 at epoch 100: 0.080745
+2023-06-15 22:53:34 INFO     Test au HITS3 at epoch 100: 0.150676
+2023-06-15 22:53:34 INFO     Test au HITS10 at epoch 100: 0.224554
+2023-06-15 22:53:34 INFO     Test au num_queries at epoch 100: 5000.000000
+2023-06-15 22:53:34 INFO     Test average MRR at epoch 100: 0.130910
+2023-06-15 22:53:34 INFO     Test average HITS1 at epoch 100: 0.080745
+2023-06-15 22:53:34 INFO     Test average HITS3 at epoch 100: 0.150676
+2023-06-15 22:53:34 INFO     Test average HITS10 at epoch 100: 0.224554
+
+
+
+
+
+
+score	1p_score	ai_score	name		id	Trained Rel.?	Pred. Value	Trained Value	Description
+5.58	7.56	0.74	Linus Pauling
+	9104	False		1900.06		1901.17		Linus Carl Pauling was an American chemist, biochemist, peace activist,...
+5.40	11.91	0.45	John Denver
+	7065	True		1941.52		1944.00		Henry John Deutschendorf, Jr., known professionally as John Denver, was...
+5.25	11.91	0.44	Funkadelic
+	8356	True		1925.21		----.--		Funkadelic is an American band that was most prominent during...
+5.16	6.96	0.74	Friedrich Hayek
+	11554	False		1900.04		1899.42		Friedrich Hayek CH, born in Austria-Hungary as Friedrich August von...
+4.97	5.24	0.95	Robert E. Lee
+	9731	False		1794.49		1807.08		Robert Edward Lee was an American soldier best known for...
+4.65	11.86	0.39	Dio
+	13295	True		1935.59		----.--		Dio was an American heavy metal band formed in 1982...
+4.64	7.71	0.60	Marvin March
+	2010	False		1922.07		1930.42		Marvin March is an American set decorator. He has been...
+4.61	11.70	0.39	Rob Thomas
+	6102	True		1943.72		----.--		Robert Kelly "Rob" Thomas is a German-born American singer and...
+4.58	5.58	0.82	Ezra Pound
+	9227	False		1882.00		1885.83		Ezra Weston Loomis Pound was an expatriate American poet and...
+4.58	11.75	0.39	Donna Summer
+	1761	True		1948.55		1949.00		LaDonna Adrian Gaines, better known by her stage name, Donna...
+4.54	7.05	0.64	John Lee Hooker
+	130	False		1916.78		1917.67		John Lee Hooker was an American blues singer, songwriter and...
+4.50	6.93	0.65	Richard Feynman
+	6064	False		1915.86		1918.42		Richard Phillips Feynman, ForMemRS was an American theoretical physicist known...
+4.50	6.86	0.66	Milton Friedman
+	5515	False		1915.22		1912.58		Milton Friedman was an American economist, statistician and writer who...
+4.41	4.64	0.95	Ralph Waldo Emerson
+	11216	False		1796.55		1803.42		Ralph Waldo Emerson was an American essayist, lecturer, and poet...
+4.27	4.67	0.91	Henry James
+	7054	False		1840.28		1843.33		Henry James, OM was an American writer who spent most...
+4.26	4.39	0.97	Thomas Jefferson
+	4981	False		1716.52		1743.33		Thomas Jefferson was an American Founding Father, the principal author...
+4.22	12.03	0.35	Spinal Tap
+	5006	True		1942.65		----.--		Spinal Tap is a parody English heavy metal band that...
+4.19	7.64	0.55	Ron W. Miller
+	1186	False		1929.74		1933.33		Ronald William "Ron" Miller is a former professional American football...
+4.18	7.34	0.57	Noam Chomsky
+	4041	False		1926.94		1929.00		Avram Noam Chomsky is an American linguist, philosopher, cognitive scientist,...
+4.16	4.28	0.97	James Madison
+	5702	False		1729.15		1751.25		James Madison, Jr. was an American statesman, political theorist, and...
+4.14	5.46	0.76	Duke Ellington
+	6982	False		1896.97		1899.33		Edward Kennedy "Duke" Ellington was an American composer, pianist and...  
+
+  =========================================================================== Expected Answers ===========================================================================
+/m/01l4zqz	1145	1969.17	Relation in Train dataset	Attribute in Train dataset	Joshua Redman is an American jazz saxophonist and composer..In 1991,...
+/m/0136p1	1761	1949.00	Relation in Train dataset	Attribute in Train dataset	LaDonna Adrian Gaines, better known by her stage name, Donna...
+/m/03j0br4	2334	1958.00	Relation in Train dataset	Attribute in Train dataset	Sheila Escovedo, known by her stage name Sheila E., is...
+/m/0161sp	2664	1964.42	Relation in Train dataset	Attribute in Train dataset	Leonard Albert "Lenny" Kravitz is an American singer, songwriter, multi-instrumentalist,...
+/m/01wv9p	3857	1968.75	Relation in Train dataset	Attribute in Train dataset	Marco Antonio Muñiz, better known by his stage name Marc...
+/m/0f_y9	7065	1944.00	Relation in Train dataset	Attribute in Train dataset	Henry John Deutschendorf, Jr., known professionally as John Denver, was...
+/m/01d_h	8525	1971.83	Relation in Train dataset	Attribute in Valid dataset	Brian Wayne Transeau, better known by his stage name BT,...
+/m/01jgkj2	8895	1952.17	Relation in Train dataset	Attribute in Test dataset	James Edward Ingram is an American singer, songwriter, record producer,...
+/m/01tpl1p	10324	1969.58	Relation in Train dataset	Attribute in Train dataset	Cree Summer Francks, best known as Cree Summer, is an...

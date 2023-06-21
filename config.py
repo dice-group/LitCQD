@@ -124,9 +124,9 @@ class TrainConfig:
     """General configurations for training"""
 
     # Path to queries
-    # data_path: str = "data/scripts/generated/FB15K-237_dummy_kblrn"
+    data_path: str = "data/scripts/generated/FB15K-237_dummy_kblrn"
     # data_path: str = "data/scripts/generated/FB15K-237_dummy_kblrn_std_demo" # 5000 queries
-    data_path: str = "data/scripts/generated/FB15K-237_dummy_kblrn_std_demo2"
+    # data_path: str = "data/scripts/generated/FB15K-237_dummy_kblrn_std_demo2"
     # data_path: str = "data/FB15k-237-q2b"
     
    

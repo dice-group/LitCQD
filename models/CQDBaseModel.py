@@ -759,6 +759,7 @@ class CQDBaseModel(nn.Module):
                         scoring_function=scoring_function,
                         score_attribute_restriction=self.score_attribute_restriction,
                         t_norm=t_norm,
+                        
                     )
                 elif graph_type == "aip":
                     score = d2.query_aip(

@@ -69,9 +69,24 @@ def main(args):
     
     table = create_latex_table(train_config)
     
-    from data.scripts.stdv_from_fb15k import calculate_all_value_std
-    path = "/home/renzhong/LitCQD/data/scripts/data/numeric/KBLRN/FB15K_NumericalTriples.txt"
-    stdv = calculate_all_value_std(path)
+  
+    # Experiment of stdv:
+    # 1ap
+    train_data_rel, train_data_attr, train_data_desc = load_queries_train(
+            train_config, "train"
+        )
+    
+    # calculate stdv from train dataset
+    train_attr_tmp = []
+    for i in list(train_data_attr[1].values()):
+      train_attr_tmp.append(i.pop())
+    train_attr_np = np.asarray(train_attr_tmp)
+    
+    stdv = np.std(train_attr_np)
+    
+    # from data.scripts.stdv_from_fb15k import calculate_all_value_std
+    # path = "/home/renzhong/LitCQD/data/scripts/data/numeric/KBLRN/FB15K_NumericalTriples.txt"
+    # stdv = calculate_all_value_std(path)
     model.stdv = stdv
 
     for query_type in tasks:

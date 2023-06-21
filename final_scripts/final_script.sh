@@ -16,6 +16,6 @@ python3 main.py --cuda --do_train --do_test --data_path data/scripts/generated/F
 
 
 # experiments
-python3 eval_cqd.py --do_test --checkpoint_path checkpoints_FB15K-237/submitted_paper --data_path data/scripts/generated/FB15K-237_dummy_kblrn_std_demo --use_attributes --rank 1000 --geo cqd-complexa --test_batch_size 1024 --print_on_screen
+python3 eval_cqd.py --do_test --checkpoint_path checkpoints_FB15K-237/submitted_paper --data_path data/scripts/generated/FB15K-237_dummy_kblrn --use_attributes --rank 1000 --geo cqd-complexa --test_batch_size 1024 --print_on_screen
 
 python3 eval_cqd.py --do_test --checkpoint_path checkpoints_FB15K-237/submitted_paper --data_path data/scripts/generated/FB15K-237_dummy_kblrn_std_demo2 --use_attributes --rank 1000 --geo cqd-complexa --test_batch_size 1024 --print_on_screen

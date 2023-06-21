@@ -12,8 +12,10 @@ from torch.utils.data import DataLoader
 
 def load_queries_train(train_config: TrainConfig, name='train',not_flatten = False):
     if train_config.train_data_type.name == 'triples':
+    # if train_config.train_data_type == 'triples':
         train_tasks = ('1p', '1ap', )
     elif train_config.train_data_type.name == 'queries':
+    # elif train_config.train_data_type == 'queries':
         train_tasks = ('1p', '2p', '3p', '2i', '3i',)
     if train_config.use_attributes and '1ap' not in train_tasks:
         train_tasks = train_tasks + ('1ap',)

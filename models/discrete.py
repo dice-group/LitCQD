@@ -487,7 +487,9 @@ def query_pai(entity_embeddings: nn.Module,
               queries: Tensor,
               scoring_function: Callable[[Tensor, Tensor, Tensor], Tensor],
               score_attribute_restriction: Callable[[Tensor, Tensor], Tensor],
-              t_norm: Callable[[Tensor, Tensor], Tensor]) -> Tensor:
+              t_norm: Callable[[Tensor, Tensor], Tensor],
+              use_all_scores =True
+              ) -> Tensor:
     """
     1. Get the attr value for k entities only (using 2ap); hits@i metric working? What if k < #answers?
     2. Predict value for all entities.
@@ -497,11 +499,22 @@ def query_pai(entity_embeddings: nn.Module,
 
     Ended up doing an intersection of result of 1p and result of ai.
     """
+    
+    # TODO: get these three scores
     # [B, N]
     scores_1 = query_1p(entity_embeddings, predicate_embeddings, queries[:, :2].long(), scoring_function)
     # [B, N]
     scores_2 = query_ai(entity_embeddings, attribute_embeddings, bias_embeddings, queries[:, 2:], score_attribute_restriction)
     scores = t_norm(scores_1, scores_2)
+    if use_all_scores:
+      dim0,dim1 = scores.shape
+      tmp = []
+      for i in range(dim0):
+        for j in range(dim1):
+          tmp_tuple = (scores_1[i][j],scores_2[i][j],scores[i][j])
+          tmp.append(tmp_tuple)
+      return tmp,scores
+    
     return scores
 
 

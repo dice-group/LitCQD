@@ -547,6 +547,8 @@ class QueryGenerator(object):
         triples_attr_full = triples_attr_base + triples_attr_eval
         triples_desc_full = triples_desc_base + triples_desc_eval
 
+        # todo: need to take a deep look at this
+        # why dataset_eval is not used? 
         dataset_eval = AnswersContainer(triples_eval, triples_attr_eval, triples_desc_eval if self.desc_jointly else list())
         dataset_base = AnswersContainer(triples_base, triples_attr_base, triples_desc_base if self.desc_jointly else list())
         dataset_full = AnswersContainer(triples_full, triples_attr_full, triples_desc_full if self.desc_jointly else list())
