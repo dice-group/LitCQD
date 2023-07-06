@@ -159,8 +159,7 @@ Query answering results for multihop literal queries for test queries over the F
 | methods        | 1ap MAE | 1ap MSE | 2ap MAE | 2ap MSE | 3ap MAE | 3ap MSE |
 |:---------|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 | LitCQD         | 0.050  | 0.011  | 0.034  | 0.005  | 0.041  | 0.007  |
-| Query2Box + Attribute | 0.065  | 0.015   | 0.048  | 0.007  | 0.056  | 0.014  |
-| Mean Predictor | 0.341  | 0.143   | 0.346  | 0.141  | 0.362  | 0.152  |
+| Mean Predictor | 0.338  | 0.141   | 0.344  | 0.140  | 0.359  | 0.151  |
 
 
 
